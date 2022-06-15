@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\ConfirmOrderRequest;
 use App\Mail\OrderCreated;
+use App\Mail\OrderCreatedTwo;
 use App\Models\Order;
 use App\Models\OrderItem;
 use App\Models\PaymentMethod;
@@ -32,10 +33,11 @@ class OrderController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function create()
+    public function create(Request $request)
     {
-        $products = Product::orderBy('id', 'desc')->paginate(6);
-        return view('order.create', compact('products'));
+        $search_query = $request->get('query');
+        $products = Product::search($search_query)->orderBy('id', 'desc')->paginate(6);
+        return view('order.create', compact('products', 'search_query'));
     }
 
     /**
