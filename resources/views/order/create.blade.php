@@ -7,6 +7,9 @@
                 <div class="card">
                     <div class="card-body">
                         <h2>{{ __('New order') }}</h2>
+                        <div>
+                            {{ $products->links('pagination::bootstrap-5') }}
+                        </div>
                         <div class="products-wrapper row row-cols-3 gx-2 gy-2">
                             @foreach($products as $product)
                                 <div class="col">
@@ -16,12 +19,15 @@
                                                 <img src="{{ $product->image->name }}" class="card-img-top w-auto" style="height: 150px;">
                                             </div>
                                             <h5 class="card-title">{{ $product->name }}</h5>
-                                            <p class="card-text mb-2">{{ $product->price }}€</p>
-                                            <a href="{{ route('cart.add', $product->id) }}" class="btn btn-primary">{{ __('Add to cart') }}</a>
+                                            <p class="card-text mb-2">{{ $product->price }}€ / {{ $product->units }}</p>
+                                            <a href="{{ route('cart.add', $product->id) }}" class="btn btn-dark w-100">{{ __('Add to cart') }}</a>
                                         </div>
                                     </div>
                                 </div>
                             @endforeach
+                        </div>
+                        <div class="mt-4">
+                            {{ $products->links('pagination::bootstrap-5') }}
                         </div>
                     </div>
                 </div>

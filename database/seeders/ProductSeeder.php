@@ -16,12 +16,12 @@ class ProductSeeder extends Seeder
      */
     public function run()
     {
-        $products = Product::factory(50)->create();
+        Product::factory(10)->create();
 
-        foreach ($products as $product) {
-            Image::factory()->create([
-                'product_id' => $product->id,
-            ]);
-        }
+//        foreach ($products as $product) {
+//            Image::factory()->create([
+//                'product_id' => $product->id,
+//            ]);
+//        }
     }
 }

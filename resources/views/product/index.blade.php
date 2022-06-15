@@ -9,6 +9,7 @@
                         <h2>{{ __('Products') }}</h2>
                         <div class="actions-wrapper">
                             <a href="{{ route('product.create') }}" class="btn btn-success">Create product</a>
+                            <a href="{{ route('product.import') }}" class="btn btn-warning">Import products</a>
                         </div>
                         <table class="table mt-3">
                             <thead class="table-dark">

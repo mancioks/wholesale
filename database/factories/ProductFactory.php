@@ -19,6 +19,7 @@ class ProductFactory extends Factory
         return [
             'name' => $this->faker->realText(15),
             'price' => $this->faker->randomFloat(2,20, 3000),
+            'units' => 'vnt',
         ];
     }
 }

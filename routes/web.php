@@ -19,13 +19,25 @@ Route::group(['middleware' => 'auth'], function () {
     Route::get('/', [App\Http\Controllers\HomeController::class, 'dashboard'])->name('home');
     Route::get('order/review', [\App\Http\Controllers\OrderController::class, 'review'])->name('order.review');
     Route::post('order/confirm', [\App\Http\Controllers\OrderController::class, 'confirm'])->name('order.confirm');
+    Route::get('order/{order}/cancel', [\App\Http\Controllers\OrderController::class, 'cancel'])->name('order.cancel');
     Route::resource('order', \App\Http\Controllers\OrderController::class);
 
-    Route::get('/cart/add/{product}', [\App\Http\Controllers\CartController::class, 'addToCart'])->name('cart.add');
-    Route::get('/cart/remove/{product}', [\App\Http\Controllers\CartController::class, 'removeFromCart'])->name('cart.remove');
-    Route::put('/cart/update', [\App\Http\Controllers\CartController::class, 'update'])->name('cart.update');
+    Route::controller(\App\Http\Controllers\CartController::class)->prefix('cart')->group(function () {
+        Route::get('/add/{product}', 'addToCart')->name('cart.add');
+        Route::get('/remove/{product}', 'removeFromCart')->name('cart.remove');
+        Route::put('/update', 'update')->name('cart.update');
+    });
 
     Route::group(['middleware' => 'role:admin'], function () {
+        Route::prefix('product')->controller(\App\Http\Controllers\ProductController::class)->group(function() {
+            Route::name('product.')->group(function() {
+                Route::get('/import', 'import')->name('import');
+                Route::post('/parsecsv', 'parseCsv')->name('parsecsv');
+                Route::get('/import/confirm', 'confirmCsv')->name('import.confirm');
+                Route::get('/doimport', 'doImport')->name('doimport');
+            });
+        });
+
         Route::resource('product', \App\Http\Controllers\ProductController::class);
         Route::resource('user', \App\Http\Controllers\UserController::class);
     });

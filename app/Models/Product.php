@@ -9,15 +9,20 @@ class Product extends Model
 {
     use HasFactory;
 
-    protected $fillable = ['name', 'price'];
+    protected $fillable = ['name', 'price', 'units'];
 
     public function getAmountAttribute()
     {
-        return number_format((float)($this->price * $this->pivot->qty), 2, '.', '');
+        return price_format($this->price * $this->pivot->qty);
     }
 
-    public function image()
+    public function photo()
     {
         return $this->hasOne(Image::class, 'product_id', 'id');
+    }
+
+    public function getImageAttribute()
+    {
+        return $this->photo()->exists() ? $this->photo : Image::placeholder();
     }
 }

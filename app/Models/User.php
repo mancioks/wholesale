@@ -67,7 +67,7 @@ class User extends Authenticatable
             $sum += $product->amount;
         }
 
-        return number_format((float)$sum, 2, '.', '');
+        return price_format($sum);
     }
 
     public function getPvmSizeAttribute()
@@ -77,6 +77,16 @@ class User extends Authenticatable
 
     public function getTotalAttribute()
     {
-        return number_format((float)($this->sub_total * (1 + $this->pvm_size / 100)), 2, '.', '');
+        return price_format($this->sub_total * (1 + $this->pvm_size / 100));
+    }
+
+    public function importQueue()
+    {
+        return $this->hasMany(ImportQueue::class, 'user_id', 'id');
+    }
+
+    public function scopeOfRole($query, $role_id)
+    {
+        return $query->where('role_id', $role_id);
     }
 }

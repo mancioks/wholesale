@@ -28,6 +28,7 @@ class UpdateProductRequest extends FormRequest
             'name' => ['required', Rule::unique('products', 'name')->ignore($this->product)],
             'price' => 'required|numeric|min:0',
             'image' => 'sometimes|nullable|file|mimes:jpg,jpeg,bmp,png,webp,gif',
+            'units' => 'required',
         ];
     }
 }

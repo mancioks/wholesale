@@ -19,6 +19,10 @@
                                     <label for="product_price" class="form-label">{{ __('Price') }}</label>
                                     <input type="number" class="form-control" id="product_price" name="price" step=".01" value="{{ $product->price }}" required>
                                 </div>
+                                <div class="col-3">
+                                    <label for="product_units" class="form-label">{{ __('Units') }}</label>
+                                    <input type="text" class="form-control" id="product_units" name="units" value="{{ $product->units }}" required>
+                                </div>
                                 <div>
                                     <div class="col-3 mt-3 position-relative" id="product_photo">
                                         <div class="card shadow-sm">

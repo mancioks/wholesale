@@ -41,4 +41,9 @@ class Order extends Model
     {
         return $this->hasOne(PaymentMethod::class);
     }
+
+    public function getCanCancelAttribute()
+    {
+        return $this->status->key === 'created';
+    }
 }

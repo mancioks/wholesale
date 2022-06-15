@@ -36,9 +36,20 @@
                 <div class="card">
                     <div class="card-body">
                         <h2>{{ __('Overview') }}</h2>
-                        <div class="d-flex align-items-center">
-                            <h5>Order status</h5>
-                            <span class="badge bg-primary rounded-pill ms-2">{{ $order->status->name }}</span>
+                        <div>
+                            <div class="d-flex align-items-center">
+                                <h5>Order status:</h5>
+                                <span class="badge bg-primary rounded-pill ms-2">{{ $order->status->name }}</span>
+                            </div>
+                            @if($order->can_cancel)
+                                <div>
+                                    <a href="{{ route('order.cancel', $order) }}" class="btn btn-danger btn">{{ __('Cancel order') }}</a>
+                                </div>
+                            @endif
+                            <div class="d-flex align-items-center">
+                                <h5>Total:</h5>
+                                <span class="badge bg-primary rounded-pill ms-2">{{ $order->total }} €</span>
+                            </div>
                         </div>
                     </div>
                 </div>

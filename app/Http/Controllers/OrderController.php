@@ -3,12 +3,17 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\ConfirmOrderRequest;
+use App\Mail\OrderCreated;
 use App\Models\Order;
 use App\Models\OrderItem;
 use App\Models\PaymentMethod;
 use App\Models\Product;
+use App\Models\Role;
+use App\Models\Status;
+use App\Models\User;
 use App\Services\OrderService;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Mail;
 
 class OrderController extends Controller
 {
@@ -29,7 +34,7 @@ class OrderController extends Controller
      */
     public function create()
     {
-        $products = Product::all();
+        $products = Product::orderBy('id', 'desc')->paginate(6);
         return view('order.create', compact('products'));
     }
 
@@ -101,6 +106,23 @@ class OrderController extends Controller
         $order = $orderService->create($request);
         $orderService->attachProducts($order);
 
+        $admins = User::ofRole(Role::ADMIN)->get();
+        foreach ($admins as $recipient) {
+            Mail::to($recipient)->send(new OrderCreated($order));
+        }
+
         return redirect()->route('home')->with('status', 'order ok');
+    }
+
+    public function cancel(Order $order)
+    {
+        if(!$order->can_cancel) {
+            return redirect()->route('order.show', $order)->withErrors(['Too late']);
+        }
+
+        $order->update([
+            'status_id' => Status::where('key', 'canceled')->first()->id,
+        ]);
+        return redirect()->route('order.show', $order)->with('status', 'Order canceled!');
     }
 }

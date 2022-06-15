@@ -4,7 +4,7 @@ namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
 
-class StoreProductRequest extends FormRequest
+class ImportCsvRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -24,10 +24,7 @@ class StoreProductRequest extends FormRequest
     public function rules()
     {
         return [
-            'name' => 'required|unique:products,name',
-            'price' => 'required|numeric|min:0',
-            'image' => 'required|file|mimes:jpg,jpeg,bmp,png,webp,gif',
-            'units' => 'required',
+            'csv' => 'required|file|mimes:csv',
         ];
     }
 }

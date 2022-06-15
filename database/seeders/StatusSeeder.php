@@ -19,6 +19,7 @@ class StatusSeeder extends Seeder
             'created' => 'Created',
             'accepted' => 'Accepted',
             'declined' => 'Declined',
+            'canceled' => 'Canceled',
             'preparing' => 'Preparing',
             'prepared' => 'Prepared',
             'done' => 'Done',
