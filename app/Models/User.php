@@ -72,7 +72,7 @@ class User extends Authenticatable
 
     public function getPvmSizeAttribute()
     {
-        return $this->pvm ? config('constants.PVM') : 0;
+        return $this->pvm ? Setting::get('pvm') : 0;
     }
 
     public function getTotalAttribute()

@@ -2,6 +2,8 @@
 
 namespace App\Models;
 
+use Barryvdh\DomPDF\Facade\Pdf;
+use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
@@ -45,5 +47,91 @@ class Order extends Model
     public function getCanCancelAttribute()
     {
         return $this->status->key === 'created';
+    }
+
+    public function getInvoiceAttribute()
+    {
+        return PDF::loadView('pdf.invoice', ['order' => $this]);
+    }
+
+    public function getAmountAttribute()
+    {
+        $amount = 0;
+        foreach ($this->items as $product) {
+            $amount += $product->qty * $product->price;
+        }
+
+        return price_format($amount);
+    }
+
+    public function getPvmTotalAttribute()
+    {
+        return price_format($this->amount * ($this->pvm / 100));
+    }
+
+    public function getTotalInWordsAttribute()
+    {
+        return sprintf(
+            '%s %s ir %u ct',
+            ucfirst(skaicius_zodziais($this->total)),
+            valiutos_galune($this->total),
+            ($this->total * 100) % 100
+        );
+    }
+
+    public function getNumberAttribute()
+    {
+        return sprintf('#VNP-%s', str_pad($this->id,6,"0",STR_PAD_LEFT));
+    }
+
+    public function getActionsAttribute()
+    {
+        $actions = [];
+
+        //admin actions
+        if(auth()->user()->role->id === Role::ADMIN) {
+            if($this->status->id === Status::CREATED) {
+                $actions = [
+                    Status::ACCEPTED => 'Accept',
+                    Status::DECLINED => 'Decline',
+                ];
+            }
+            if($this->status->id === Status::PREPARED) {
+                $actions = [
+                    Status::DONE => 'Complete order',
+                ];
+            }
+            if($this->status->id === Status::DECLINED) {
+                $actions = [
+                    Status::CREATED => 'Restore',
+                ];
+            }
+        }
+
+        //customer actions
+        if(auth()->user()->role->id === Role::CUSTOMER) {
+            if($this->status->id === Status::CREATED) {
+                $actions = [
+                    Status::CANCELED => 'Cancel',
+                ];
+            }
+        }
+
+        //warehouse actions
+        if(auth()->user()->role->id === Role::WAREHOUSE) {
+            if($this->status->id === Status::ACCEPTED) {
+                $actions = [
+                    Status::PREPARING => 'Start preparing',
+                    Status::DECLINED => 'Decline',
+                ];
+            }
+            if($this->status->id === Status::PREPARING) {
+                $actions = [
+                    Status::PREPARED => 'Order prepared',
+                ];
+            }
+        }
+
+        return $actions;
     }
 }

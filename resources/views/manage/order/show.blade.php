@@ -50,9 +50,6 @@
                                 <h5>Total:</h5>
                                 <span class="badge bg-primary rounded-pill ms-2">{{ $order->total }} €</span>
                             </div>
-                            <div>
-                                <a href="{{ route('invoice', $order) }}" class="btn btn-success" target="_blank">{{ __('Invoice') }}</a>
-                            </div>
                         </div>
                     </div>
                 </div>

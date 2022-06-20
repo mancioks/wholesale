@@ -28,7 +28,7 @@
                                         <div class="card shadow-sm">
                                             <div class="card-body p-2">
                                                 <div class="bg-light p-3 text-center rounded">
-                                                    <img src="{{ $product->image->name }}" class="card-img-top w-auto" style="height: 150px;">
+                                                    <img src="{{ asset($product->image->name) }}" class="card-img-top w-auto" style="height: 150px;">
                                                 </div>
                                             </div>
                                         </div>

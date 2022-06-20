@@ -61,9 +61,10 @@
 
                                     <div class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdownAdmin">
                                         <a href="{{ route('product.index') }}" class="dropdown-item">Products</a>
-                                        <a href="#" class="dropdown-item">Orders</a>
+                                        <a href="{{ route('manage.order') }}" class="dropdown-item">Orders</a>
                                         <a href="#" class="dropdown-item">Payments</a>
                                         <a href="{{ route('user.index') }}" class="dropdown-item">Users</a>
+                                        <a href="{{ route('settings') }}" class="dropdown-item">Settings</a>
                                     </div>
                                 </li>
                             @endrole

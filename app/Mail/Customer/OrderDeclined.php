@@ -1,14 +1,15 @@
 <?php
 
-namespace App\Mail;
+namespace App\Mail\Customer;
 
+use App\Mail\Admin\OrderCreated;
 use App\Models\Order;
 use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Mail\Mailable;
 use Illuminate\Queue\SerializesModels;
 
-class OrderCreated extends Mailable
+class OrderDeclined extends Mailable
 {
     use Queueable, SerializesModels;
 
@@ -34,6 +35,6 @@ class OrderCreated extends Mailable
      */
     public function build()
     {
-        return $this->subject('Naujas užsakymas!')->view('mail.newOrder');
+        return $this->subject('Užsakymas atšauktas')->view('email.customer.declined');
     }
 }

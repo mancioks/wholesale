@@ -3,6 +3,7 @@
 namespace Database\Seeders;
 
 use App\Models\Image;
+use App\Models\Setting;
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 
@@ -16,7 +17,7 @@ class PlaceholderImageSeeder extends Seeder
     public function run()
     {
         Image::query()->create([
-            'name' => '/images/placeholder.jpg',
+            'name' => Setting::get('images.path').'placeholder.jpg',
         ]);
     }
 }

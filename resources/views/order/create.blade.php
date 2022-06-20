@@ -36,7 +36,7 @@
                                     <div class="card shadow-sm">
                                         <div class="card-body p-2">
                                             <div class="bg-light p-3 text-center mb-3 rounded">
-                                                <img src="{{ $product->image->name }}" class="card-img-top w-auto" style="height: 150px;">
+                                                <img src="{{ asset($product->image->name) }}" class="card-img-top w-auto" style="height: 150px;">
                                             </div>
                                             <h5 class="card-title">{{ $product->name }}</h5>
                                             <p class="card-text mb-2">{{ $product->price }}€ / {{ $product->units }}</p>

@@ -8,7 +8,9 @@ use App\Http\Requests\UpdateProductRequest;
 use App\Models\Image;
 use App\Models\ImportQueue;
 use App\Models\Product;
+use App\Models\Setting;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
 
 class ProductController extends Controller
@@ -28,15 +30,10 @@ class ProductController extends Controller
     {
         $product = Product::query()->create($request->validated());
 
-        $fileName = Str::slug($request->post('name')) . '-' . time() . '.' . $request->file('image')->extension();
-        $path = 'images/uploads/products';
-
-        $nameWithPath = sprintf('/%s/%s', $path, $fileName);
-
-        $request->file('image')->move(public_path($path), $fileName);
+        $file = Storage::disk('uploads')->put('products', $request->file('image'));
 
         Image::query()->create([
-            'name' => $nameWithPath,
+            'name' => Setting::get('products.path').$file,
             'product_id' => $product->id,
         ]);
 
@@ -68,15 +65,10 @@ class ProductController extends Controller
                 $product->photo()->delete();
             }
 
-            $fileName = Str::slug($request->post('name')) . '-' . time() . '.' . $request->file('image')->extension();
-            $path = 'images/uploads/products';
-
-            $nameWithPath = sprintf('/%s/%s', $path, $fileName);
-
-            $request->file('image')->move(public_path($path), $fileName);
+            $file = Storage::disk('uploads')->put('products', $request->file('image'));
 
             Image::query()->create([
-                'name' => $nameWithPath,
+                'name' => Setting::get('products.path').$file,
                 'product_id' => $product->id,
             ]);
         }

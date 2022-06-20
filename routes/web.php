@@ -17,10 +17,13 @@ Auth::routes();
 
 Route::group(['middleware' => 'auth'], function () {
     Route::get('/', [App\Http\Controllers\HomeController::class, 'dashboard'])->name('home');
+
     Route::get('order/review', [\App\Http\Controllers\OrderController::class, 'review'])->name('order.review');
     Route::post('order/confirm', [\App\Http\Controllers\OrderController::class, 'confirm'])->name('order.confirm');
     Route::get('order/{order}/cancel', [\App\Http\Controllers\OrderController::class, 'cancel'])->name('order.cancel');
     Route::resource('order', \App\Http\Controllers\OrderController::class);
+
+    Route::get('invoice/{order}', [\App\Http\Controllers\InvoiceController::class, 'invoice'])->name('invoice');
 
     Route::controller(\App\Http\Controllers\CartController::class)->prefix('cart')->group(function () {
         Route::get('/add/{product}', 'addToCart')->name('cart.add');
@@ -40,5 +43,16 @@ Route::group(['middleware' => 'auth'], function () {
 
         Route::resource('product', \App\Http\Controllers\ProductController::class);
         Route::resource('user', \App\Http\Controllers\UserController::class);
+
+        Route::get('/settings', [\App\Http\Controllers\SettingsController::class, 'index'])->name('settings');
+        Route::put('/settings/update', [\App\Http\Controllers\SettingsController::class, 'update'])->name('settings.update');
+    });
+
+    Route::group(['middleware' => 'role:admin,warehouse'], function (){
+        Route::prefix('manage')->name('manage.')->group(function () {
+            Route::get('/order', [\App\Http\Controllers\OrderManagerController::class, 'list'])->name('order');
+            Route::get('/order/{order}', [\App\Http\Controllers\OrderManagerController::class, 'show'])->name('order.show');
+            Route::get('/order/{order}/set/{status}', [\App\Http\Controllers\OrderManagerController::class, 'setStatus'])->name('order.set.status');
+        });
     });
 });

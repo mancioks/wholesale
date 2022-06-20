@@ -1,3 +1,3 @@
 <h1>Sveiki,</h1>
-<p>Naujas užsakymas nuo {{ $order->user->name }}</p>
+<p>Jūsų užsakymas #{{ $order->id }} atmestas.</p>
 <p><a href="{{ route('order.show', $order) }}">Peržiūrėti užsakymą</a></p>

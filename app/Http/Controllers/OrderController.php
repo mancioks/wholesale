@@ -3,10 +3,8 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\ConfirmOrderRequest;
-use App\Mail\OrderCreated;
-use App\Mail\OrderCreatedTwo;
+use App\Mail\Admin\OrderCreated;
 use App\Models\Order;
-use App\Models\OrderItem;
 use App\Models\PaymentMethod;
 use App\Models\Product;
 use App\Models\Role;
