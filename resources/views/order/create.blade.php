@@ -42,8 +42,14 @@
                                             <p class="card-text mb-2">{{ $product->price }}€ / {{ $product->units }}</p>
                                             <form action="{{ route('cart.add', $product->id) }}" method="post">
                                                 @csrf
-                                                <input type="number" name="qty" value="1">
-                                                <button type="submit" class="btn btn-dark w-100">{{ __('Add to cart') }}</button>
+                                                <div class="row">
+                                                    <div class="col-6">
+                                                        <input type="number" name="qty" value="1" class="btn btn-dark text-start remove-outline cursor-auto">
+                                                    </div>
+                                                    <div class="col-6">
+                                                        <button type="submit" class="btn btn-dark w-100 text-end">{{ __('Add to cart') }}</button>
+                                                    </div>
+                                                </div>
                                             </form>
                                         </div>
                                     </div>

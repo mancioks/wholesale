@@ -10,3 +10,11 @@
 .test{
     background: blue !important;
 }
+
+.btn.remove-outline:focus {
+    outline: none;
+    box-shadow: none;
+}
+.cursor-auto{
+    cursor: auto;
+}
