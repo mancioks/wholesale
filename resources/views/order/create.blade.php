@@ -40,7 +40,11 @@
                                             </div>
                                             <h5 class="card-title">{{ $product->name }}</h5>
                                             <p class="card-text mb-2">{{ $product->price }}€ / {{ $product->units }}</p>
-                                            <a href="{{ route('cart.add', $product->id) }}" class="btn btn-dark w-100">{{ __('Add to cart') }}</a>
+                                            <form action="{{ route('cart.add', $product->id) }}" method="post">
+                                                @csrf
+                                                <input type="number" name="qty" value="1">
+                                                <button type="submit" class="btn btn-dark w-100">{{ __('Add to cart') }}</button>
+                                            </form>
                                         </div>
                                     </div>
                                 </div>

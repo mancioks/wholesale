@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\AddToCartRequest;
 use App\Http\Requests\UpdateCartRequest;
 use App\Http\Requests\UpdateUserRequest;
 use App\Models\Product;
@@ -9,14 +10,14 @@ use Illuminate\Http\Request;
 
 class CartController extends Controller
 {
-    public function addToCart(Product $product)
+    public function addToCart(AddToCartRequest $request, Product $product)
     {
         $user = auth()->user();
 
         if ($user->cart()->where('product_id', $product->id)->exists()) {
-            $user->cart()->find($product)->pivot->increment('qty');
+            $user->cart()->find($product)->pivot->increment('qty', $request->post('qty'));
         } else {
-            $user->cart()->attach($product);
+            $user->cart()->attach($product, ['qty' => $request->post('qty')]);
         }
 
         return redirect()->back()->with('status', 'Ok');

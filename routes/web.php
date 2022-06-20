@@ -26,7 +26,7 @@ Route::group(['middleware' => 'auth'], function () {
     Route::get('invoice/{order}', [\App\Http\Controllers\InvoiceController::class, 'invoice'])->name('invoice');
 
     Route::controller(\App\Http\Controllers\CartController::class)->prefix('cart')->group(function () {
-        Route::get('/add/{product}', 'addToCart')->name('cart.add');
+        Route::post('/add/{product}', 'addToCart')->name('cart.add');
         Route::get('/remove/{product}', 'removeFromCart')->name('cart.remove');
         Route::put('/update', 'update')->name('cart.update');
     });
