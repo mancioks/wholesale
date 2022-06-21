@@ -116,19 +116,12 @@ class OrderController extends Controller
             Mail::to($recipient)->send(new OrderCreated($order));
         }
 
-        return redirect()->route('home')->with('status', 'order ok');
+        return redirect()->route('order.success', $order)->with('status', 'Order created');
     }
 
-    public function cancel(Order $order)
+    public function orderSuccess(Order $order)
     {
-        if(!$order->can_cancel) {
-            return redirect()->route('order.show', $order)->withErrors(['Too late']);
-        }
-
-        $order->update([
-            'status_id' => Status::where('key', 'canceled')->first()->id,
-        ]);
-        return redirect()->route('order.show', $order)->with('status', 'Order canceled!');
+        return view('order.success', compact('order'));
     }
 
     public function setStatus(Order $order, Status $status)

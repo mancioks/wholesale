@@ -5,6 +5,9 @@ namespace App\Services;
 use App\Models\Order;
 use App\Models\OrderItem;
 use App\Models\PaymentStatus;
+use App\Models\Role;
+use App\Models\Status;
+use App\Models\User;
 use Illuminate\Http\Request;
 
 class OrderService
@@ -44,5 +47,29 @@ class OrderService
 
             auth()->user()->cart()->detach($product);
         }
+    }
+
+    public function getOrders($user) {
+
+        switch ($user->role->id) {
+            case Role::CUSTOMER:
+                $orders = $user->orders;
+                break;
+
+            case Role::WAREHOUSE:
+                $orders = Order::whereIn('status_id', [
+                    Status::ACCEPTED,
+                    Status::PREPARING,
+                    Status::PREPARED,
+                    Status::DONE,
+                ])->get();
+                break;
+
+            case Role::ADMIN:
+                $orders = Order::all();
+                break;
+        }
+
+        return $orders;
     }
 }

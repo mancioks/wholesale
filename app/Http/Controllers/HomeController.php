@@ -3,22 +3,15 @@
 namespace App\Http\Controllers;
 
 use App\Models\Order;
+use App\Services\OrderService;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
 class HomeController extends Controller
 {
-    public function dashboard()
+    public function dashboard(OrderService $service)
     {
-        $user = Auth::user();
-
-        if($user->role->name == 'customer') {
-            $orders = $user->orders;
-        } elseif ($user->role->name == 'warehouse') {
-            $orders = Order::all();
-        } else {
-            $orders = Order::all();
-        }
+        $orders = $service->getOrders(Auth::user());
 
         return view('dashboard', compact('orders'));
     }

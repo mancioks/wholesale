@@ -20,9 +20,9 @@ Route::group(['middleware' => 'auth'], function () {
 
     Route::get('order/review', [\App\Http\Controllers\OrderController::class, 'review'])->name('order.review');
     Route::post('order/confirm', [\App\Http\Controllers\OrderController::class, 'confirm'])->name('order.confirm');
-    Route::get('order/{order}/cancel', [\App\Http\Controllers\OrderController::class, 'cancel'])->name('order.cancel');
     Route::get('order/{order}/set/{status}', [\App\Http\Controllers\OrderController::class, 'setStatus'])->name('order.set.status');
     Route::resource('order', \App\Http\Controllers\OrderController::class);
+    Route::get('order/{order}/success', [\App\Http\Controllers\OrderController::class, 'orderSuccess'])->name('order.success');
 
     Route::get('invoice/{order}', [\App\Http\Controllers\InvoiceController::class, 'invoice'])->name('invoice');
 

@@ -32,6 +32,10 @@ class SettingSeeder extends Seeder
                 'value' => 'images/vandenvala.png',
                 'title' => 'Logo'
             ],
+            'company.details' => [
+                'value' => 'Vandenvala, UAB',
+                'title' => 'Company details'
+            ]
         ];
 
         foreach ($settings as $name => $setting) {

@@ -2,11 +2,11 @@
 <html lang="en">
 <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
-    <title>{{ __('Order') }} #{{ $order->id }}</title>
+    <title>{{ __('Order') }} {{ $order->number }}</title>
 </head>
 <body>
 <div class="invoice-head">
-    <img src="{{ public_path('images/vandenvala.png') }}" class="inv-logo">
+    <img src="{{ public_path(setting('logo')) }}" class="inv-logo">
 </div>
 
 <div class="invoice-title">
