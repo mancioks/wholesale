@@ -35,6 +35,6 @@ class OrderDone extends Mailable
      */
     public function build()
     {
-        return $this->subject('Naujas užsakymas!')->view('email.admin.new_order');
+        return $this->subject('Užsakymas užbaigtas!')->view('email.customer.done');
     }
 }

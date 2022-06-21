@@ -4,6 +4,11 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\ConfirmOrderRequest;
 use App\Mail\Admin\OrderCreated;
+use App\Mail\Customer\OrderPrepared;
+use App\Mail\Customer\OrderAccepted;
+use App\Mail\Customer\OrderDeclined;
+use App\Mail\Customer\OrderDone;
+use App\Mail\Customer\OrderPreparing;
 use App\Models\Order;
 use App\Models\PaymentMethod;
 use App\Models\Product;
@@ -124,5 +129,40 @@ class OrderController extends Controller
             'status_id' => Status::where('key', 'canceled')->first()->id,
         ]);
         return redirect()->route('order.show', $order)->with('status', 'Order canceled!');
+    }
+
+    public function setStatus(Order $order, Status $status)
+    {
+        if(!array_key_exists($status->id, $order->actions)) {
+            return redirect()->back()->withErrors(['Cannot change status, try again']);
+        }
+
+        $order->update([
+            'status_id' => $status->id,
+        ]);
+
+        switch ($status->id) {
+            case Status::DECLINED:
+                Mail::to($order->user->email)->send(new OrderDeclined($order));
+                break;
+
+            case Status::ACCEPTED:
+                Mail::to($order->user->email)->send(new OrderAccepted($order));
+                break;
+
+            case Status::PREPARING:
+                Mail::to($order->user->email)->send(new OrderPreparing($order));
+                break;
+
+            case Status::PREPARED:
+                Mail::to($order->user->email)->send(new OrderPrepared($order));
+                break;
+
+            case Status::DONE:
+                Mail::to($order->user->email)->send(new OrderDone($order));
+                break;
+        }
+
+        return redirect()->back()->with('status', 'Order status updated');
     }
 }

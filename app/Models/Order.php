@@ -72,9 +72,8 @@ class Order extends Model
     public function getTotalInWordsAttribute()
     {
         return sprintf(
-            '%s %s ir %u ct',
+            '%s EUR ir %u ct',
             ucfirst(skaicius_zodziais($this->total)),
-            valiutos_galune($this->total),
             ($this->total * 100) % 100
         );
     }

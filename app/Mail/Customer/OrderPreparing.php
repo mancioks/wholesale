@@ -35,6 +35,6 @@ class OrderPreparing extends Mailable
      */
     public function build()
     {
-        return $this->subject('Naujas užsakymas!')->view('email.admin.new_order');
+        return $this->subject('Užsakymas ruošiamas!')->view('email.customer.preparing');
     }
 }

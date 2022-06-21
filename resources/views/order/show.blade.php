@@ -43,7 +43,7 @@
                             </div>
                             <div>
                                 @foreach($order->actions as $status => $action)
-                                    <a href="{{ route('manage.order.set.status', [$order, $status]) }}" class="btn btn-danger btn">{{ $action }}</a>
+                                    <a href="{{ route('order.set.status', [$order, $status]) }}" class="btn btn-danger btn">{{ $action }}</a>
                                 @endforeach
                             </div>
                             <div class="d-flex align-items-center">

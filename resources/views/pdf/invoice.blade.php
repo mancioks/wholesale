@@ -123,7 +123,8 @@
         vertical-align: bottom;
     }
     .inv-logo{
-        height: 80px;
+        height: 60px;
+        margin-bottom: 20px;
     }
 </style>
 </body>

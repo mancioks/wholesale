@@ -35,6 +35,6 @@ class OrderAccepted extends Mailable
      */
     public function build()
     {
-        return $this->subject('Naujas užsakymas!')->view('email.admin.new_order');
+        return $this->subject('Užsakymas priimtas!')->view('email.customer.accepted');
     }
 }
