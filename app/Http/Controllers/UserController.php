@@ -3,9 +3,11 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\StoreUserRequest;
+use App\Http\Requests\StoreUserSettingsRequest;
 use App\Http\Requests\UpdateUserRequest;
 use App\Models\Role;
 use App\Models\User;
+use App\Models\UserDetails;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 
@@ -69,5 +71,24 @@ class UserController extends Controller
     {
         $user->delete();
         return redirect()->route('user.index')->with('status', 'User deleted');
+    }
+
+    public function settings()
+    {
+        $user = auth()->user();
+        return view('user.settings', compact('user'));
+    }
+
+    public function storeSettings(StoreUserSettingsRequest $request)
+    {
+        $user = auth()->user();
+
+        if($user->details()->exists()) {
+            $user->details()->update($request->validated() + ['get_email_notifications' => $request->post('get_email_notifications') ? 1:0,]);
+        } else {
+            UserDetails::query()->create($request->validated() + ['user_id' => $user->id, 'get_email_notifications' => $request->post('get_email_notifications') ? 1:0,]);
+        }
+
+        return redirect()->back()->with('status', 'ok');
     }
 }

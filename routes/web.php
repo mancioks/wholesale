@@ -32,6 +32,9 @@ Route::group(['middleware' => 'auth'], function () {
         Route::put('/update', 'update')->name('cart.update');
     });
 
+    Route::get('user/settings', [\App\Http\Controllers\UserController::class, 'settings'])->name('user.settings');
+    Route::post('user/settings/store', [\App\Http\Controllers\UserController::class, 'storeSettings'])->name('user.settings.store');
+
     Route::group(['middleware' => 'role:admin'], function () {
         Route::prefix('product')->controller(\App\Http\Controllers\ProductController::class)->group(function() {
             Route::name('product.')->group(function() {
@@ -43,6 +46,7 @@ Route::group(['middleware' => 'auth'], function () {
         });
 
         Route::resource('product', \App\Http\Controllers\ProductController::class);
+
         Route::resource('user', \App\Http\Controllers\UserController::class);
 
         Route::get('/settings', [\App\Http\Controllers\SettingsController::class, 'index'])->name('settings');

@@ -89,4 +89,9 @@ class User extends Authenticatable
     {
         return $query->where('role_id', $role_id);
     }
+
+    public function details()
+    {
+        return $this->hasOne(UserDetails::class);
+    }
 }
