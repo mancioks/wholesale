@@ -34,6 +34,6 @@ class OrderCanceled extends Mailable
      */
     public function build()
     {
-        return $this->subject('Naujas užsakymas!')->view('email.admin.new_order');
+        return $this->subject('Užsakymas atšauktas!')->view('email.admin.canceled');
     }
 }

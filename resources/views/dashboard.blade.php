@@ -32,7 +32,10 @@
                                         <a href="{{ route('order.show', $order->id) }}">{{ $order->number }}</a>
                                     </th>
                                     @role('admin', 'warehouse')
-                                    <td>{{ $order->user->name }}</td>
+                                    <td>
+                                        {{ $order->user->name }}<br>
+                                        {{ $order->user->details->company_name }}
+                                    </td>
                                     @endrole
                                     <td>{{ $order->status->name }}</td>
                                     <td>{{ $order->total }}€</td>
@@ -41,7 +44,7 @@
                                 </tr>
                             @empty
                                 <tr>
-                                    <td colspan="4">{{ __('No orders') }}</td>
+                                    <td colspan="@role('admin', 'warehouse') 6 @else 5 @endrole">{{ __('No orders') }}</td>
                                 </tr>
                             @endforelse
                             </tbody>

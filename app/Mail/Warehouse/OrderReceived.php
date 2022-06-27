@@ -35,6 +35,6 @@ class OrderReceived extends Mailable
      */
     public function build()
     {
-        return $this->subject('Naujas užsakymas!')->view('email.admin.new_order');
+        return $this->subject('Naujas užsakymas!')->view('email.warehouse.received');
     }
 }

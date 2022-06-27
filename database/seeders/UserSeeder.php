@@ -16,21 +16,24 @@ class UserSeeder extends Seeder
      */
     public function run()
     {
-        // mantas.ins@gmail.com admin123 ADMIN
+        // admin@lzt.lt admin123 ADMIN
         User::factory(1)->create([
-            'email' => 'mantas.ins@gmail.com',
+            'name' => 'Administratorius',
+            'email' => 'admin@lzt.lt',
             'role_id' => Role::ADMIN,
         ]);
 
-        // sandelis@lzt.lt admin123 WAREHOUSE
+        // warehouse@lzt.lt admin123 WAREHOUSE
         User::factory(1)->create([
-            'email' => 'sandelis@lzt.lt',
+            'name' => 'Sandėlininkas',
+            'email' => 'warehouse@lzt.lt',
             'role_id' => Role::WAREHOUSE,
         ]);
 
-        // test@test.lt admin123 CUSTOMER
+        // customer@lzt.lt admin123 CUSTOMER
         User::factory(1)->create([
-            'email' => 'test@test.lt',
+            'name' => 'Klientas',
+            'email' => 'customer@lzt.lt',
         ]);
     }
 }

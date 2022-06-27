@@ -25,6 +25,7 @@ Route::group(['middleware' => 'auth'], function () {
     Route::get('order/{order}/success', [\App\Http\Controllers\OrderController::class, 'orderSuccess'])->name('order.success');
 
     Route::get('invoice/{order}', [\App\Http\Controllers\InvoiceController::class, 'invoice'])->name('invoice');
+    Route::get('invoice/vat/{order}', [\App\Http\Controllers\InvoiceController::class, 'vatInvoice'])->name('vat.invoice');
 
     Route::controller(\App\Http\Controllers\CartController::class)->prefix('cart')->group(function () {
         Route::post('/add/{product}', 'addToCart')->name('cart.add');

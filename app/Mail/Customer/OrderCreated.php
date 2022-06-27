@@ -1,10 +1,10 @@
 <?php
 
-namespace App\Mail\Admin;
+namespace App\Mail\Customer;
 
 use App\Models\Order;
-use Barryvdh\DomPDF\Facade\Pdf;
 use Illuminate\Bus\Queueable;
+use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Mail\Mailable;
 use Illuminate\Queue\SerializesModels;
 
@@ -12,9 +12,6 @@ class OrderCreated extends Mailable
 {
     use Queueable, SerializesModels;
 
-    /**
-     * @var Order
-     */
     public $order;
 
     /**
@@ -34,7 +31,10 @@ class OrderCreated extends Mailable
      */
     public function build()
     {
-        return $this->subject('Naujas užsakymas!')
-            ->view('email.admin.created');
+        return $this->subject('Užsakymas sukurtas!')
+            ->view('email.customer.created')
+            ->attachData($this->order->invoice->output(), 'invoice.pdf', [
+                'mime' => 'application/pdf',
+            ]);
     }
 }

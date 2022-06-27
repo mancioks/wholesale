@@ -53,6 +53,11 @@
                             <div>
                                 <a href="{{ route('invoice', $order) }}" class="btn btn-success" target="_blank">{{ __('Invoice') }}</a>
                             </div>
+                            @if($order->vat_invoice)
+                                <div>
+                                    <a href="{{ route('vat.invoice', $order) }}" class="btn btn-success" target="_blank">{{ __('VAT invoice') }}</a>
+                                </div>
+                            @endif
                         </div>
                     </div>
                 </div>

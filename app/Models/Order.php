@@ -17,6 +17,7 @@ class Order extends Model
         'total',
         'payment_method_id',
         'payment_status_id',
+        'vat_number',
     ];
 
     public function status()
@@ -49,6 +50,15 @@ class Order extends Model
         return PDF::loadView('pdf.invoice', ['order' => $this]);
     }
 
+    public function getVatInvoiceAttribute()
+    {
+        if($this->status->id === Status::DONE) {
+            return PDF::loadView('pdf.vat-invoice', ['order' => $this]);
+        }
+
+        return null;
+    }
+
     public function getAmountAttribute()
     {
         $amount = 0;
@@ -75,7 +85,12 @@ class Order extends Model
 
     public function getNumberAttribute()
     {
-        return sprintf('#VNP-%s', str_pad($this->id,6,"0",STR_PAD_LEFT));
+        return sprintf('#%s', str_pad($this->id,6,"0",STR_PAD_LEFT));
+    }
+
+    public function getFullVatNumberAttribute()
+    {
+        return sprintf('#VND-%s', str_pad($this->vat_number,6,"0",STR_PAD_LEFT));
     }
 
     public function getActionsAttribute()

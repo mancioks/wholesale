@@ -35,6 +35,10 @@ class OrderDone extends Mailable
      */
     public function build()
     {
-        return $this->subject('Užsakymas užbaigtas!')->view('email.customer.done');
+        return $this->subject('Užsakymas užbaigtas!')
+            ->view('email.customer.done')
+            ->attachData($this->order->vat_invoice->output(), 'invoice.pdf', [
+            'mime' => 'application/pdf',
+        ]);
     }
 }

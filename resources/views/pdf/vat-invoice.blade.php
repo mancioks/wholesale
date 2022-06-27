@@ -10,9 +10,9 @@
 </div>
 
 <div class="invoice-title">
-    <h2>Išankstinė sąskaita apmokėjimui</h2>
-    <h3>{{ $order->number }}</h3>
-    <p>{{ $order->created_at->format('Y-m-d') }}</p>
+    <h2>PVM sąskaita faktūra</h2>
+    <h3>{{ $order->full_vat_number }}</h3>
+    <p>{{ $order->updated_at->format('Y-m-d') }}</p>
 </div>
 
 <div class="invoice-top">
@@ -72,6 +72,9 @@
             <td class="invoice-element">{{ $order->total }}€</td>
         </tr>
     </table>
+    <div class="invoice-description">
+        Sąskaita apmokėta.
+    </div>
 </div>
 <style>
     body { font-family: DejaVu Sans, sans-serif; }
@@ -124,6 +127,11 @@
     .inv-logo{
         height: 60px;
         margin-bottom: 20px;
+    }
+    .invoice-description {
+        border-top: 1px solid #000;
+        padding-top: 30px;
+        margin-top: 30px;
     }
 </style>
 </body>

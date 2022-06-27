@@ -3,16 +3,19 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\ConfirmOrderRequest;
+use App\Mail\Admin\OrderCanceled;
 use App\Mail\Admin\OrderCreated;
 use App\Mail\Customer\OrderPrepared;
 use App\Mail\Customer\OrderAccepted;
 use App\Mail\Customer\OrderDeclined;
 use App\Mail\Customer\OrderDone;
 use App\Mail\Customer\OrderPreparing;
+use App\Mail\Warehouse\OrderReceived;
 use App\Models\Order;
 use App\Models\PaymentMethod;
 use App\Models\Product;
 use App\Models\Role;
+use App\Models\Setting;
 use App\Models\Status;
 use App\Models\User;
 use App\Services\OrderService;
@@ -115,10 +118,12 @@ class OrderController extends Controller
         $order = $orderService->create($request);
         $orderService->attachProducts($order);
 
-        $admins = User::ofRole(Role::ADMIN)->get();
-        foreach ($admins as $recipient) {
+        $recipients = User::ofRole(Role::ADMIN)->get();
+        foreach ($recipients as $recipient) {
             Mail::to($recipient)->send(new OrderCreated($order));
         }
+
+        Mail::to($order->user)->send(new \App\Mail\Customer\OrderCreated($order));
 
         return redirect()->route('order.success', $order)->with('status', 'Order created');
     }
@@ -139,24 +144,45 @@ class OrderController extends Controller
         ]);
 
         switch ($status->id) {
+            case Status::CANCELED:
+                $recipients = User::ofRole(Role::ADMIN)->get();
+                foreach ($recipients as $recipient) {
+                    Mail::to($recipient)->send(new OrderCanceled($order));
+                }
+                break;
+
             case Status::DECLINED:
-                Mail::to($order->user->email)->send(new OrderDeclined($order));
+                Mail::to($order->user)->send(new OrderDeclined($order));
                 break;
 
             case Status::ACCEPTED:
-                Mail::to($order->user->email)->send(new OrderAccepted($order));
+                Mail::to($order->user)->send(new OrderAccepted($order));
+
+                $recipients = User::ofRole(Role::WAREHOUSE)->get();
+                foreach ($recipients as $recipient) {
+                    Mail::to($recipient)->send(new OrderReceived($order));
+                }
                 break;
 
             case Status::PREPARING:
-                Mail::to($order->user->email)->send(new OrderPreparing($order));
+                Mail::to($order->user)->send(new OrderPreparing($order));
                 break;
 
             case Status::PREPARED:
-                Mail::to($order->user->email)->send(new OrderPrepared($order));
+                Mail::to($order->user)->send(new OrderPrepared($order));
+
+                $recipients = User::ofRole(Role::ADMIN)->get();
+                foreach ($recipients as $recipient) {
+                    Mail::to($recipient)->send(new \App\Mail\Admin\OrderPrepared($order));
+                }
                 break;
 
             case Status::DONE:
-                Mail::to($order->user->email)->send(new OrderDone($order));
+                $order->update(['vat_number' => Setting::get('invoice')]);
+                $order->refresh();
+                Setting::inc('invoice');
+
+                Mail::to($order->user)->send(new OrderDone($order));
                 break;
         }
 

@@ -38,7 +38,7 @@ class SettingSeeder extends Seeder
                 'type' => 'text',
             ],
             'company.details' => [
-                'value' => 'Vandenvala, UAB',
+                'value' => 'Company, UAB',
                 'title' => 'Company details',
                 'type' => 'textarea',
                 'edit' => 1,
