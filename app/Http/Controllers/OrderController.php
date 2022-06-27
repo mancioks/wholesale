@@ -108,6 +108,10 @@ class OrderController extends Controller
 
     public function confirm(ConfirmOrderRequest $request, OrderService $orderService)
     {
+        if(auth()->user()->details()->doesntExist()) {
+            return redirect()->route('user.settings');
+        }
+
         $order = $orderService->create($request);
         $orderService->attachProducts($order);
 

@@ -2,7 +2,9 @@
 
 namespace App\Providers;
 
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Blade;
+use Illuminate\Support\Facades\View;
 use Illuminate\Support\ServiceProvider;
 
 class AppServiceProvider extends ServiceProvider
@@ -35,6 +37,10 @@ class AppServiceProvider extends ServiceProvider
                 }
             }
             return false;
+        });
+
+        Blade::if('prefix', function ($prefix) {
+            return request()->is($prefix.'*');
         });
     }
 }

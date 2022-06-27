@@ -52,7 +52,9 @@
                                     @endforeach
                                 </div>
                                 <div class="order-submit mt-3">
+                                    @if(auth()->user()->details()->exists())
                                     <button type="submit" class="btn btn-primary d-block w-100">{{ __('Confirm') }}</button>
+                                    @endif
                                 </div>
                             </form>
                         @else
