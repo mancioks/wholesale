@@ -20,12 +20,7 @@
         <tr>
             <td>
                 PARDAVĖJAS<br>
-                UAB Vandenvala,<br>
-                Bačiūnų g. 55, LT-77159 Šiauliai<br>
-                Įmonės kodas: 304423050<br>
-                PVM kodas: LT100010552814<br>
-                Swedbank<br>
-                Banko sąskaita: LT637300010150222434
+                {!! nl2br(setting('company.details')) !!}
             </td>
             <td>
                 PIRKĖJAS<br>

@@ -7,27 +7,19 @@ use Illuminate\Database\Eloquent\Model;
 
 class Setting extends Model
 {
-    protected $fillable = ['name', 'value'];
+    protected $fillable = ['name', 'value', 'type', 'edit'];
 
     public static function get($key)
     {
         return Setting::query()->where('name', $key)->first()->value;
     }
 
-    public static function set($key, $value, $title = false)
+    public static function set($key, $value)
     {
         if(Setting::query()->where('name', $key)->exists()) {
             return Setting::query()->where('name', $key)->update([
                 'value' => $value,
             ]);
-        } else {
-            if($title) {
-                return Setting::query()->create([
-                    'name' => $key,
-                    'value' => $value,
-                    'title' => $title,
-                ]);
-            }
         }
 
         return null;

@@ -10,7 +10,7 @@ class SettingsController extends Controller
 {
     public function index()
     {
-        $settings = Setting::all();
+        $settings = Setting::query()->where('edit', true)->get();
         return view('settings', compact('settings'));
     }
 

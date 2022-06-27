@@ -15,7 +15,11 @@
                                     <div class="col-3">
                                         <label class="form-label">{{ $setting->title }}</label>
                                         <input type="hidden" class="form-control" name="name[]" value="{{ $setting->name }}" required>
-                                        <input type="text" class="form-control" name="value[]" value="{{ $setting->value }}" required>
+                                        @if($setting->type != 'textarea')
+                                            <input type="{{ $setting->type }}" class="form-control" name="value[]" value="{{ $setting->value }}" required>
+                                        @else
+                                            <textarea class="form-control" name="value[]" rows="5">{{ $setting->value }}</textarea>
+                                        @endif
                                     </div>
                                 </div>
                             @endforeach

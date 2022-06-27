@@ -18,28 +18,47 @@ class SettingSeeder extends Seeder
         $settings = [
             'pvm' => [
                 'value' => '21',
-                'title' => 'PVM'
+                'title' => 'PVM',
+                'type' => 'number',
+                'edit' => 1,
             ],
             'products.path' => [
                 'value' => 'storage/uploads/',
-                'title' => 'Product images path'
+                'title' => 'Product images path',
+                'type' => 'text',
             ],
             'images.path' => [
                 'value' => 'images/',
-                'title' => 'Images path'
+                'title' => 'Images path',
+                'type' => 'text',
             ],
             'logo' => [
                 'value' => 'images/vandenvala.png',
-                'title' => 'Logo'
+                'title' => 'Logo',
+                'type' => 'text',
             ],
             'company.details' => [
                 'value' => 'Vandenvala, UAB',
-                'title' => 'Company details'
-            ]
+                'title' => 'Company details',
+                'type' => 'textarea',
+                'edit' => 1,
+            ],
+            'invoice' => [
+                'value' => '1',
+                'title' => 'Next invoice number',
+                'type' => 'number',
+                'edit' => 1,
+            ],
         ];
 
         foreach ($settings as $name => $setting) {
-            Setting::set($name, $setting['value'], $setting['title']);
+            Setting::query()->create([
+                'name' => $name,
+                'value' => $setting['value'],
+                'type' => $setting['type'],
+                'title' => $setting['title'],
+                'edit' => $setting['edit'] ?? 0,
+            ]);
         }
     }
 }
