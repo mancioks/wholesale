@@ -55,5 +55,8 @@
     "Title": "Pavadinimas",
     "Edit": "Keisti",
     "Delete": "Trinti",
-    "No orders": "Užsakymų nėra"
+    "No orders": "Užsakymų nėra",
+    "Accepted": "Priimtas",
+    "Start preparing": "Pradėti ruošimą",
+    "Order prepared": "Užsakymas suruoštas"
 }

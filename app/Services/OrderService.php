@@ -54,7 +54,7 @@ class OrderService
 
         switch ($user->role->id) {
             case Role::CUSTOMER:
-                $orders = $user->orders;
+                $orders = $user->orders()->orderBy('id', 'desc')->get();
                 break;
 
             case Role::WAREHOUSE:
@@ -63,11 +63,11 @@ class OrderService
                     Status::PREPARING,
                     Status::PREPARED,
                     Status::DONE,
-                ])->get();
+                ])->orderBy('id', 'desc')->get();
                 break;
 
             case Role::ADMIN:
-                $orders = Order::all();
+                $orders = Order::orderBy('id', 'desc')->get();
                 break;
         }
 
