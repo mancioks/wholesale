@@ -34,7 +34,7 @@
                             @forelse($orders as $order)
                                 <a href="{{ route('order.show', $order->id) }}" class="{{ session('list_view') }} text-decoration-none text-black">
                                     <div class="card shadow-sm">
-                                        <div class="card-header bg-secondary text-white">
+                                        <div class="card-header {{ $order->list_class }} text-white">
                                             {{ __('Order') }} {{ $order->number }}
                                             @role('admin', 'warehouse') ({{ $order->user->name }}, {{ $order->user->details->company_name }}) @endrole
                                         </div>

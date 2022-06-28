@@ -11298,3 +11298,13 @@ textarea.form-control-lg {
 .cursor-auto {
   cursor: auto;
 }
+
+.product-img-wrapper {
+  width: 100% !important;
+  height: 150px !important;
+}
+
+.product-img-wrapper img {
+  max-width: 100%;
+  max-height: 100%;
+}

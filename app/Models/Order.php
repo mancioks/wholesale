@@ -52,7 +52,7 @@ class Order extends Model
 
     public function getVatInvoiceAttribute()
     {
-        if($this->vat_number > 0) {
+        if ($this->vat_number > 0) {
             return PDF::loadView('pdf.vat-invoice', ['order' => $this]);
         }
 
@@ -85,12 +85,56 @@ class Order extends Model
 
     public function getNumberAttribute()
     {
-        return sprintf('#%s', str_pad($this->id,6,"0",STR_PAD_LEFT));
+        return sprintf('#%s', str_pad($this->id, 6, "0", STR_PAD_LEFT));
     }
 
     public function getFullVatNumberAttribute()
     {
-        return sprintf('#VND-%s', str_pad($this->vat_number,6,"0",STR_PAD_LEFT));
+        return sprintf('#VND-%s', str_pad($this->vat_number, 6, "0", STR_PAD_LEFT));
+    }
+
+    public function getIsCanceledAttribute()
+    {
+        if ($this->status->id === Status::CANCELED || $this->status->id === Status::DECLINED)
+            return true;
+        return false;
+    }
+
+    public function getListClassAttribute()
+    {
+        switch (auth()->user()->role->id) {
+            case Role::ADMIN:
+                switch ($this->status->id) {
+                    case Status::CREATED:
+                        return 'bg-danger';
+                    case Status::PREPARED:
+                    case Status::ACCEPTED:
+                    case Status::PREPARING:
+                        return 'bg-warning';
+                }
+            case Role::WAREHOUSE:
+                switch ($this->status->id) {
+                    case Status::ACCEPTED:
+                        return 'bg-danger';
+                    case Status::PREPARING:
+                        return 'bg-warning';
+                }
+            case Role::CUSTOMER:
+                switch ($this->status->id) {
+                    case Status::DECLINED:
+                    case Status::CANCELED:
+                        return 'bg-danger';
+                    case Status::CREATED:
+                        return 'bg-primary';
+                    case Status::PREPARING:
+                        return 'bg-warning';
+                    case Status::ACCEPTED:
+                    case Status::PREPARED:
+                        return 'bg-success';
+                }
+        }
+
+        return 'bg-secondary';
     }
 
     public function getActionsAttribute()
@@ -98,19 +142,19 @@ class Order extends Model
         $actions = [];
 
         //admin actions
-        if(auth()->user()->role->id === Role::ADMIN) {
-            if($this->status->id === Status::CREATED) {
+        if (auth()->user()->role->id === Role::ADMIN) {
+            if ($this->status->id === Status::CREATED) {
                 $actions = [
                     Status::ACCEPTED => 'Accept',
                     Status::DECLINED => 'Decline',
                 ];
             }
-            if($this->status->id === Status::PREPARED) {
+            if ($this->status->id === Status::PREPARED) {
                 $actions = [
                     Status::DONE => 'Complete order',
                 ];
             }
-            if($this->status->id === Status::DECLINED) {
+            if ($this->status->id === Status::DECLINED) {
                 $actions = [
                     Status::CREATED => 'Restore',
                 ];
@@ -118,8 +162,8 @@ class Order extends Model
         }
 
         //customer actions
-        if(auth()->user()->role->id === Role::CUSTOMER) {
-            if($this->status->id === Status::CREATED) {
+        if (auth()->user()->role->id === Role::CUSTOMER) {
+            if ($this->status->id === Status::CREATED) {
                 $actions = [
                     Status::CANCELED => 'Cancel',
                 ];
@@ -127,14 +171,14 @@ class Order extends Model
         }
 
         //warehouse actions
-        if(auth()->user()->role->id === Role::WAREHOUSE) {
-            if($this->status->id === Status::ACCEPTED) {
+        if (auth()->user()->role->id === Role::WAREHOUSE) {
+            if ($this->status->id === Status::ACCEPTED) {
                 $actions = [
                     Status::PREPARING => 'Start preparing',
                     Status::DECLINED => 'Decline',
                 ];
             }
-            if($this->status->id === Status::PREPARING) {
+            if ($this->status->id === Status::PREPARING) {
                 $actions = [
                     Status::PREPARED => 'Order prepared',
                 ];
