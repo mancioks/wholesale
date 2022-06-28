@@ -59,6 +59,17 @@ class User extends Authenticatable
         return $this->belongsToMany(Product::class, 'cart')->withPivot('qty');
     }
 
+    public function getCartCountAttribute()
+    {
+        $count = 0;
+
+        foreach ($this->cart as $item) {
+            $count += $item->pivot->qty;
+        }
+
+        return $count;
+    }
+
     public function getSubTotalAttribute()
     {
         $sum = 0;

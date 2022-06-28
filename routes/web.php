@@ -34,6 +34,7 @@ Route::group(['middleware' => 'auth'], function () {
         Route::post('/add/{product}', 'addToCart')->name('cart.add');
         Route::get('/remove/{product}', 'removeFromCart')->name('cart.remove');
         Route::put('/update', 'update')->name('cart.update');
+        Route::get('/', [\App\Http\Controllers\CartController::class, 'index'])->name('cart');
     });
 
     Route::get('user/settings', [\App\Http\Controllers\UserController::class, 'settings'])->name('user.settings');
