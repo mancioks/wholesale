@@ -6,10 +6,10 @@
             <div class="col-md-8">
                 <div class="card">
                     <div class="card-body">
-                        <h2>{{ __('Order ') }} {{ $order->number }}</h2>
-                        <div class="products-wrapper row row-cols-3 gx-2 gy-2">
+                        <h2>{{ __('Order') }} {{ $order->number }}</h2>
+                        <div class="products-wrapper row gx-2 gy-2">
                             @foreach($order->items as $product)
-                                <div class="col">
+                                <div class="col-lg-4">
                                     <div class="card shadow-sm">
                                         <div class="card-body p-2">
                                             <div class="bg-light p-3 text-center mb-3 rounded">
@@ -38,23 +38,25 @@
                         <h2>{{ __('Overview') }}</h2>
                         <div>
                             <div class="d-flex align-items-center">
-                                <h5>Order status:</h5>
-                                <span class="badge bg-primary rounded-pill ms-2">{{ $order->status->name }}</span>
+                                <h5>{{ __('Order status') }}:</h5>
+                                <span class="badge bg-primary rounded-pill ms-2">{{ __($order->status->name) }}</span>
                             </div>
                             <div>
-                                <div class="dropdown">
-                                    <button class="btn btn-sm btn-secondary dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
-                                        {{ __('Actions') }}
-                                    </button>
-                                    <ul class="dropdown-menu">
-                                        @foreach($order->actions as $status => $action)
-                                            <li><a href="{{ route('order.set.status', [$order, $status]) }}" class="dropdown-item">{{ $action }}</a></li>
-                                        @endforeach
-                                    </ul>
-                                </div>
+                                @if($order->actions)
+                                    <div class="dropdown">
+                                        <button class="btn btn-sm btn-secondary dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                            {{ __('Actions') }}
+                                        </button>
+                                        <ul class="dropdown-menu">
+                                            @foreach($order->actions as $status => $action)
+                                                <li><a href="{{ route('order.set.status', [$order, $status]) }}" class="dropdown-item">{{ __($action) }}</a></li>
+                                            @endforeach
+                                        </ul>
+                                    </div>
+                                @endif
                             </div>
                             <div class="d-flex align-items-center">
-                                <h5>Total:</h5>
+                                <h5>{{ __('Total') }}:</h5>
                                 <span class="badge bg-primary rounded-pill ms-2">{{ $order->total }} €</span>
                             </div>
                             <div>

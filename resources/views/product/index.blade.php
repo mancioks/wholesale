@@ -8,15 +8,15 @@
                     <div class="card-body">
                         <h2>{{ __('Products') }}</h2>
                         <div class="actions-wrapper">
-                            <a href="{{ route('product.create') }}" class="btn btn-success">Create product</a>
-                            <a href="{{ route('product.import') }}" class="btn btn-warning">Import products</a>
+                            <a href="{{ route('product.create') }}" class="btn btn-success">{{ __('Create product') }}</a>
+                            <a href="{{ route('product.import') }}" class="btn btn-warning">{{ __('Import products') }}</a>
                         </div>
                         <table class="table mt-3">
                             <thead class="table-dark">
                             <tr>
                                 <th scope="col">#</th>
-                                <th scope="col">Name</th>
-                                <th scope="col">Price</th>
+                                <th scope="col">{{ __('Title') }}</th>
+                                <th scope="col">{{ __('Price') }}</th>
                                 <th scope="col"></th>
                             </tr>
                             </thead>
@@ -31,7 +31,7 @@
                                         <form method="post" action="{{ route('product.destroy', $product->id) }}" class="d-inline-block" onsubmit="return confirm('{{ __('Are you sure?') }}')">
                                             @csrf
                                             @method('delete')
-                                            <button type="submit" class="btn btn-danger btn-sm d-inline-block">Delete</button>
+                                            <button type="submit" class="btn btn-danger btn-sm d-inline-block">{{ __('Delete') }}</button>
                                         </form>
                                     </td>
                                 </tr>

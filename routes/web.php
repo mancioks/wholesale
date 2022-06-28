@@ -13,7 +13,8 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Auth::routes(['register' => false]);
+Auth::routes();
+//Auth::routes(['register' => false]);
 
 Route::group(['middleware' => 'auth'], function () {
     Route::get('/', [App\Http\Controllers\HomeController::class, 'dashboard'])->name('home');
@@ -26,6 +27,8 @@ Route::group(['middleware' => 'auth'], function () {
 
     Route::get('invoice/{order}', [\App\Http\Controllers\InvoiceController::class, 'invoice'])->name('invoice');
     Route::get('invoice/vat/{order}', [\App\Http\Controllers\InvoiceController::class, 'vatInvoice'])->name('vat.invoice');
+
+    Route::get('view/{type}', [\App\Http\Controllers\ListViewController::class, 'set'])->name('list.view.set');
 
     Route::controller(\App\Http\Controllers\CartController::class)->prefix('cart')->group(function () {
         Route::post('/add/{product}', 'addToCart')->name('cart.add');

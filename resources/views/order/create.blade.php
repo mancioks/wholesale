@@ -11,7 +11,7 @@
                         </div>
                         <div class="mb-3">
                             <form action="{{ route('order.create') }}" method="get" class="input-group rounded">
-                                <input type="text" class="form-control rounded" placeholder="Search" name="query" value="{{ $search_query }}" />
+                                <input type="text" class="form-control rounded" placeholder="{{ __('Search') }}" name="query" value="{{ $search_query }}" />
                                 <button type="submit" class="input-group-text border-0">
                                     <i class="fas fa-search"></i>
                                 </button>

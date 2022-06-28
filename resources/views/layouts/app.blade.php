@@ -26,7 +26,6 @@
             <div class="container">
                 <a class="navbar-brand" href="{{ url('/') }}">
                     <img src="{{ asset(setting('logo')) }}" alt="" height="34" class="d-inline-block align-text-bottom">
-                    {{ config('app.name', 'Laravel') }}
                 </a>
                 <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="{{ __('Toggle navigation') }}">
                     <span class="navbar-toggler-icon"></span>
@@ -35,7 +34,9 @@
                 <div class="collapse navbar-collapse" id="navbarSupportedContent">
                     <!-- Left Side Of Navbar -->
                     <ul class="navbar-nav me-auto">
-
+                        <li class="nav-item">
+                            <a class="nav-link" href="{{ route('home') }}">{{ __('Home') }}</a>
+                        </li>
                     </ul>
 
                     <!-- Right Side Of Navbar -->
@@ -61,10 +62,10 @@
                                     </a>
 
                                     <div class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdownAdmin">
-                                        <a href="{{ route('product.index') }}" class="dropdown-item">Products</a>
-                                        <a href="#" class="dropdown-item">Payments</a>
-                                        <a href="{{ route('user.index') }}" class="dropdown-item">Users</a>
-                                        <a href="{{ route('settings') }}" class="dropdown-item">Settings</a>
+                                        <a href="{{ route('product.index') }}" class="dropdown-item">{{ __('Products') }}</a>
+                                        <a href="#" class="dropdown-item">{{ __('Payments') }}</a>
+                                        <a href="{{ route('user.index') }}" class="dropdown-item">{{ __('Users') }}</a>
+                                        <a href="{{ route('settings') }}" class="dropdown-item">{{ __('Settings') }}</a>
                                     </div>
                                 </li>
                             @endrole
@@ -74,7 +75,7 @@
                                 </a>
 
                                 <div class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdown">
-                                    <a href="{{ route('user.settings') }}" class="dropdown-item">Settings</a>
+                                    <a href="{{ route('user.settings') }}" class="dropdown-item">{{ __('Settings') }}</a>
                                     <a class="dropdown-item" href="{{ route('logout') }}"
                                        onclick="event.preventDefault();
                                                      document.getElementById('logout-form').submit();">

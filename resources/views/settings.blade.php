@@ -12,7 +12,7 @@
                             @method('put')
                             @foreach($settings as $setting)
                                 <div class="row mb-3">
-                                    <div class="col-3">
+                                    <div class="col-lg-5">
                                         <label class="form-label">{{ $setting->title }}</label>
                                         <input type="hidden" class="form-control" name="name[]" value="{{ $setting->name }}" required>
                                         @if($setting->type != 'textarea')
