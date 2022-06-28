@@ -30,9 +30,9 @@
                                 </div>
                             </div>
                         @endif
-                        <div class="products-wrapper row row-cols-3 gx-2 gy-2">
+                        <div class="products-wrapper row gx-2 gy-2">
                             @forelse($products as $product)
-                                <div class="col">
+                                <div class="col-lg-4 xl-">
                                     <div class="card shadow-sm">
                                         <div class="card-body p-2">
                                             <div class="bg-light p-3 text-center mb-3 rounded">
@@ -43,11 +43,11 @@
                                             <form action="{{ route('cart.add', $product->id) }}" method="post">
                                                 @csrf
                                                 <div class="row">
-                                                    <div class="col-6">
-                                                        <input type="number" name="qty" value="1" class="btn btn-dark text-start remove-outline cursor-auto">
+                                                    <div class="col-4">
+                                                        <input type="number" name="qty" value="1" class="btn btn-light text-center remove-outline border-1 border-dark cursor-auto w-100">
                                                     </div>
-                                                    <div class="col-6">
-                                                        <button type="submit" class="btn btn-dark w-100 text-end">{{ __('Add to cart') }}</button>
+                                                    <div class="col-8">
+                                                        <button type="submit" class="btn btn-dark w-100 text-center">{{ __('Add to cart') }}</button>
                                                     </div>
                                                 </div>
                                             </form>

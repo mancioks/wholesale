@@ -52,7 +52,7 @@ class Order extends Model
 
     public function getVatInvoiceAttribute()
     {
-        if($this->status->id === Status::DONE) {
+        if($this->vat_number > 0) {
             return PDF::loadView('pdf.vat-invoice', ['order' => $this]);
         }
 
