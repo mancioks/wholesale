@@ -22,7 +22,7 @@ class DatabaseSeeder extends Seeder
             PaymentMethodSeeder::class,
             PlaceholderImageSeeder::class,
             PaymentStatusSeeder::class,
-            ProductSeeder::class,
+            //ProductSeeder::class,
             UserSeeder::class,
         ]);
     }
