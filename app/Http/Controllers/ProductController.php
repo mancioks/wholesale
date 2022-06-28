@@ -73,7 +73,7 @@ class ProductController extends Controller
             ]);
         }
 
-        return redirect()->back()->with('status', 'Product updated');
+        return redirect()->route('product.index')->with('status', 'Product updated');
     }
 
     /**

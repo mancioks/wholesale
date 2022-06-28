@@ -17,6 +17,7 @@
                                 <th scope="col">#</th>
                                 <th scope="col">{{ __('Title') }}</th>
                                 <th scope="col">{{ __('Price') }}</th>
+                                <th scope="col">{{ __('Image') }}</th>
                                 <th scope="col"></th>
                             </tr>
                             </thead>
@@ -26,6 +27,9 @@
                                     <th scope="row">{{ $product->id }}</th>
                                     <td>{{ $product->name }}</td>
                                     <td>{{ $product->price }}</td>
+                                    <td>
+                                        <img src="{{ asset($product->image->name) }}" class="card-img-top w-auto" style="height: 30px;">
+                                    </td>
                                     <td>
                                         <a href="{{ route('product.edit', $product->id) }}" class="btn btn-primary btn-sm d-inline-block">{{ __('Edit') }}</a>
                                         <form method="post" action="{{ route('product.destroy', $product->id) }}" class="d-inline-block" onsubmit="return confirm('{{ __('Are you sure?') }}')">
