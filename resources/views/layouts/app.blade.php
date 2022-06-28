@@ -22,7 +22,7 @@
 </head>
 <body>
     <div id="app">
-        <nav class="navbar navbar-expand-md navbar-light bg-white shadow-sm">
+        <nav class="navbar navbar-expand-md navbar-light bg-white shadow-sm position-fixed w-100" style="z-index:1030;">
             <div class="container d-block d-md-flex">
                 <a class="navbar-brand" href="{{ url('/') }}">
                     <img src="{{ asset(setting('logo')) }}" alt="" height="34" class="d-inline-block align-text-bottom">
@@ -107,7 +107,7 @@
                 </div>
             </div>
         </nav>
-
+        <div style="height: 60px;"></div>
         <main class="py-4">
             @prefix('order')
             @role('customer')
