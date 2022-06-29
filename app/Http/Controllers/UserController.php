@@ -8,6 +8,7 @@ use App\Http\Requests\UpdateUserRequest;
 use App\Models\Role;
 use App\Models\User;
 use App\Models\UserDetails;
+use App\Models\Warehouse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 
@@ -52,7 +53,9 @@ class UserController extends Controller
     public function edit(User $user)
     {
         $roles = Role::all();
-        return view('user.edit', compact('user', 'roles'));
+        $warehouses = Warehouse::all();
+
+        return view('user.edit', compact('user', 'roles', 'warehouses'));
     }
 
     public function update(UpdateUserRequest $request, User $user)
@@ -62,6 +65,7 @@ class UserController extends Controller
             'email' => $request->post('email'),
             'role_id' => $request->post('role_id'),
             'pvm' => $request->post('pvm') ? 1:0,
+            'warehouse_id' => $request->post('warehouse_id') !== 'null' ? $request->post('warehouse_id') : null,
         ]);
 
         return redirect()->back()->with('status', 'User updated');

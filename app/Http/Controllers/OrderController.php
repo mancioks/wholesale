@@ -18,6 +18,7 @@ use App\Models\Role;
 use App\Models\Setting;
 use App\Models\Status;
 use App\Models\User;
+use App\Models\Warehouse;
 use App\Services\OrderService;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Mail;
@@ -106,7 +107,9 @@ class OrderController extends Controller
     public function review()
     {
         $payment_methods = PaymentMethod::all();
-        return view('order.review', compact('payment_methods'));
+        $warehouses = Warehouse::where('active', true)->get();
+
+        return view('order.review', compact('payment_methods', 'warehouses'));
     }
 
     public function confirm(ConfirmOrderRequest $request, OrderService $orderService)

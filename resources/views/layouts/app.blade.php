@@ -75,6 +75,7 @@
                                         <a href="{{ route('product.index') }}" class="dropdown-item">{{ __('Products') }}</a>
                                         <a href="#" class="dropdown-item">{{ __('Payments') }}</a>
                                         <a href="{{ route('user.index') }}" class="dropdown-item">{{ __('Users') }}</a>
+                                        <a href="{{ route('warehouse.index') }}" class="dropdown-item">{{ __('Warehouses') }}</a>
                                         <a href="{{ route('settings') }}" class="dropdown-item">{{ __('Settings') }}</a>
                                     </div>
                                 </li>

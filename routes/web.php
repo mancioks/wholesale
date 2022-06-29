@@ -56,5 +56,7 @@ Route::group(['middleware' => 'auth'], function () {
 
         Route::get('/settings', [\App\Http\Controllers\SettingsController::class, 'index'])->name('settings');
         Route::put('/settings/update', [\App\Http\Controllers\SettingsController::class, 'update'])->name('settings.update');
+
+        Route::resource('warehouse', \App\Http\Controllers\WarehouseController::class);
     });
 });

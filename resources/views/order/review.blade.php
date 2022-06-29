@@ -48,12 +48,22 @@
                                     <h4>{{ __('Payment method') }}</h4>
                                     @foreach($payment_methods as $payment_method)
                                         <input type="radio" class="btn-check" name="payment_method" value="{{ $payment_method->id }}" id="option{{ $loop->index }}" autocomplete="off" {{ $loop->first ? 'checked' : '' }}>
-                                        <label class="btn btn-outline-secondary" for="option{{ $loop->index }}">{{ $payment_method->name }}</label>
+                                        <label class="btn btn-outline-success" for="option{{ $loop->index }}">{{ $payment_method->name }}</label>
+                                    @endforeach
+                                </div>
+                                <div class="warehouse-method mt-3">
+                                    <h4>{{ __('Warehouse') }}</h4>
+                                    @foreach($warehouses as $warehouse)
+                                        <input type="radio" class="btn-check" name="warehouse_id" value="{{ $warehouse->id }}" id="warehouse{{ $loop->index }}" autocomplete="off" {{ $loop->first ? 'checked' : '' }}>
+                                        <label class="btn btn-outline-primary text-start" for="warehouse{{ $loop->index }}">
+                                            <b>{{ $warehouse->name }}</b><br>
+                                            {{ $warehouse->address }}
+                                        </label>
                                     @endforeach
                                 </div>
                                 <div class="order-submit mt-3">
                                     @if(auth()->user()->details()->exists())
-                                    <button type="submit" class="btn btn-primary d-block w-100">{{ __('Confirm') }}</button>
+                                    <button type="submit" class="btn btn-warning d-block w-100">{{ __('Confirm') }}</button>
                                     @endif
                                 </div>
                             </form>

@@ -3,9 +3,8 @@
 namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
-use Illuminate\Validation\Rule;
 
-class ConfirmOrderRequest extends FormRequest
+class StoreWarehouseRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -25,8 +24,10 @@ class ConfirmOrderRequest extends FormRequest
     public function rules()
     {
         return [
-            'payment_method' => ['required', 'exists:payment_methods,id'],
-            'warehouse_id' => ['required', Rule::exists('warehouses', 'id')->where('active', 1)],
+            'name' => 'required',
+            'address' => 'required',
+            'email' => 'required|email',
+            'phone_number' => 'required',
         ];
     }
 }

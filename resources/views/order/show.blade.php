@@ -34,31 +34,35 @@
             </div>
             <div class="col-lg-4">
                 <div class="card">
+                    <div class="card-header {{ $order->list_class }} text-white pe-2">
+                        <span class="d-inline-block pt-1">
+                            {{ __($order->status->name) }}
+                        </span>
+                        <div class="float-end">
+                            @if($order->actions)
+                                <div class="dropdown">
+                                    <button class="btn btn-sm btn-light dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                        {{ __('Actions') }}
+                                    </button>
+                                    <ul class="dropdown-menu">
+                                        @foreach($order->actions as $status => $action)
+                                            <li><a href="{{ route('order.set.status', [$order, $status]) }}" class="dropdown-item">{{ __($action) }}</a></li>
+                                        @endforeach
+                                    </ul>
+                                </div>
+                            @endif
+                        </div>
+                    </div>
                     <div class="card-body">
-                        <h2>{{ __('Overview') }}</h2>
                         <div>
-                            <div class="d-flex align-items-center">
-                                <h5>{{ __('Order status') }}:</h5>
-                                <span class="badge bg-primary rounded-pill ms-2">{{ __($order->status->name) }}</span>
-                            </div>
-                            <div>
-                                @if($order->actions)
-                                    <div class="dropdown">
-                                        <button class="btn btn-sm btn-secondary dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
-                                            {{ __('Actions') }}
-                                        </button>
-                                        <ul class="dropdown-menu">
-                                            @foreach($order->actions as $status => $action)
-                                                <li><a href="{{ route('order.set.status', [$order, $status]) }}" class="dropdown-item">{{ __($action) }}</a></li>
-                                            @endforeach
-                                        </ul>
+                            @if($order->warehouse()->exists())
+                                <div class="mt-1 mb-3">
+                                    <div class="border border-1 border-primary rounded p-2 ps-3 pe-3 text-primary d-inline-block">
+                                        <b>{{ $order->warehouse->name }}</b><br>
+                                        {{ $order->warehouse->address }}
                                     </div>
-                                @endif
-                            </div>
-                            <div class="d-flex align-items-center">
-                                <h5>{{ __('Total') }}:</h5>
-                                <span class="badge bg-primary rounded-pill ms-2">{{ $order->total }} €</span>
-                            </div>
+                                </div>
+                            @endif
                             @if($order->vat_invoice)
                                 <div class="mt-2">
                                     <a href="{{ route('vat.invoice', $order) }}" class="btn btn-outline-danger" target="_blank">
@@ -82,6 +86,9 @@
                                     </div>
                                 @endif
                             @endif
+                            <div class="mt-4 mb-0">
+                                <h5>{{ __('Total') }}: {{ $order->total }} €</h5>
+                            </div>
                         </div>
                     </div>
                 </div>

@@ -18,6 +18,7 @@ class Order extends Model
         'payment_method_id',
         'payment_status_id',
         'vat_number',
+        'warehouse_id',
     ];
 
     public function status()
@@ -43,6 +44,11 @@ class Order extends Model
     public function paymentMethod()
     {
         return $this->hasOne(PaymentMethod::class);
+    }
+
+    public function warehouse()
+    {
+        return $this->hasOne(Warehouse::class, 'id', 'warehouse_id');
     }
 
     public function getInvoiceAttribute()

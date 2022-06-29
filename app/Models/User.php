@@ -22,7 +22,8 @@ class User extends Authenticatable
         'email',
         'password',
         'role_id',
-        'pvm'
+        'pvm',
+        'warehouse_id',
     ];
 
     /**
@@ -104,5 +105,10 @@ class User extends Authenticatable
     public function details()
     {
         return $this->hasOne(UserDetails::class);
+    }
+
+    public function warehouse()
+    {
+        return $this->hasOne(Warehouse::class, 'id', 'warehouse_id');
     }
 }

@@ -29,6 +29,7 @@ class UpdateUserRequest extends FormRequest
             'email' => ['required', 'string', 'email', 'max:255', Rule::unique('users', 'email')->ignore($this->user)],
             'role_id' => ['required', 'integer', 'exists:roles,id'],
             'pvm' => ['accepted', 'sometimes'],
+            'warehouse_id' => [Rule::when(function () { return $this->post('warehouse_id') !== 'null'; }, ['exists:warehouses,id'])],
         ];
     }
 }
