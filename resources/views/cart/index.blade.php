@@ -11,7 +11,7 @@
                             @csrf
                             @method('put')
                             <div class="products-wrapper row gx-2 gy-2">
-                                @forelse(auth()->user()->cart as $cart_item)
+                                @foreach(auth()->user()->cart as $cart_item)
                                     <div class="col-lg-3 col-md-4 col-sm-6 col-6">
                                         <div class="card shadow-sm">
                                             <div class="card-body p-2">
@@ -34,11 +34,7 @@
                                             </div>
                                         </div>
                                     </div>
-                                @empty
-                                    <div class="p-2 ps-2 fs-5 text-secondary">
-                                        {{ __('Cart empty') }}
-                                    </div>
-                                @endforelse
+                                @endforeach
                             </div>
                             <div class="cart-update mt-3">
                                 @if(auth()->user()->cart()->exists())
@@ -54,6 +50,12 @@
                                 @endif
                             </div>
                         </form>
+
+                        @if(auth()->user()->cart->isEmpty())
+                            <div class="p-2 ps-2 fs-5 text-black text-center bg-secondary bg-opacity-10 pt-5 pb-5 rounded-3 mt-3">
+                                {{ __('Cart empty') }}
+                            </div>
+                        @endif
                     </div>
                 </div>
             </div>

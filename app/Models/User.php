@@ -24,6 +24,7 @@ class User extends Authenticatable
         'role_id',
         'pvm',
         'warehouse_id',
+        'activated',
     ];
 
     /**

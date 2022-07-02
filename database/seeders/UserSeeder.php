@@ -21,6 +21,7 @@ class UserSeeder extends Seeder
             'name' => 'Administratorius',
             'email' => 'admin@lzt.lt',
             'role_id' => Role::ADMIN,
+            'activated' => 1,
         ]);
 
         // warehouse@lzt.lt admin123 WAREHOUSE
@@ -28,12 +29,14 @@ class UserSeeder extends Seeder
             'name' => 'Sandėlininkas',
             'email' => 'warehouse@lzt.lt',
             'role_id' => Role::WAREHOUSE,
+            'activated' => 1,
         ]);
 
         // customer@lzt.lt admin123 CUSTOMER
         User::factory(1)->create([
             'name' => 'Klientas',
             'email' => 'customer@lzt.lt',
+            'activated' => 1,
         ]);
     }
 }

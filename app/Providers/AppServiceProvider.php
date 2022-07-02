@@ -39,6 +39,10 @@ class AppServiceProvider extends ServiceProvider
             return false;
         });
 
+        Blade::if('activated', function () {
+            return auth()->user()->activated;
+        });
+
         Blade::if('prefix', function ($prefix) {
             return request()->is($prefix.'*');
         });

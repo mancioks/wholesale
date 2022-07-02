@@ -43,7 +43,7 @@ class Order extends Model
 
     public function paymentMethod()
     {
-        return $this->hasOne(PaymentMethod::class);
+        return $this->hasOne(PaymentMethod::class, 'id', 'payment_method_id');
     }
 
     public function warehouse()

@@ -14,9 +14,10 @@
                             <thead class="table-dark">
                             <tr>
                                 <th scope="col">#</th>
-                                <th scope="col">Name</th>
-                                <th scope="col">Email</th>
-                                <th scope="col">Role</th>
+                                <th scope="col">{{ __('Name') }}</th>
+                                <th scope="col">{{ __('Email') }}</th>
+                                <th scope="col">{{ __('Role') }}</th>
+                                <th scope="col">{{ __('Activated') }}</th>
                                 <th scope="col"></th>
                             </tr>
                             </thead>
@@ -27,7 +28,14 @@
                                     <td>{{ $user->name }}</td>
                                     <td>{{ $user->email }}</td>
                                     <td>{{ $user->role->name }}</td>
+                                    <td>{{ $user->activated ? __('Yes') : __('No') }}</td>
                                     <td>
+                                        @if($user->activated)
+                                            <a href="{{ route('user.deactivate', $user->id) }}" class="btn btn-warning btn-sm d-inline-block">{{ __('Deactivate') }}</a>
+                                        @else
+                                            <a href="{{ route('user.activate', $user->id) }}" class="btn btn-success btn-sm d-inline-block">{{ __('Activate') }}</a>
+                                        @endif
+
                                         <a href="{{ route('user.edit', $user->id) }}" class="btn btn-primary btn-sm d-inline-block">{{ __('Edit') }}</a>
                                         <form method="post" action="{{ route('user.destroy', $user->id) }}" class="d-inline-block" onsubmit="return confirm('{{ __('Are you sure?') }}')">
                                             @csrf
@@ -38,7 +46,7 @@
                                 </tr>
                             @empty
                                 <tr>
-                                    <td colspan="4">{{ __('No users') }}</td>
+                                    <td colspan="6">{{ __('No users') }}</td>
                                 </tr>
                             @endforelse
                             </tbody>

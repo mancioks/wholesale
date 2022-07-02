@@ -58,5 +58,10 @@
     "No orders": "Užsakymų nėra",
     "Accepted": "Priimtas",
     "Start preparing": "Pradėti ruošimą",
-    "Order prepared": "Užsakymas suruoštas"
+    "Order prepared": "Užsakymas suruoštas",
+    "When making bank transfer, define order number in payment destination": "Darydami bankinį pavedimą, užsakymo paskirtyje nurodykite užsakymo numerį",
+    "Company details": "Įmonės rekvizitai",
+    "Show order": "Rodyti užsakymą",
+    "created": "sukurtas",
+    "Pre-invoice has been sent to you by email": "Išankstinė sąskaita jums išsiųsta elektroniniu paštu"
 }

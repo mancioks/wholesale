@@ -95,4 +95,16 @@ class UserController extends Controller
 
         return redirect()->back()->with('status', 'ok');
     }
+
+    public function activate(User $user)
+    {
+        $user->update(['activated' => 1]);
+        return redirect()->back()->with('status', 'User activated');
+    }
+
+    public function deactivate(User $user)
+    {
+        $user->update(['activated' => 0]);
+        return redirect()->back()->with('status', 'User deactivated');
+    }
 }

@@ -43,7 +43,7 @@ class OrderController extends Controller
     public function create(Request $request)
     {
         $search_query = $request->get('query');
-        $products = Product::search($search_query)->orderBy('id', 'desc')->paginate(6);
+        $products = Product::search($search_query)->orderBy('id', 'desc')->paginate(8);
         return view('order.create', compact('products', 'search_query'));
     }
 

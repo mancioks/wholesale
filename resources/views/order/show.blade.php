@@ -89,6 +89,9 @@
                             <div class="mt-4 mb-0">
                                 <h5>{{ __('Total') }}: {{ $order->total }} €</h5>
                             </div>
+                            <div class="mt-n2">
+                                {{ __('Payment method') }}: <b>{{ $order->paymentMethod->name }}</b>
+                            </div>
                         </div>
                     </div>
                 </div>
