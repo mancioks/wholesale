@@ -19,6 +19,7 @@
                                 <th scope="col">{{ __('Role') }}</th>
                                 <th scope="col">{{ __('Activated') }}</th>
                                 <th scope="col"></th>
+                                <th scope="col"></th>
                             </tr>
                             </thead>
                             <tbody>
@@ -35,7 +36,8 @@
                                         @else
                                             <a href="{{ route('user.activate', $user->id) }}" class="btn btn-success btn-sm d-inline-block">{{ __('Activate') }}</a>
                                         @endif
-
+                                    </td>
+                                    <td>
                                         <a href="{{ route('user.edit', $user->id) }}" class="btn btn-primary btn-sm d-inline-block">{{ __('Edit') }}</a>
                                         <form method="post" action="{{ route('user.destroy', $user->id) }}" class="d-inline-block" onsubmit="return confirm('{{ __('Are you sure?') }}')">
                                             @csrf

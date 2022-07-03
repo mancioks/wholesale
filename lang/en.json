@@ -63,5 +63,22 @@
     "Company details": "Įmonės rekvizitai",
     "Show order": "Rodyti užsakymą",
     "created": "sukurtas",
-    "Pre-invoice has been sent to you by email": "Išankstinė sąskaita jums išsiųsta elektroniniu paštu"
+    "Pre-invoice has been sent to you by email": "Išankstinė sąskaita jums išsiųsta elektroniniu paštu",
+    "Waiting for payment": "Laukiama apmokėjimo",
+    "Paid": "Apmokėta",
+    "Partly paid": "Dalinai sumokėta",
+    "Order number": "Užsakymo numeris",
+    "Method": "Būdas",
+    "Date": "Data",
+    "No payments": "Apmokėjimų nėra",
+    "Warehouses": "Sandėliai",
+    "Home": "Pradinis",
+    "Add warehouse": "Pridėti sandėlį",
+    "Warehouse name": "Sandėlio pavadinimas",
+    "Active": "Aktyvus",
+    "Create": "Sukurti",
+    "Can select": "Galima rinktis",
+    "Email": "El. paštas",
+    "Create warehouse": "Sandėlio kūrimas",
+    "Edit warehouse": "Redaguoti sandėlį"
 }

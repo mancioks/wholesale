@@ -36,13 +36,13 @@
                 <div class="card">
                     <div class="card-header {{ $order->list_class }} text-white pe-2">
                         <span class="d-inline-block pt-1">
-                            {{ __($order->status->name) }}
+                            <i class="bi bi-info-circle"></i> {{ __($order->status->name) }}
                         </span>
                         <div class="float-end">
                             @if($order->actions)
                                 <div class="dropdown">
                                     <button class="btn btn-sm btn-light dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
-                                        {{ __('Actions') }}
+                                        <i class="bi bi-pencil-square"></i> {{ __('Actions') }}
                                     </button>
                                     <ul class="dropdown-menu">
                                         @foreach($order->actions as $status => $action)
@@ -86,12 +86,44 @@
                                     </div>
                                 @endif
                             @endif
-                            <div class="mt-4 mb-0">
-                                <h5>{{ __('Total') }}: {{ $order->total }} €</h5>
+                            <div class="mt-3 mb-0">
+                                {{ __('Total') }}: <b>{{ $order->total }} €</b>
                             </div>
-                            <div class="mt-n2">
+                            <div>
                                 {{ __('Payment method') }}: <b>{{ $order->paymentMethod->name }}</b>
                             </div>
+                        </div>
+                    </div>
+                    <div class="card-footer bg-secondary text-white shadow pe-2">
+                        <span class="d-inline-block pt-1">
+                            <i class="bi bi-credit-card-2-front"></i> {{ __($order->paymentStatus->name) }}
+                        </span>
+                        <div class="float-end">
+                            @role('admin')
+                            <button type="button" class="btn btn-sm btn-light" data-bs-toggle="modal" data-bs-target="#paymentForm">
+                                <i class="bi bi-cash-coin"></i> {{ __('Add payment') }}
+                            </button>
+                            <div class="modal fade" id="paymentForm" tabindex="-1" aria-hidden="true">
+                                <div class="modal-dialog modal-lg text-black">
+                                    <div class="modal-content">
+                                        <form action="" method="get">
+                                            <div class="modal-header">
+                                                <h5 class="modal-title" id="exampleModalLabel">{{ __('Add payment') }}</h5>
+                                                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                            </div>
+                                            <div class="modal-body">
+                                                <label for="amount" class="form-label">{{ __('Amount') }}</label>
+                                                <input type="number" class="form-control" id="amount" name="amount">
+                                            </div>
+                                            <div class="modal-footer">
+                                                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">{{ __('Close') }}</button>
+                                                <button type="submit" class="btn btn-primary">{{ __('Add') }}</button>
+                                            </div>
+                                        </form>
+                                    </div>
+                                </div>
+                            </div>
+                            @endrole
                         </div>
                     </div>
                 </div>

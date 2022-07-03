@@ -56,6 +56,8 @@ Route::group(['middleware' => 'auth'], function () {
             });
         });
 
+        Route::get('payments', [\App\Http\Controllers\PaymentController::class, 'index'])->name('payments');
+
         Route::resource('product', \App\Http\Controllers\ProductController::class);
 
         Route::resource('user', \App\Http\Controllers\UserController::class);

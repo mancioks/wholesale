@@ -41,6 +41,11 @@ class Order extends Model
         return $this->hasMany(Payment::class, 'order_id', 'id');
     }
 
+    public function paymentStatus()
+    {
+        return $this->hasOne(PaymentStatus::class, 'id', 'payment_status_id');
+    }
+
     public function paymentMethod()
     {
         return $this->hasOne(PaymentMethod::class, 'id', 'payment_method_id');

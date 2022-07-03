@@ -27,7 +27,7 @@
                         </div>
                         <div class="actions-wrapper">
                             @activated
-                                <a href="{{ route('order.create') }}" class="btn btn-success">{{ __('New order') }}</a>
+                                <a href="{{ route('order.create') }}" class="btn btn-success"><i class="bi bi-plus-square"></i> {{ __('New order') }}</a>
                             @else
                                 <div class="alert alert-warning mt-2 mb-2">
                                     {{ __('Your account not activated yet.') }}
@@ -56,7 +56,7 @@
                                         </div>
                                         <div class="order-products-thumbs p-3">
                                             @foreach($order->items as $product)
-                                                <img src="{{ asset($product->image->name) }}" height="30px" class="rounded-1"/>
+                                                <img src="{{ asset($product->image->name) }}" height="30px" class="rounded-1" data-bs-toggle="tooltip" data-bs-placement="top" title="{{ $product->name }} ({{ $product->qty }})"/>
                                             @endforeach
                                         </div>
                                     </div>

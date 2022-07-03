@@ -14,7 +14,7 @@
                             <thead class="table-dark">
                             <tr>
                                 <th scope="col">#</th>
-                                <th scope="col">{{ __('Name') }}</th>
+                                <th scope="col">{{ __('Warehouse name') }}</th>
                                 <th scope="col">{{ __('Active') }}</th>
                                 <th scope="col"></th>
                             </tr>

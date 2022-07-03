@@ -7,5 +7,8 @@ use Illuminate\Database\Eloquent\Model;
 
 class Payment extends Model
 {
-    use HasFactory;
+    public function order()
+    {
+        return $this->hasOne(Order::class, 'id', 'order_id');
+    }
 }

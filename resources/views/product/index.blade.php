@@ -8,8 +8,8 @@
                     <div class="card-body">
                         <h2>{{ __('Products') }}</h2>
                         <div class="actions-wrapper">
-                            <a href="{{ route('product.create') }}" class="btn btn-success">{{ __('Create product') }}</a>
-                            <a href="{{ route('product.import') }}" class="btn btn-warning">{{ __('Import products') }}</a>
+                            <a href="{{ route('product.create') }}" class="btn btn-success"><i class="bi bi-plus-square"></i> {{ __('Create product') }}</a>
+                            <a href="{{ route('product.import') }}" class="btn btn-warning"><i class="bi bi-filetype-csv"></i>{{ __('Import products') }}</a>
                         </div>
                         <table class="table mt-3">
                             <thead class="table-dark">

@@ -32,9 +32,7 @@
                 </button>
                 @auth
                     <a class="btn btn-warning float-end me-2 d-md-none position-relative" href="{{ route('cart') }}">
-                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-cart" viewBox="0 0 16 16" style="margin-top: -4px">
-                            <path d="M0 1.5A.5.5 0 0 1 .5 1H2a.5.5 0 0 1 .485.379L2.89 3H14.5a.5.5 0 0 1 .491.592l-1.5 8A.5.5 0 0 1 13 12H4a.5.5 0 0 1-.491-.408L2.01 3.607 1.61 2H.5a.5.5 0 0 1-.5-.5zM3.102 4l1.313 7h8.17l1.313-7H3.102zM5 12a2 2 0 1 0 0 4 2 2 0 0 0 0-4zm7 0a2 2 0 1 0 0 4 2 2 0 0 0 0-4zm-7 1a1 1 0 1 1 0 2 1 1 0 0 1 0-2zm7 0a1 1 0 1 1 0 2 1 1 0 0 1 0-2z"/>
-                        </svg>
+                        <i class="bi bi-basket3-fill"></i>
                         <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger">
                             {{ auth()->user()->cart_count }}
                         </span>
@@ -73,7 +71,7 @@
 
                                     <div class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdownAdmin">
                                         <a href="{{ route('product.index') }}" class="dropdown-item">{{ __('Products') }}</a>
-                                        <a href="#" class="dropdown-item">{{ __('Payments') }}</a>
+                                        <a href="{{ route('payments') }}" class="dropdown-item">{{ __('Payments') }}</a>
                                         <a href="{{ route('user.index') }}" class="dropdown-item">{{ __('Users') }}</a>
                                         <a href="{{ route('warehouse.index') }}" class="dropdown-item">{{ __('Warehouses') }}</a>
                                         <a href="{{ route('settings') }}" class="dropdown-item">{{ __('Settings') }}</a>
@@ -100,9 +98,7 @@
                             </li>
                             <li class="nav-item ms-2 d-none d-md-block">
                                 <a class="btn btn-warning position-relative" href="{{ route('cart') }}">
-                                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-cart" viewBox="0 0 16 16" style="margin-top: -4px">
-                                        <path d="M0 1.5A.5.5 0 0 1 .5 1H2a.5.5 0 0 1 .485.379L2.89 3H14.5a.5.5 0 0 1 .491.592l-1.5 8A.5.5 0 0 1 13 12H4a.5.5 0 0 1-.491-.408L2.01 3.607 1.61 2H.5a.5.5 0 0 1-.5-.5zM3.102 4l1.313 7h8.17l1.313-7H3.102zM5 12a2 2 0 1 0 0 4 2 2 0 0 0 0-4zm7 0a2 2 0 1 0 0 4 2 2 0 0 0 0-4zm-7 1a1 1 0 1 1 0 2 1 1 0 0 1 0-2zm7 0a1 1 0 1 1 0 2 1 1 0 0 1 0-2z"/>
-                                    </svg>
+                                    <i class="bi bi-basket3-fill"></i>
                                     <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger">
                                         {{ auth()->user()->cart_count }}
                                     </span>
