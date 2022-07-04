@@ -74,4 +74,15 @@ class OrderService
 
         return $orders;
     }
+
+    public function updateOrderPaymentStatus(Order $order)
+    {
+        $order->refresh();
+
+        if($order->paid_total < $order->total) {
+            $order->update(['payment_status_id' => PaymentStatus::PARTLY_PAID]);
+        } else {
+            $order->update(['payment_status_id' => PaymentStatus::PAID]);
+        }
+    }
 }

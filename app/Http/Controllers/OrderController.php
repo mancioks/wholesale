@@ -67,7 +67,8 @@ class OrderController extends Controller
     public function show(Order $order)
     {
         $this->authorize('view', $order);
-        return view('order.show', compact('order'));
+        $paymentMethods = PaymentMethod::all();
+        return view('order.show', compact('order', 'paymentMethods'));
     }
 
     /**

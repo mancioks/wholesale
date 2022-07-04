@@ -51,6 +51,16 @@ class Order extends Model
         return $this->hasOne(PaymentMethod::class, 'id', 'payment_method_id');
     }
 
+    public function getPaidTotalAttribute()
+    {
+        $total = 0;
+        foreach ($this->payments as $payment) {
+            $total += $payment->amount;
+        }
+
+        return $total;
+    }
+
     public function warehouse()
     {
         return $this->hasOne(Warehouse::class, 'id', 'warehouse_id');

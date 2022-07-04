@@ -57,6 +57,7 @@ Route::group(['middleware' => 'auth'], function () {
         });
 
         Route::get('payments', [\App\Http\Controllers\PaymentController::class, 'index'])->name('payments');
+        Route::post('payments/{order}', [\App\Http\Controllers\PaymentController::class, 'store'])->name('payments.store');
 
         Route::resource('product', \App\Http\Controllers\ProductController::class);
 

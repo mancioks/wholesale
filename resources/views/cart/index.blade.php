@@ -53,6 +53,9 @@
 
                         @if(auth()->user()->cart->isEmpty())
                             <div class="p-2 ps-2 fs-5 text-black text-center bg-secondary bg-opacity-10 pt-5 pb-5 rounded-3 mt-3">
+                                <div class="fs-1 opacity-25">
+                                    <i class="bi bi-basket3"></i>
+                                </div>
                                 {{ __('Cart empty') }}
                             </div>
                         @endif

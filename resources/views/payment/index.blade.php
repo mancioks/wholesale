@@ -24,7 +24,7 @@
                                     <th scope="row">{{ $payment->id }}</th>
                                     <td>{{ $payment->order->number }}</td>
                                     <td>{{ price_format($payment->amount) }}€</td>
-                                    <td>{{ $payment->method->name }}€</td>
+                                    <td>{{ $payment->method->name }}</td>
                                     <td>{{ $payment->created_at }}</td>
                                     <td>
 

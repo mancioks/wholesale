@@ -72,9 +72,6 @@
             <td class="invoice-element">{{ $order->total }}€</td>
         </tr>
     </table>
-    <div class="invoice-description">
-        Sąskaita apmokėta.
-    </div>
 </div>
 <style>
     body { font-family: DejaVu Sans, sans-serif; }
@@ -127,11 +124,6 @@
     .inv-logo{
         height: 60px;
         margin-bottom: 20px;
-    }
-    .invoice-description {
-        border-top: 1px solid #000;
-        padding-top: 30px;
-        margin-top: 30px;
     }
 </style>
 </body>
