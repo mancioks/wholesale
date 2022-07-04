@@ -28,7 +28,7 @@
                                                 <div class="row">
                                                     <div>
                                                         <input type="hidden" value="{{ $cart_item->id }}" name="item[]">
-                                                        <input type="number" value="{{ $cart_item->pivot->qty }}" name="qty[]" class="btn btn-light text-start remove-outline border-1 border-dark cursor-auto w-100">
+                                                        <input type="number" value="{{ $cart_item->pivot->qty }}" name="qty[]" class="form-control text-start remove-outline border-1 border-dark cursor-auto w-100">
                                                     </div>
                                                 </div>
                                             </div>

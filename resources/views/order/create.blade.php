@@ -43,10 +43,10 @@
                                             <form action="{{ route('cart.add', $product->id) }}" method="post">
                                                 @csrf
                                                 <div class="row">
-                                                    <div class="col-4">
-                                                        <input type="number" name="qty" value="1" class="btn btn-light text-center remove-outline border-1 border-dark cursor-auto w-100">
+                                                    <div class="col-4 pe-0">
+                                                        <input type="number" name="qty" value="1" class="form-control text-center remove-outline border-1 border-dark cursor-auto w-100">
                                                     </div>
-                                                    <div class="col-8">
+                                                    <div class="col-8 ps-1">
                                                         <button type="submit" class="btn btn-dark w-100 text-center">{{ __('Add to cart') }}</button>
                                                     </div>
                                                 </div>
