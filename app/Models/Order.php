@@ -2,9 +2,9 @@
 
 namespace App\Models;
 
+use App\Services\OrderService;
+use App\Support\OrderListClassName;
 use Barryvdh\DomPDF\Facade\Pdf;
-use Carbon\Carbon;
-use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
 class Order extends Model
@@ -99,7 +99,7 @@ class Order extends Model
     {
         return sprintf(
             '%s EUR ir %u ct',
-            ucfirst(skaicius_zodziais($this->total)),
+            ucfirst(amountToLtWords($this->total)),
             ($this->total * 100) % 100
         );
     }
@@ -123,89 +123,12 @@ class Order extends Model
 
     public function getListClassAttribute()
     {
-        switch (auth()->user()->role->id) {
-            case Role::ADMIN:
-                switch ($this->status->id) {
-                    case Status::CREATED:
-                        return 'bg-danger';
-                    case Status::PREPARED:
-                    case Status::ACCEPTED:
-                    case Status::PREPARING:
-                        return 'bg-warning';
-                }
-            case Role::WAREHOUSE:
-                switch ($this->status->id) {
-                    case Status::ACCEPTED:
-                        return 'bg-danger';
-                    case Status::PREPARING:
-                        return 'bg-warning';
-                }
-            case Role::CUSTOMER:
-                switch ($this->status->id) {
-                    case Status::DECLINED:
-                    case Status::CANCELED:
-                        return 'bg-danger';
-                    case Status::CREATED:
-                        return 'bg-primary';
-                    case Status::PREPARING:
-                        return 'bg-warning';
-                    case Status::ACCEPTED:
-                    case Status::PREPARED:
-                        return 'bg-success';
-                }
-        }
-
-        return 'bg-secondary';
+        return new OrderListClassName($this);
     }
 
     public function getActionsAttribute()
     {
-        $actions = [];
-
-        //admin actions
-        if (auth()->user()->role->id === Role::ADMIN) {
-            if ($this->status->id === Status::CREATED) {
-                $actions = [
-                    Status::ACCEPTED => 'Accept',
-                    Status::DECLINED => 'Decline',
-                ];
-            }
-            if ($this->status->id === Status::PREPARED) {
-                $actions = [
-                    Status::DONE => 'Complete order',
-                ];
-            }
-            if ($this->status->id === Status::DECLINED) {
-                $actions = [
-                    Status::CREATED => 'Restore',
-                ];
-            }
-        }
-
-        //customer actions
-        if (auth()->user()->role->id === Role::CUSTOMER) {
-            if ($this->status->id === Status::CREATED) {
-                $actions = [
-                    Status::CANCELED => 'Cancel',
-                ];
-            }
-        }
-
-        //warehouse actions
-        if (auth()->user()->role->id === Role::WAREHOUSE) {
-            if ($this->status->id === Status::ACCEPTED) {
-                $actions = [
-                    Status::PREPARING => 'Start preparing',
-                    Status::DECLINED => 'Decline',
-                ];
-            }
-            if ($this->status->id === Status::PREPARING) {
-                $actions = [
-                    Status::PREPARED => 'Order prepared',
-                ];
-            }
-        }
-
-        return $actions;
+        $service = new OrderService;
+        return $service->getActions($this);
     }
 }

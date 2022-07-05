@@ -12,14 +12,9 @@ use Illuminate\Http\Request;
 
 class OrderService
 {
-    private function checkUserCartNotEmpty()
-    {
-        return auth()->user()->cart()->exists();
-    }
-
     public function create(Request $request)
     {
-        if (!$this->checkUserCartNotEmpty()) {
+        if (!(auth()->user()->cart()->exists())) {
             abort(403);
         }
 
@@ -84,5 +79,56 @@ class OrderService
         } else {
             $order->update(['payment_status_id' => PaymentStatus::PAID]);
         }
+    }
+
+    public function getActions(Order $order)
+    {
+        $actions = [];
+
+        //admin actions
+        if (auth()->user()->role->id === Role::ADMIN) {
+            if ($order->status->id === Status::CREATED) {
+                $actions = [
+                    Status::ACCEPTED => 'Accept',
+                    Status::DECLINED => 'Decline',
+                ];
+            }
+            if ($order->status->id === Status::PREPARED) {
+                $actions = [
+                    Status::DONE => 'Complete order',
+                ];
+            }
+            if ($order->status->id === Status::DECLINED) {
+                $actions = [
+                    Status::CREATED => 'Restore',
+                ];
+            }
+        }
+
+        //customer actions
+        if (auth()->user()->role->id === Role::CUSTOMER) {
+            if ($order->status->id === Status::CREATED) {
+                $actions = [
+                    Status::CANCELED => 'Cancel',
+                ];
+            }
+        }
+
+        //warehouse actions
+        if (auth()->user()->role->id === Role::WAREHOUSE) {
+            if ($order->status->id === Status::ACCEPTED) {
+                $actions = [
+                    Status::PREPARING => 'Start preparing',
+                    Status::DECLINED => 'Decline',
+                ];
+            }
+            if ($order->status->id === Status::PREPARING) {
+                $actions = [
+                    Status::PREPARED => 'Order prepared',
+                ];
+            }
+        }
+
+        return $actions;
     }
 }

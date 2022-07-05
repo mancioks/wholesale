@@ -4,7 +4,6 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\StoreWarehouseRequest;
 use App\Models\Warehouse;
-use Illuminate\Http\Request;
 
 class WarehouseController extends Controller
 {

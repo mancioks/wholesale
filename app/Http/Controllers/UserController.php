@@ -9,7 +9,6 @@ use App\Models\Role;
 use App\Models\User;
 use App\Models\UserDetails;
 use App\Models\Warehouse;
-use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 
 class UserController extends Controller
@@ -37,17 +36,6 @@ class UserController extends Controller
         ]);
 
         return redirect()->back()->with('status', 'User created');
-    }
-
-    /**
-     * Display the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function show($id)
-    {
-        //
     }
 
     public function edit(User $user)

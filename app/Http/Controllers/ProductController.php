@@ -7,12 +7,9 @@ use App\Http\Requests\StoreProductRequest;
 use App\Http\Requests\UpdateProductRequest;
 use App\Imports\ProductsImport;
 use App\Models\Image;
-use App\Models\ImportQueue;
 use App\Models\Product;
 use App\Models\Setting;
-use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
-use Illuminate\Support\Str;
 use Maatwebsite\Excel\Facades\Excel;
 
 class ProductController extends Controller
@@ -42,17 +39,6 @@ class ProductController extends Controller
         return redirect()->back()->with('status', 'Product created');
     }
 
-    /**
-     * Display the specified resource.
-     *
-     * @param int $id
-     * @return \Illuminate\Http\Response
-     */
-    public function show($id)
-    {
-        //
-    }
-
     public function edit(Product $product)
     {
         return view('product.edit', compact('product'));
@@ -78,12 +64,6 @@ class ProductController extends Controller
         return redirect()->route('product.index')->with('status', 'Product updated');
     }
 
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param int $id
-     * @return \Illuminate\Http\RedirectResponse
-     */
     public function destroy($id)
     {
         $product = Product::findOrFail($id);

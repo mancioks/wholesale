@@ -4,9 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\AddToCartRequest;
 use App\Http\Requests\UpdateCartRequest;
-use App\Http\Requests\UpdateUserRequest;
 use App\Models\Product;
-use Illuminate\Http\Request;
 
 class CartController extends Controller
 {

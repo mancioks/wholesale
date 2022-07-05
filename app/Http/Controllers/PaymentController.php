@@ -5,9 +5,7 @@ namespace App\Http\Controllers;
 use App\Http\Requests\StorePaymentRequest;
 use App\Models\Order;
 use App\Models\Payment;
-use App\Models\PaymentStatus;
 use App\Services\OrderService;
-use Illuminate\Http\Request;
 
 class PaymentController extends Controller
 {
