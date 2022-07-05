@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use App\Services\OrderService;
+use App\Support\OrderActions;
 use App\Support\OrderListClassName;
 use Barryvdh\DomPDF\Facade\Pdf;
 use Illuminate\Database\Eloquent\Model;
@@ -123,12 +124,11 @@ class Order extends Model
 
     public function getListClassAttribute()
     {
-        return new OrderListClassName($this);
+        return (new OrderListClassName($this))->get();
     }
 
     public function getActionsAttribute()
     {
-        $service = new OrderService;
-        return $service->getActions($this);
+        return (new OrderActions($this))->get();
     }
 }

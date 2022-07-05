@@ -58,7 +58,8 @@ class OrderListClassName
         }
     }
 
-    public function __toString(){
+    public function get()
+    {
         return $this->className;
     }
 }
