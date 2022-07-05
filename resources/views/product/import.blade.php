@@ -13,7 +13,7 @@
                                 <div class="row">
                                     <div class="form-group mt-2 col-6">
                                         <label for="product_file" class="form-label">{{ __('Products CSV') }}</label>
-                                        <input type="file" name="csv" id="product_file" class="form-control" accept=".csv" required>
+                                        <input type="file" name="csv" id="product_file" class="form-control" accept=".csv,.xlsx" required>
                                     </div>
                                 </div>
                             </div>

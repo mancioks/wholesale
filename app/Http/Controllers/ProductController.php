@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Http\Requests\ImportCsvRequest;
 use App\Http\Requests\StoreProductRequest;
 use App\Http\Requests\UpdateProductRequest;
+use App\Imports\ProductsImport;
 use App\Models\Image;
 use App\Models\ImportQueue;
 use App\Models\Product;
@@ -12,6 +13,7 @@ use App\Models\Setting;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
+use Maatwebsite\Excel\Facades\Excel;
 
 class ProductController extends Controller
 {
@@ -96,19 +98,11 @@ class ProductController extends Controller
 
     public function parseCsv(ImportCsvRequest $request)
     {
-        $csv = parse_csv($request->file('csv'), ['name', 'price', 'units']);
+        auth()->user()->importQueue()->delete();
 
-        if ($csv) {
-            auth()->user()->importQueue()->delete();
+        Excel::import(new ProductsImport, $request->file('csv'));
 
-            foreach ($csv["rows"] as $row) {
-                ImportQueue::query()->create($row + ['user_id' => auth()->id()]);
-            }
-
-            return redirect()->route('product.import.confirm');
-        } else {
-            return redirect()->back()->withErrors(['Something wrong with structure']);
-        }
+        return redirect()->route('product.import.confirm');
     }
 
     public function confirmCsv()
