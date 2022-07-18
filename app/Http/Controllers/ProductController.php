@@ -9,15 +9,17 @@ use App\Imports\ProductsImport;
 use App\Models\Image;
 use App\Models\Product;
 use App\Models\Setting;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
 use Maatwebsite\Excel\Facades\Excel;
 
 class ProductController extends Controller
 {
-    public function index()
+    public function index(Request $request)
     {
-        $products = Product::all();
-        return view('product.index', compact('products'));
+        $search_query = $request->get('query');
+        $products = Product::search($search_query)->orderBy('id', 'desc')->paginate(30);
+        return view('product.index', compact('products', 'search_query'));
     }
 
     public function create()
