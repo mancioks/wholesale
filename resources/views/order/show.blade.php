@@ -7,6 +7,9 @@
                 <div class="card">
                     <div class="card-body">
                         <h2>{{ __('Order') }} {{ $order->number }}</h2>
+                        @role('warehouse', 'admin', 'super_admin')
+                            <p>{{ $order->user->name }}, {{ $order->user->details->company_name }} {{ $order->user->details->phone_number }} {{ $order->user->email }}</p>
+                        @endrole
                         <div class="products-wrapper row gx-2 gy-2">
                             @foreach($order->items as $product)
                                 <div class="col-lg-4 col-md-6">
