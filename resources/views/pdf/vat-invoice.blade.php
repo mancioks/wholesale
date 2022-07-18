@@ -47,7 +47,7 @@
             <tr class="invoice-elements">
                 <td>{{ $loop->index + 1}}</td>
                 <td>{{ $product->name }}</td>
-                <td>{{ $product->qty }} {{ $product->product->units }}</td>
+                <td>{{ $product->qty }} {{ $product->units }}</td>
                 <td>{{ $product->price }}€</td>
                 <td>{{ $product->amount }}€</td>
             </tr>

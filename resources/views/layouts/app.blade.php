@@ -63,7 +63,7 @@
                                 </li>
                             @endif
                         @else
-                            @role('admin')
+                            @role('admin', 'super_admin')
                                 <li class="nav-item dropdown">
                                     <a id="navbarDropdownAdmin" class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false" v-pre>
                                         {{ __('Administration') }}
@@ -113,7 +113,6 @@
         <div style="height: 60px;"></div>
         <main class="py-4">
             @prefix('order')
-            @role('customer')
             @if(auth()->user()->details()->doesntExist())
                 <div class="container">
                     <div class="row justify-content-center">
@@ -128,7 +127,6 @@
                     </div>
                 </div>
             @endif
-            @endrole
             @endprefix
             @if ($errors->any())
                 <div class="container">

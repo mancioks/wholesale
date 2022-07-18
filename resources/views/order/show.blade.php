@@ -21,7 +21,7 @@
                                                     <p class="card-text mb-0">{{ $product->price }}€</p>
                                                 </div>
                                                 <div class="col-7 text-end">
-                                                    {{ $product->qty }} {{ $product->product->units }} - {{ $product->amount }}€
+                                                    {{ $product->qty }} {{ $product->units }} - {{ $product->amount }}€
                                                 </div>
                                             </div>
                                         </div>
@@ -99,7 +99,7 @@
                             <i class="bi bi-credit-card-2-front"></i> {{ __($order->paymentStatus->name) }}
                         </span>
                         <div class="float-end">
-                            @role('admin')
+                            @role('admin', 'super_admin')
                             <button type="button" class="btn btn-sm btn-light" data-bs-toggle="modal" data-bs-target="#paymentForm">
                                 <i class="bi bi-cash-coin"></i> {{ __('Payments') }}
                             </button>

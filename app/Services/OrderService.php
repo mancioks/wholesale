@@ -40,6 +40,7 @@ class OrderService
                 'price' => $product->price,
                 'product_id' => $product->id,
                 'qty' => $product->pivot->qty,
+                'units' => $product->units,
             ]);
 
             auth()->user()->cart()->detach($product);
@@ -63,6 +64,7 @@ class OrderService
                 break;
 
             case Role::ADMIN:
+            case Role::SUPER_ADMIN:
                 $orders = Order::orderBy('id', 'desc')->get();
                 break;
         }

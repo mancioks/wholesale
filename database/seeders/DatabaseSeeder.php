@@ -24,6 +24,7 @@ class DatabaseSeeder extends Seeder
             PaymentStatusSeeder::class,
             //ProductSeeder::class,
             UserSeeder::class,
+            SuperAdminRoleSeeder::class,
         ]);
     }
 }

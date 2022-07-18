@@ -34,6 +34,37 @@ class OrderActions
             }
         }
 
+        if (auth()->user()->role->id === Role::SUPER_ADMIN) {
+            if ($order->status->id === Status::CREATED) {
+                $actions = [
+                    Status::ACCEPTED => 'Accept',
+                    Status::DECLINED => 'Decline',
+                    Status::CANCELED => 'Cancel',
+                ];
+            }
+            if ($order->status->id === Status::ACCEPTED) {
+                $actions = [
+                    Status::PREPARING => 'Start preparing',
+                    Status::DECLINED => 'Decline',
+                ];
+            }
+            if ($order->status->id === Status::PREPARING) {
+                $actions = [
+                    Status::PREPARED => 'Order prepared',
+                ];
+            }
+            if ($order->status->id === Status::PREPARED) {
+                $actions = [
+                    Status::DONE => 'Complete order',
+                ];
+            }
+            if ($order->status->id === Status::DECLINED) {
+                $actions = [
+                    Status::CREATED => 'Restore',
+                ];
+            }
+        }
+
         //customer actions
         if (auth()->user()->role->id === Role::CUSTOMER) {
             if ($order->status->id === Status::CREATED) {

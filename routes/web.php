@@ -46,7 +46,7 @@ Route::group(['middleware' => 'auth'], function () {
     Route::get('user/settings', [\App\Http\Controllers\UserController::class, 'settings'])->name('user.settings');
     Route::post('user/settings/store', [\App\Http\Controllers\UserController::class, 'storeSettings'])->name('user.settings.store');
 
-    Route::group(['middleware' => 'role:admin'], function () {
+    Route::group(['middleware' => 'role:admin,super_admin'], function () {
         Route::prefix('product')->controller(\App\Http\Controllers\ProductController::class)->group(function() {
             Route::name('product.')->group(function() {
                 Route::get('/import', 'import')->name('import');
