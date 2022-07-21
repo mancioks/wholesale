@@ -10,11 +10,19 @@
                             <h2>{{ __('New order') }}</h2>
                         </div>
                         <div class="mb-3">
-                            <form action="{{ route('order.create') }}" method="get" class="input-group rounded">
-                                <input type="text" class="form-control rounded" placeholder="{{ __('Search') }}" name="query" value="{{ $search_query }}" />
-                                <button type="submit" class="input-group-text border-0">
-                                    <i class="fas fa-search"></i>
-                                </button>
+                            <form action="{{ route('order.create') }}" method="get">
+                                <div class="position-relative">
+                                    <div class="input-group rounded">
+                                        <input type="text" class="form-control rounded" autocomplete="off" placeholder="{{ __('Search') }}" name="query" id="productSearch" value="{{ $search_query }}" />
+                                        <button type="submit" class="input-group-text border-0">
+                                            <i class="fas fa-search"></i>
+                                        </button>
+                                    </div>
+                                    <div class="position-absolute start-0 end-0 bg-light p-2 mt-1 rounded border border-white shadow d-none zindex-10" id="searchSuggestions">
+                                        <div class="">August AT-8</div>
+                                        <div class="">August AT-8</div>
+                                    </div>
+                                </div>
                             </form>
                         </div>
                         <div>
@@ -66,4 +74,71 @@
             </div>
         </div>
     </div>
+
+    <script>
+        let searchInput = document.getElementById('productSearch');
+        let searchSuggestions = document.getElementById('searchSuggestions');
+
+        async function postData(url = '', data = {}) {
+            const response = await fetch(url, {
+                method: 'POST',
+                mode: 'cors',
+                cache: 'no-cache',
+                credentials: 'same-origin',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                redirect: 'follow',
+                referrerPolicy: 'no-referrer',
+                body: JSON.stringify(data)
+            });
+            return response.json();
+        }
+
+        function createResultElement(item) {
+            var element = document.createElement('a');
+            element.classList.add('d-block', 'text-decoration-none', 'text-black');
+            element.href = '{{ route('order.create') }}?query=%search-query%'.replace('%search-query%', item.name);
+            element.innerHTML = document.getElementById('searchSuggestion').innerHTML;
+            element.innerHTML = element.innerHTML.replace('%item-name%', item.name)
+                .replace('#%item-image%', item.image)
+                .replace('%item-price%', item.price);
+
+            return element;
+        }
+
+        function updateSuggestionList() {
+            postData('{{ route('api.products.search') }}', { criteria: document.getElementById('productSearch').value })
+                .then(data => {
+                    if(document.getElementById('productSearch').value === '') {
+                        searchSuggestions.classList.add('d-none');
+                    } else {
+                        searchSuggestions.classList.remove('d-none');
+
+                        if(data.length < 1) {
+                            searchSuggestions.innerHTML = '{{ __('No products') }}';
+                        } else {
+                            searchSuggestions.innerHTML = '';
+                            data.forEach((item) => {
+                                searchSuggestions.append(createResultElement(item));
+                            });
+                        }
+                    }
+                });
+        }
+
+        searchInput.addEventListener('input', function () {
+            updateSuggestionList();
+        });
+    </script>
+
+    <script id="searchSuggestion" type="text/html">
+        <div class="p-2" style="border-bottom: 1px solid #ddd;">
+            <div class="d-inline-block text-center" style="width: 50px">
+                <img src="#%item-image%" class="card-img-top w-auto" style="height: 30px;">
+            </div>
+            %item-name%
+            <span class="badge bg-secondary bg-opacity-10 text-secondary">%item-price%</span>
+        </div>
+    </script>
 @endsection

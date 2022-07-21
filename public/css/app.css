@@ -18959,3 +18959,7 @@ textarea.form-control-lg {
   max-width: 100%;
   max-height: 100%;
 }
+
+.zindex-10 {
+  z-index: 10;
+}

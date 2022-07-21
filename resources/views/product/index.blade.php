@@ -20,7 +20,7 @@
                                             <i class="fas fa-search"></i>
                                         </button>
                                     </div>
-                                    <div class="position-absolute start-0 end-0 bg-light p-2 mt-1 rounded border border-white shadow d-none" id="searchSuggestions">
+                                    <div class="position-absolute start-0 end-0 bg-light p-2 mt-1 rounded border border-white shadow d-none zindex-10" id="searchSuggestions">
                                         <div class="">August AT-8</div>
                                         <div class="">August AT-8</div>
                                     </div>
