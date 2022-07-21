@@ -46,7 +46,7 @@ Route::group(['middleware' => 'auth'], function () {
     Route::get('user/settings', [\App\Http\Controllers\UserController::class, 'settings'])->name('user.settings');
     Route::post('user/settings/store', [\App\Http\Controllers\UserController::class, 'storeSettings'])->name('user.settings.store');
 
-    Route::group(['middleware' => 'role:admin,super_admin'], function () {
+    Route::group(['middleware' => 'role:admin,super_admin,warehouse'], function () {
         Route::prefix('product')->controller(\App\Http\Controllers\ProductController::class)->group(function() {
             Route::name('product.')->group(function() {
                 Route::get('/import', 'import')->name('import');
@@ -56,10 +56,14 @@ Route::group(['middleware' => 'auth'], function () {
             });
         });
 
+        Route::resource('product', \App\Http\Controllers\ProductController::class);
+
+        Route::resource('warehouse', \App\Http\Controllers\WarehouseController::class);
+    });
+
+    Route::group(['middleware' => 'role:admin,super_admin'], function () {
         Route::get('payments', [\App\Http\Controllers\PaymentController::class, 'index'])->name('payments');
         Route::post('payments/{order}', [\App\Http\Controllers\PaymentController::class, 'store'])->name('payments.store');
-
-        Route::resource('product', \App\Http\Controllers\ProductController::class);
 
         Route::resource('user', \App\Http\Controllers\UserController::class);
         Route::get('user/{user}/activate', [\App\Http\Controllers\UserController::class, 'activate'])->name('user.activate');
@@ -67,7 +71,5 @@ Route::group(['middleware' => 'auth'], function () {
 
         Route::get('/settings', [\App\Http\Controllers\SettingsController::class, 'index'])->name('settings');
         Route::put('/settings/update', [\App\Http\Controllers\SettingsController::class, 'update'])->name('settings.update');
-
-        Route::resource('warehouse', \App\Http\Controllers\WarehouseController::class);
     });
 });
