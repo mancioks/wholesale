@@ -17,3 +17,6 @@ use Illuminate\Support\Facades\Route;
 Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     return $request->user();
 });
+
+Route::post('products/search', [\App\Http\Controllers\Api\ProductSearchController::class, 'results'])->name('api.products.search');
+Route::get('products/search', [\App\Http\Controllers\Api\ProductSearchController::class, 'results'])->name('api.products.search');
