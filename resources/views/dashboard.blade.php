@@ -8,7 +8,7 @@
                     <div class="card-body">
                         <div class="row">
                             <div class="col-8">
-                                <h2>{{ __('Orders') }}</h2>
+                                <h2>{{ __('Orders') }} s</h2>
                             </div>
                             <div class="col-4 d-none d-lg-block">
                                 <div class="btn-group float-end">
