@@ -47,29 +47,42 @@ class OrderService
         }
     }
 
-    public function getOrders($user) {
-
+    public function getOrders($user, $params = []) {
+        if(isset($params['filters']['status']) && isset($this->getFilters()[$params['filters']['status']])) {
+            $filterStatusId = [$params['filters']['status']];
+        }
         switch ($user->role->id) {
             case Role::CUSTOMER:
-                $orders = $user->orders()->orderBy('id', 'desc')->get();
+                $orders = $user->orders();
+                if(isset($filterStatusId)) {
+                    $orders->whereIn('status_id', $filterStatusId);
+                }
                 break;
 
             case Role::WAREHOUSE:
-                $orders = Order::whereIn('status_id', [
-                    Status::ACCEPTED,
-                    Status::PREPARING,
-                    Status::PREPARED,
-                    Status::DONE,
-                ])->orderBy('id', 'desc')->get();
+                $orders = Order::query();
+                if(isset($filterStatusId)) {
+                    $orders->whereIn('status_id', $filterStatusId);
+                } else {
+                    $orders->whereIn('status_id', [
+                        Status::ACCEPTED,
+                        Status::PREPARING,
+                        Status::PREPARED,
+                        Status::DONE,
+                    ]);
+                }
                 break;
 
             case Role::ADMIN:
             case Role::SUPER_ADMIN:
-                $orders = Order::orderBy('id', 'desc')->get();
+                $orders = Order::query();
+                if(isset($filterStatusId)) {
+                    $orders->whereIn('status_id', $filterStatusId);
+                }
                 break;
         }
 
-        return $orders;
+        return $orders->orderBy('id', 'desc')->get();
     }
 
     public function updateOrderPaymentStatus(Order $order)
@@ -81,5 +94,48 @@ class OrderService
         } else {
             $order->update(['payment_status_id' => PaymentStatus::PAID]);
         }
+    }
+
+    public function getFilters()
+    {
+        $filters = [
+            Status::CREATED => 'Created',
+            Status::ACCEPTED => 'Accepted',
+            Status::DECLINED => 'Declined',
+            Status::CANCELED => 'Canceled',
+            Status::PREPARING => 'Preparing',
+            Status::PREPARED => 'Prepared',
+            Status::DONE => 'Done',
+        ];
+
+        $userFilters = [];
+
+        switch (auth()->user()->role->id) {
+            case Role::CUSTOMER:
+            case Role::ADMIN:
+            case Role::SUPER_ADMIN:
+                $userFilters = [
+                    Status::CREATED => $filters[Status::CREATED],
+                    Status::ACCEPTED => $filters[Status::ACCEPTED],
+                    Status::DECLINED => $filters[Status::DECLINED],
+                    Status::CANCELED => $filters[Status::CANCELED],
+                    Status::PREPARING => $filters[Status::PREPARING],
+                    Status::PREPARED => $filters[Status::PREPARED],
+                    Status::DONE => $filters[Status::DONE],
+                ];
+                break;
+
+            case Role::WAREHOUSE:
+                $userFilters = [
+                    Status::ACCEPTED => $filters[Status::ACCEPTED],
+                    Status::PREPARING => $filters[Status::PREPARING],
+                    Status::PREPARED => $filters[Status::PREPARED],
+                    Status::DONE => $filters[Status::DONE],
+                ];
+                break;
+
+        }
+
+        return $userFilters;
     }
 }

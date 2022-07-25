@@ -33,6 +33,23 @@
                                     {{ __('Your account not activated yet.') }}
                                 </div>
                             @endactivated
+                            <div class="dropdown d-inline-block">
+                                <button class="btn btn-outline-secondary dropdown-toggle" type="button" id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false">
+                                    <i class="bi bi-funnel"></i>
+                                    @if($currentStatusFilterName)
+                                        {{ __('Filtering by') }}:
+                                        {{ __($currentStatusFilterName) }}
+                                    @else
+                                        {{ __('Filter') }}
+                                    @endif
+                                </button>
+                                <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1">
+                                    <li><a class="dropdown-item" href="{{ route('home') }}">{{ __('Show all') }}</a></li>
+                                    @foreach($filters as $key => $filter)
+                                        <li><a class="dropdown-item" href="{{ route('home') }}?filter_status_by_id={{ $key }}">{{ __($filter) }}</a></li>
+                                    @endforeach
+                                </ul>
+                            </div>
                         </div>
                         <div class="orders-wrapper row gx-3 gy-3 pt-2">
                             @foreach($orders as $order)
