@@ -28,6 +28,7 @@ class OrderService
             'payment_status_id' => PaymentStatus::WAITING,
             'vat_number' => 0,
             'warehouse_id' => $request->post('warehouse_id'),
+            'message' => $request->post('message'),
         ]);
     }
 

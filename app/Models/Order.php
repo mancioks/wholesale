@@ -20,6 +20,7 @@ class Order extends Model
         'payment_status_id',
         'vat_number',
         'warehouse_id',
+        'message',
     ];
 
     public function status()

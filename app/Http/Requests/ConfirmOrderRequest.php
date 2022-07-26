@@ -27,6 +27,7 @@ class ConfirmOrderRequest extends FormRequest
         return [
             'payment_method' => ['required', 'exists:payment_methods,id'],
             'warehouse_id' => ['required', Rule::exists('warehouses', 'id')->where('active', 1)],
+            'message' => [''],
         ];
     }
 }

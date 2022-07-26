@@ -36,7 +36,7 @@
                 </div>
             </div>
             <div class="col-lg-4">
-                <div class="card">
+                <div class="card shadow shadow">
                     <div class="card-header {{ $order->list_class }} text-white pe-2">
                         <span class="d-inline-block pt-1">
                             <i class="bi bi-info-circle"></i> {{ __($order->status->name) }}
@@ -97,7 +97,7 @@
                             </div>
                         </div>
                     </div>
-                    <div class="card-footer bg-secondary text-white shadow pe-2">
+                    <div class="card-footer bg-secondary text-white pe-2">
                         <span class="d-inline-block pt-1">
                             <i class="bi bi-credit-card-2-front"></i> {{ __($order->paymentStatus->name) }}
                         </span>
@@ -176,6 +176,14 @@
                         </div>
                     </div>
                 </div>
+                @if($order->message)
+                    <div class="card mt-3 shadow shadow-sm">
+                        <div class="card-header bg-warning">{{ __('Message') }}</div>
+                        <div class="card-body">
+                            {{ $order->message }}
+                        </div>
+                    </div>
+                @endif
             </div>
         </div>
     </div>

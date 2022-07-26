@@ -61,6 +61,10 @@
                                         </label>
                                     @endforeach
                                 </div>
+                                <div class="add-comment-to-order mt-3">
+                                    <h4>{{ __('Leave a message') }}</h4>
+                                    <textarea placeholder="{{ __('Message') }}" class="form-control" name="message" rows="3"></textarea>
+                                </div>
                                 <div class="order-submit mt-3">
                                     @if(auth()->user()->details()->exists())
                                     <button type="submit" class="btn btn-warning d-block w-100">{{ __('Confirm') }}</button>
