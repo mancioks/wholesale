@@ -21,6 +21,14 @@ class Order extends Model
         'vat_number',
         'warehouse_id',
         'message',
+        'company_details',
+        'customer_name',
+        'customer_email',
+        'customer_company_name',
+        'customer_company_address',
+        'customer_company_registration_code',
+        'customer_company_vat_number',
+        'customer_company_phone_number',
     ];
 
     public function status()

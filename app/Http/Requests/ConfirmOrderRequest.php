@@ -28,6 +28,13 @@ class ConfirmOrderRequest extends FormRequest
             'payment_method' => ['required', 'exists:payment_methods,id'],
             'warehouse_id' => ['required', Rule::exists('warehouses', 'id')->where('active', 1)],
             'message' => [''],
+            'name' => [Rule::when(function () { return $this->post('invoice_to_other'); }, ['required'])],
+            'email' => [Rule::when(function () { return $this->post('invoice_to_other'); }, ['required'])],
+            'company_name' => [Rule::when(function () { return $this->post('invoice_to_other'); }, ['required'])],
+            'address' => [Rule::when(function () { return $this->post('invoice_to_other'); }, ['required'])],
+            'registration_code' => [Rule::when(function () { return $this->post('invoice_to_other'); }, ['required'])],
+            'vat_number' => [Rule::when(function () { return $this->post('invoice_to_other'); }, ['required'])],
+            'phone_number' => [Rule::when(function () { return $this->post('invoice_to_other'); }, ['required'])],
         ];
     }
 }

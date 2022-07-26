@@ -24,12 +24,12 @@
             </td>
             <td>
                 PIRKĖJAS<br>
-                {{ $order->user->name }}, {{ $order->user->email }}<br>
-                {{ $order->user->details->company_name }}<br>
-                {{ $order->user->details->address }}<br>
-                Įmonės kodas: {{ $order->user->details->registration_code }}<br>
-                PVM kodas: {{ $order->user->details->vat_number }}<br>
-                {{ $order->user->details->phone_number }}<br>
+                {{ $order->customer_name }}, {{ $order->customer_email }}<br>
+                {{ $order->customer_company_name }}<br>
+                {{ $order->customer_company_address }}<br>
+                Įmonės kodas: {{ $order->customer_company_registration_code }}<br>
+                PVM kodas: {{ $order->customer_company_vat_number }}<br>
+                {{ $order->customer_company_phone_number }}<br>
             </td>
         </tr>
     </table>

@@ -22,13 +22,21 @@ class OrderService
             'user_id' => auth()->id(),
             'status_id' => 1,
             'discount' => 0,
-            'pvm' => auth()->user()->pvm_size,
+            'pvm' => $request->post('invoice_to_other') ? setting('pvm') : auth()->user()->pvm_size,
             'total' => auth()->user()->total,
             'payment_method_id' => $request->post('payment_method'),
             'payment_status_id' => PaymentStatus::WAITING,
             'vat_number' => 0,
             'warehouse_id' => $request->post('warehouse_id'),
             'message' => $request->post('message'),
+            'company_details' => setting('company.details'),
+            'customer_name' => $request->post('invoice_to_other') ? $request->post('name') : auth()->user()->name,
+            'customer_email' => $request->post('invoice_to_other') ? $request->post('email') : auth()->user()->email,
+            'customer_company_name' => $request->post('invoice_to_other') ? $request->post('company_name') : auth()->user()->details->company_name,
+            'customer_company_address' => $request->post('invoice_to_other') ? $request->post('address') : auth()->user()->details->address,
+            'customer_company_registration_code' => $request->post('invoice_to_other') ? $request->post('registration_code') : auth()->user()->details->registration_code,
+            'customer_company_vat_number' => $request->post('invoice_to_other') ? $request->post('vat_number') : auth()->user()->details->vat_number,
+            'customer_company_phone_number' => $request->post('invoice_to_other') ? $request->post('phone_number') : auth()->user()->details->phone_number,
         ]);
     }
 

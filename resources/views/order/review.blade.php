@@ -65,6 +65,53 @@
                                     <h4>{{ __('Leave a message') }}</h4>
                                     <textarea placeholder="{{ __('Message') }}" class="form-control" name="message" rows="3"></textarea>
                                 </div>
+                                <div class="invoice-to-other mt-3">
+                                    <div class="form-check form-switch">
+                                        <input class="form-check-input" type="checkbox" name="invoice_to_other" role="switch" id="invoice-to-other">
+                                        <label class="form-check-label" for="invoice-to-other">{{ __('Invoice to other subject') }}</label>
+                                    </div>
+                                    <div id="customer-details-form" class="pt-3 d-none">
+                                        <div class="pb-3 text-danger small">
+                                            {{ __('All fields required') }}
+                                        </div>
+                                        <div class="row">
+                                            <div class="col-lg-3 mb-3">
+                                                <label class="form-label">{{ __('Client full name') }}</label>
+                                                <input type="text" class="form-control" name="name">
+                                            </div>
+                                            <div class="col-lg-3 mb-3">
+                                                <label class="form-label">{{ __('Client email') }}</label>
+                                                <input type="email" class="form-control" name="email">
+                                            </div>
+                                        </div>
+                                        <div class="row">
+                                            <div class="col-lg-3 mb-3">
+                                                <label class="form-label">{{ __('Company name') }}</label>
+                                                <input type="text" class="form-control" name="company_name">
+                                            </div>
+                                            <div class="col-lg-3 mb-3">
+                                                <label class="form-label">{{ __('Address') }}</label>
+                                                <input type="text" class="form-control" name="address">
+                                            </div>
+                                        </div>
+                                        <div class="row">
+                                            <div class="col-lg-3 mb-3">
+                                                <label class="form-label">{{ __('Registration code') }}</label>
+                                                <input type="text" class="form-control" name="registration_code">
+                                            </div>
+                                            <div class="col-lg-3 mb-3">
+                                                <label class="form-label">{{ __('VAT number') }}</label>
+                                                <input type="text" class="form-control" name="vat_number">
+                                            </div>
+                                        </div>
+                                        <div class="row">
+                                            <div class="col-lg-3 mb-3">
+                                                <label class="form-label">{{ __('Phone number') }}</label>
+                                                <input type="text" class="form-control" name="phone_number">
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
                                 <div class="order-submit mt-3">
                                     @if(auth()->user()->details()->exists())
                                     <button type="submit" class="btn btn-warning d-block w-100">{{ __('Confirm') }}</button>
@@ -79,4 +126,16 @@
             </div>
         </div>
     </div>
+    <script>
+        var invoiceToOtherCheckBox = document.getElementById('invoice-to-other');
+        var customerDetailsForm = document.getElementById('customer-details-form');
+
+        invoiceToOtherCheckBox.addEventListener('click', function () {
+            if(invoiceToOtherCheckBox.checked) {
+                customerDetailsForm.classList.remove('d-none');
+            } else {
+                customerDetailsForm.classList.add('d-none');
+            }
+        });
+    </script>
 @endsection

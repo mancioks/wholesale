@@ -89,5 +89,12 @@
     "Show all": "Rodyti visus",
     "Filtering by": "Filtruojama",
     "Without VAT": "Be PVM",
-    "Complete order": "Užbaigti užsakymą"
+    "Complete order": "Užbaigti užsakymą",
+    "Leave a message": "Palikti žinutę",
+    "Message": "Žinutė",
+    "Warehouse": "Sandėlis",
+    "All fields required" : "Visi laukeliai privalomi",
+    "Client full name": "Kliento vardas ir pavardė",
+    "Client email": "Kliento el. paštas",
+    "Invoice to other subject": "Sąskaita kitam asmeniui"
 }
