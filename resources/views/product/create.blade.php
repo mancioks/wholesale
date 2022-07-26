@@ -17,7 +17,7 @@
                             </div>
                             <div class="row mb-3">
                                 <div class="col-lg-5">
-                                    <label for="product_price" class="form-label">{{ __('Price') }}</label>
+                                    <label for="product_price" class="form-label">{{ __('Price') }} ({{ __('Without VAT') }})</label>
                                     <input type="number" class="form-control" id="product_price" name="price" step=".01" value="{{ old('price') }}" required>
                                 </div>
                             </div>

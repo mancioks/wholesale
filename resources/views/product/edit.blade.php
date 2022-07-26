@@ -6,7 +6,12 @@
             <div class="col-md-12">
                 <div class="card">
                     <div class="card-body">
-                        <h2>{{ __('Edit product') }}</h2>
+                        <h2 class="d-inline-block">{{ __('Edit product') }}</h2>
+                        <form method="post" action="{{ route('product.destroy', $product->id) }}" class="d-inline-block" onsubmit="return confirm('{{ __('Are you sure?') }}')">
+                            @csrf
+                            @method('delete')
+                            <button type="submit" class="btn btn-danger btn-sm ms-3 d-inline-block mt-n2">{{ __('Delete') }}</button>
+                        </form>
                         <form method="post" action="{{ route('product.update', $product->id) }}" enctype="multipart/form-data">
                             @csrf
                             @method('put')
@@ -18,7 +23,7 @@
                             </div>
                             <div class="row mb-3">
                                 <div class="col-lg-5">
-                                    <label for="product_price" class="form-label">{{ __('Price') }}</label>
+                                    <label for="product_price" class="form-label">{{ __('Price') }} ({{ __('Without VAT') }})</label>
                                     <input type="number" class="form-control" id="product_price" name="price" step=".01" value="{{ $product->price }}" required>
                                 </div>
                             </div>
