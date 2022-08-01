@@ -65,6 +65,9 @@ class OrderController extends Controller
 
         Mail::to($order->user)->send(new \App\Mail\Customer\OrderCreated($order));
 
+        $recipients = User::ofRole(Role::SUPER_ADMIN)->get();
+        MailService::send($recipients, 'Sukurtas naujas užsakymas', sprintf('Užsakymą %s sukūrė %s', $order->number, auth()->user()->name));
+
         return redirect()->route('order.success', $order)->with('status', 'Order created');
     }
 
