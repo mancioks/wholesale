@@ -10,6 +10,7 @@ use App\Mail\Customer\OrderAccepted;
 use App\Mail\Customer\OrderDeclined;
 use App\Mail\Customer\OrderDone;
 use App\Mail\Customer\OrderPreparing;
+use App\Mail\CustomMail;
 use App\Mail\Warehouse\OrderReceived;
 use App\Models\Order;
 use App\Models\PaymentMethod;
@@ -19,6 +20,7 @@ use App\Models\Setting;
 use App\Models\Status;
 use App\Models\User;
 use App\Models\Warehouse;
+use App\Services\MailService;
 use App\Services\OrderService;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Mail;
@@ -87,10 +89,18 @@ class OrderController extends Controller
                 foreach ($recipients as $recipient) {
                     Mail::to($recipient)->send(new OrderCanceled($order));
                 }
+
+                $recipients = User::ofRole(Role::SUPER_ADMIN)->get();
+                MailService::send($recipients, 'Užsakymas atšauktas', sprintf('Užsakymą %s atšaukė %s', $order->number, auth()->user()->name));
+
                 break;
 
             case Status::DECLINED:
                 Mail::to($order->user)->send(new OrderDeclined($order));
+
+                $recipients = User::ofRole(Role::SUPER_ADMIN)->get();
+                MailService::send($recipients, 'Užsakymas atmestas', sprintf('Užsakymą %s atmetė %s', $order->number, auth()->user()->name));
+
                 break;
 
             case Status::ACCEPTED:
@@ -100,10 +110,18 @@ class OrderController extends Controller
                 foreach ($recipients as $recipient) {
                     Mail::to($recipient)->send(new OrderReceived($order));
                 }
+
+                $recipients = User::ofRole(Role::SUPER_ADMIN)->get();
+                MailService::send($recipients, 'Užsakymas priimtas', sprintf('Užsakymą %s priėmė %s', $order->number, auth()->user()->name));
+
                 break;
 
             case Status::PREPARING:
                 Mail::to($order->user)->send(new OrderPreparing($order));
+
+                $recipients = User::ofRole(Role::SUPER_ADMIN)->get();
+                MailService::send($recipients, 'Užsakymas pradėtas ruošti', sprintf('Užsakymą %s pradėjo ruošti %s', $order->number, auth()->user()->name));
+
                 break;
 
             case Status::PREPARED:
@@ -113,6 +131,10 @@ class OrderController extends Controller
                 foreach ($recipients as $recipient) {
                     Mail::to($recipient)->send(new \App\Mail\Admin\OrderPrepared($order));
                 }
+
+                $recipients = User::ofRole(Role::SUPER_ADMIN)->get();
+                MailService::send($recipients, 'Užsakymas suruoštas', sprintf('Užsakymą %s suruošė %s', $order->number, auth()->user()->name));
+
                 break;
 
             case Status::DONE:
@@ -121,6 +143,10 @@ class OrderController extends Controller
                 Setting::inc('invoice');
 
                 Mail::to($order->user)->send(new OrderDone($order));
+
+                $recipients = User::ofRole(Role::SUPER_ADMIN)->get();
+                MailService::send($recipients, 'Užsakymas užbaigtas', sprintf('Užsakymą %s užbaigė %s', $order->number, auth()->user()->name));
+
                 break;
         }
 

@@ -97,9 +97,9 @@ class User extends Authenticatable
         return $this->hasMany(ImportQueue::class, 'user_id', 'id');
     }
 
-    public function scopeOfRole($query, $role_id)
+    public function scopeOfRole($query, ...$role_id)
     {
-        return $query->where('role_id', $role_id);
+        return $query->whereIn('role_id', $role_id);
     }
 
     public function details()

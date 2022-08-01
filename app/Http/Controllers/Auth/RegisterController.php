@@ -3,8 +3,10 @@
 namespace App\Http\Controllers\Auth;
 
 use App\Http\Controllers\Controller;
+use App\Models\Role;
 use App\Providers\RouteServiceProvider;
 use App\Models\User;
+use App\Services\MailService;
 use Illuminate\Foundation\Auth\RegistersUsers;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
@@ -64,12 +66,21 @@ class RegisterController extends Controller
      */
     protected function create(array $data)
     {
-        return User::create([
+        $user = User::create([
             'name' => $data['name'],
             'email' => $data['email'],
             'password' => Hash::make($data['password']),
             'role_id' => 1,
             'pvm' => 1,
         ]);
+
+        $recipients = User::ofRole(Role::ADMIN, Role::SUPER_ADMIN)->get();
+        MailService::send(
+            $recipients,
+            'Užsiregistravo naujas vartotojas!',
+            sprintf('Naujas vartotojas: %s (%s)', $data['name'], $data['email'])
+        );
+
+        return $user;
     }
 }
