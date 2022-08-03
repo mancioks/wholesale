@@ -48,10 +48,14 @@ class UserController extends Controller
 
     public function update(UpdateUserRequest $request, User $user)
     {
+        if(auth()->user()->role->id !== Role::SUPER_ADMIN && $request->post('role_id') !== null) {
+            return redirect()->back()->withErrors(['Unable to change role']);
+        }
+
         $user->update([
             'name' => $request->post('name'),
             'email' => $request->post('email'),
-            'role_id' => $request->post('role_id'),
+            'role_id' => $request->post('role_id') ?: $user->role->id,
             'pvm' => $request->post('pvm') ? 1:0,
             'warehouse_id' => $request->post('warehouse_id') !== 'null' ? $request->post('warehouse_id') : null,
         ]);

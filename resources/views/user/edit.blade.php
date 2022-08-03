@@ -20,6 +20,7 @@
                                         <label for="user_email" class="form-label">{{ __('Email') }}</label>
                                         <input type="email" class="form-control" id="user_email" name="email" value="{{ $user->email }}" required>
                                     </div>
+                                    @role('super_admin')
                                     <div>
                                         <label for="user_role" class="form-label">{{ __('Role') }}</label>
                                         <select class="form-select" id="user_role" name="role_id">
@@ -28,6 +29,7 @@
                                             @endforeach
                                         </select>
                                     </div>
+                                    @endrole
                                     <div>
                                         <label for="warehouse_id" class="form-label">{{ __('Warehouse') }}</label>
                                         <select class="form-select" id="warehouse_id" name="warehouse_id">
