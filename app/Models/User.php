@@ -87,6 +87,13 @@ class User extends Authenticatable
         return $this->pvm ? Setting::get('pvm') : 0;
     }
 
+    public function getGetEmailsAttribute()
+    {
+        if(($this->details && $this->details->get_email_notifications) || !$this->details)
+            return true;
+        return false;
+    }
+
     public function getTotalAttribute()
     {
         return price_format($this->sub_total * (1 + $this->pvm_size / 100));
