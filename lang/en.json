@@ -96,5 +96,19 @@
     "All fields required" : "Visi laukeliai privalomi",
     "Client full name": "Kliento vardas ir pavardė",
     "Client email": "Kliento el. paštas",
-    "Invoice to other subject": "Sąskaita kitam asmeniui"
+    "Invoice to other subject": "Sąskaita kitam asmeniui",
+    "User info": "Vartotojo informacija",
+    "Role": "Rolė",
+    "Registered": "Registracija",
+    "Full name": "Vardas",
+    "Image": "Paveikslėlis",
+    "Units": "Vienetai",
+    "Product name": "Prekės pavadinimas",
+    "Edit product": "Prekės redagavimas",
+    "Change photo": "Pakeisti paveikslėlį",
+    "Name": "Pavadinimas",
+    "Activated": "Aktyvuota",
+    "Activate": "Aktyvuoti",
+    "Deactivate": "Deaktyvuoti",
+    "View": "Peržiūrėti"
 }
