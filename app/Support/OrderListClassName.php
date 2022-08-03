@@ -27,6 +27,21 @@ class OrderListClassName
                         break;
                 }
                 break;
+            case Role::SUPER_ADMIN:
+                switch ($order->status->id) {
+                    case Status::CREATED:
+                        $this->className = 'bg-danger';
+                        break;
+                    case Status::ACCEPTED:
+                    case Status::PREPARING:
+                    case Status::PREPARED:
+                        $this->className = 'bg-primary';
+                        break;
+                    case Status::DONE:
+                        $this->className = 'bg-success';
+                        break;
+                }
+                break;
             case Role::WAREHOUSE:
                 switch ($order->status->id) {
                     case Status::ACCEPTED:
