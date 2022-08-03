@@ -95,6 +95,12 @@
                             <div>
                                 {{ __('Payment method') }}: <b>{{ $order->paymentMethod->name }}</b>
                             </div>
+                            <div class="mt-2 mb-0">
+                                {{ __('Created') }}: <b>{{ $order->created_at }}</b>
+                            </div>
+                            <div>
+                                {{ __('Updated') }}: <b>{{ $order->updated_at }}</b>
+                            </div>
                         </div>
                     </div>
                     <div class="card-footer bg-secondary text-white pe-2">
