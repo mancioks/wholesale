@@ -10,7 +10,6 @@ use App\Mail\Customer\OrderAccepted;
 use App\Mail\Customer\OrderDeclined;
 use App\Mail\Customer\OrderDone;
 use App\Mail\Customer\OrderPreparing;
-use App\Mail\CustomMail;
 use App\Mail\Warehouse\OrderReceived;
 use App\Models\Order;
 use App\Models\PaymentMethod;

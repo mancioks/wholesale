@@ -26,7 +26,7 @@
                             @forelse($users as $user)
                                 <tr>
                                     <th scope="row">{{ $user->id }}</th>
-                                    <td>{{ $user->name }}</td>
+                                    <td><a href="{{ route('user.show', $user->id) }}" class="text-black fw-bold">{{ $user->name }}</a></td>
                                     <td>{{ $user->email }}</td>
                                     <td>{{ $user->role->name }}</td>
                                     <td>{{ $user->activated ? __('Yes') : __('No') }}</td>
@@ -38,7 +38,8 @@
                                         @endif
                                     </td>
                                     <td>
-                                        <a href="{{ route('user.edit', $user->id) }}" class="btn btn-primary btn-sm d-inline-block">{{ __('Edit') }}</a>
+                                        <a href="{{ route('user.show', $user->id) }}" class="btn btn-primary btn-sm d-inline-block">{{ __('View') }}</a>
+                                        <a href="{{ route('user.edit', $user->id) }}" class="btn btn-warning btn-sm d-inline-block">{{ __('Edit') }}</a>
                                         <form method="post" action="{{ route('user.destroy', $user->id) }}" class="d-inline-block" onsubmit="return confirm('{{ __('Are you sure?') }}')">
                                             @csrf
                                             @method('delete')

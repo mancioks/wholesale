@@ -99,4 +99,9 @@ class UserController extends Controller
         $user->update(['activated' => 0]);
         return redirect()->back()->with('status', 'User deactivated');
     }
+
+    public function show(User $user)
+    {
+        return view('user.show', compact('user'));
+    }
 }
