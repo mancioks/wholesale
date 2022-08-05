@@ -48,6 +48,13 @@ class OrderController extends Controller
         return view('order.review', compact('payment_methods', 'warehouses'));
     }
 
+    public function destroy(Order $order)
+    {
+        $order->delete();
+
+        return redirect()->route('home')->with('status', 'Deleted successfully');
+    }
+
     public function confirm(ConfirmOrderRequest $request, OrderService $orderService)
     {
         if(auth()->user()->details()->doesntExist()) {

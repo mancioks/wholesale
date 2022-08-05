@@ -21,7 +21,7 @@ Route::group(['middleware' => 'auth'], function () {
     Route::group(['middleware' => 'user.activated'], function () {
         Route::get('order/review', [\App\Http\Controllers\OrderController::class, 'review'])->name('order.review');
         Route::post('order/confirm', [\App\Http\Controllers\OrderController::class, 'confirm'])->name('order.confirm');
-        Route::resource('order', \App\Http\Controllers\OrderController::class)->except('show');
+        Route::resource('order', \App\Http\Controllers\OrderController::class)->except(['show', 'destroy']);
         Route::get('order/{order}/success', [\App\Http\Controllers\OrderController::class, 'orderSuccess'])->name('order.success');
 
         Route::controller(\App\Http\Controllers\CartController::class)->prefix('cart')->group(function () {
@@ -71,5 +71,9 @@ Route::group(['middleware' => 'auth'], function () {
 
         Route::get('/settings', [\App\Http\Controllers\SettingsController::class, 'index'])->name('settings');
         Route::put('/settings/update', [\App\Http\Controllers\SettingsController::class, 'update'])->name('settings.update');
+    });
+
+    Route::group(['middleware' => 'role:super_admin'], function() {
+        Route::delete('order/{order}', [\App\Http\Controllers\OrderController::class, 'destroy'])->name('order.destroy');
     });
 });

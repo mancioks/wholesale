@@ -43,7 +43,7 @@
                         </span>
                         <div class="float-end">
                             @if($order->actions)
-                                <div class="dropdown">
+                                <div class="dropdown d-inline-block">
                                     <button class="btn btn-sm btn-light dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
                                         <i class="bi bi-pencil-square"></i> {{ __('Actions') }}
                                     </button>
@@ -54,6 +54,15 @@
                                     </ul>
                                 </div>
                             @endif
+                            @role('super_admin')
+                                <form method="post" action="{{ route('order.destroy', $order) }}" class="d-inline-block" onsubmit="return confirm('{{ __('Are you sure?') }}')">
+                                    @csrf
+                                    @method('delete')
+                                    <button type="submit" class="btn btn-sm btn-light d-inline-block text-danger">
+                                        <i class="bi bi-trash3-fill"></i>
+                                    </button>
+                                </form>
+                            @endrole
                         </div>
                     </div>
                     <div class="card-body">

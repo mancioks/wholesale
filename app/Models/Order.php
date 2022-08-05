@@ -46,6 +46,23 @@ class Order extends Model
         return $this->hasMany(OrderItem::class, 'order_id', 'id');
     }
 
+    public static function boot() {
+        parent::boot();
+
+        static::deleting(function($order) {
+            if($order->payments) {
+                foreach ($order->payments as $payment) {
+                    $payment->delete();
+                }
+            }
+            if($order->items) {
+                foreach ($order->items as $item) {
+                    $item->delete();
+                }
+            }
+        });
+    }
+
     public function payments()
     {
         return $this->hasMany(Payment::class, 'order_id', 'id');

@@ -60,6 +60,31 @@ class User extends Authenticatable
         return $this->belongsToMany(Product::class, 'cart')->withPivot('qty');
     }
 
+    public static function boot() {
+        parent::boot();
+
+        static::deleting(function($user) {
+            if($user->orders) {
+                foreach ($user->orders as $order) {
+                    $order->delete();
+                }
+            }
+            if($user->cart) {
+                foreach ($user->cart as $cart) {
+                    $cart->delete();
+                }
+            }
+            if($user->import_queue) {
+                foreach ($user->import_queue as $import_queue) {
+                    $import_queue->delete();
+                }
+            }
+            if($user->details) {
+                $user->details->delete();
+            }
+        });
+    }
+
     public function getCartCountAttribute()
     {
         $count = 0;
