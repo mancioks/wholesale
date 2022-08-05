@@ -10,7 +10,7 @@ class MailService
     public static function send($recipients, $title, $content)
     {
         foreach ($recipients as $recipient) {
-            if($recipient->details->get_email_notifications) {
+            if($recipient->get_emails) {
                 Mail::to($recipient)->send(new CustomMail($title, $content));
             }
         }
