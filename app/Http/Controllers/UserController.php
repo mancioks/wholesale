@@ -104,4 +104,9 @@ class UserController extends Controller
     {
         return view('user.show', compact('user'));
     }
+
+    public function orders(User $user)
+    {
+        return view('user.orders', compact('user'));
+    }
 }

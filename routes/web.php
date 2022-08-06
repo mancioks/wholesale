@@ -66,6 +66,7 @@ Route::group(['middleware' => 'auth'], function () {
         Route::post('payments/{order}', [\App\Http\Controllers\PaymentController::class, 'store'])->name('payments.store');
 
         Route::resource('user', \App\Http\Controllers\UserController::class);
+        Route::get('user/{user}/orders', [\App\Http\Controllers\UserController::class, 'orders'])->name('user.orders');
         Route::get('user/{user}/activate', [\App\Http\Controllers\UserController::class, 'activate'])->name('user.activate');
         Route::get('user/{user}/deactivate', [\App\Http\Controllers\UserController::class, 'deactivate'])->name('user.deactivate');
 
