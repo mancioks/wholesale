@@ -100,9 +100,9 @@ class Order extends Model
 
     public function getVatInvoiceAttribute()
     {
-        if ($this->vat_number > 0) {
-            return PDF::loadView('pdf.vat-invoice', ['order' => $this]);
-        }
+//        if ($this->vat_number > 0) {
+//            return PDF::loadView('pdf.vat-invoice', ['order' => $this]);
+//        }
 
         return null;
     }

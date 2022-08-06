@@ -37,8 +37,8 @@ class OrderDone extends Mailable
     {
         return $this->subject('Užsakymas užbaigtas!')
             ->view('email.customer.done')
-            ->attachData($this->order->vat_invoice->output(), 'invoice.pdf', [
+            /*->attachData($this->order->vat_invoice->output(), 'invoice.pdf', [
             'mime' => 'application/pdf',
-        ]);
+        ])*/;
     }
 }
