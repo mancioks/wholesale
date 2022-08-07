@@ -16,11 +16,13 @@
                             <a href="{{ route('user.edit', $user) }}" class="btn btn-primary btn-sm ms-3 d-inline-block mt-n2">{{ __('Edit') }}</a>
                         </div>
                         <table class="table mt-3">
-                            <tbody>
+                            <thead class="table-dark">
                             <tr>
-                                <th scope="row">{{ __('Full name') }}</th>
-                                <td>{{ $user->name }}</td>
+                                <th scope="col">{{ __('Full name') }}</th>
+                                <th scope="col">{{ $user->name }}</th>
                             </tr>
+                            </thead>
+                            <tbody>
                             <tr>
                                 <th scope="row">{{ __('Email') }}</th>
                                 <td>{{ $user->email }}</td>
