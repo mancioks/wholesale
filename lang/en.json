@@ -110,5 +110,12 @@
     "Activated": "Aktyvuota",
     "Activate": "Aktyvuoti",
     "Deactivate": "Deaktyvuoti",
-    "View": "Peržiūrėti"
+    "View": "Peržiūrėti",
+    "Do filter": "Filtruoti",
+    "From": "Nuo",
+    "To": "Iki",
+    "Ordered items": "Užsakytos prekės",
+    "Showing": "Rodoma",
+    "from %s": "nuo %s",
+    "to %s": "iki %s"
 }

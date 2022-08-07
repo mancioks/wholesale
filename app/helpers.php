@@ -70,3 +70,9 @@ if (!function_exists('setting')) {
         return \App\Models\Setting::get($key);
     }
 }
+
+if (!function_exists('check_date_valid')) {
+    function check_date_valid($date, $format) {
+        return (date($format, strtotime($date)) == $date);
+    }
+}

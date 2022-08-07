@@ -5,10 +5,13 @@ namespace App\Http\Controllers;
 use App\Http\Requests\StoreUserRequest;
 use App\Http\Requests\StoreUserSettingsRequest;
 use App\Http\Requests\UpdateUserRequest;
+use App\Models\OrderItem;
 use App\Models\Role;
 use App\Models\User;
 use App\Models\UserDetails;
 use App\Models\Warehouse;
+use Illuminate\Http\Request;
+use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\Hash;
 
 class UserController extends Controller
@@ -108,5 +111,35 @@ class UserController extends Controller
     public function orders(User $user)
     {
         return view('user.orders', compact('user'));
+    }
+
+    public function items(User $user, Request $request)
+    {
+        $orders = $user->orders();
+        $filtering = false;
+
+        $filterFrom = $request->get('filter_from');
+        $filterTo = $request->get('filter_to');
+
+        if($filterFrom || $filterTo) {
+            if(!$filterFrom) $filterFrom = '2000-01-01';
+            if(!$filterTo) $filterTo = date('Y-m-d');
+
+            if(check_date_valid($filterFrom, 'Y-m-d') && check_date_valid($filterTo, 'Y-m-d')) {
+                $filtering = true;
+
+                $orders = $orders->whereBetween('created_at', [
+                    Carbon::createFromFormat('Y-m-d', $filterFrom)->startOfDay()->toDateTimeString(),
+                    Carbon::createFromFormat('Y-m-d', $filterTo)->endOfDay()->toDateTimeString()
+                ]);
+            }
+        }
+
+        $ordersId = $orders->pluck('id')->toArray();
+
+        $items = OrderItem::query()->whereIn('order_id', $ordersId)->get();
+        $items = $items->groupBy(['name', 'price']);
+
+        return view('user.items', compact('items', 'user', 'filtering'));
     }
 }

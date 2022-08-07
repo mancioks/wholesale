@@ -9,6 +9,7 @@
                         <div class="mb-3">
                             <a href="{{ route('user.show', $user) }}" class="btn btn-outline-primary">{{ __('User info') }}</a>
                             <a href="{{ route('user.orders', $user) }}" class="btn btn-primary">{{ __('Orders') }}</a>
+                            <a href="{{ route('user.items', $user) }}" class="btn btn-outline-primary">{{ __('Ordered items') }}</a>
                         </div>
                         <div class="row">
                             <div class="col-8">
