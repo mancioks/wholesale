@@ -117,5 +117,9 @@
     "Ordered items": "Užsakytos prekės",
     "Showing": "Rodoma",
     "from %s": "nuo %s",
-    "to %s": "iki %s"
+    "to %s": "iki %s",
+    "%s %s missing from the warehouse (%s left)": "Trūksta %s %s (Likutis: %s)",
+    "Shortage": "Trūkumas",
+    "Stock": "Likutis",
+    "Save": "Išsaugoti"
 }

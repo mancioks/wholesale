@@ -78,4 +78,8 @@ Route::group(['middleware' => 'auth'], function () {
     Route::group(['middleware' => 'role:super_admin'], function() {
         Route::delete('order/{order}', [\App\Http\Controllers\OrderController::class, 'destroy'])->name('order.destroy');
     });
+
+    Route::group(['middleware' => 'role:warehouse,super_admin'], function() {
+        Route::post('order/{order}/shortage', [\App\Http\Controllers\OrderController::class, 'shortage'])->name('order.shortage');
+    });
 });

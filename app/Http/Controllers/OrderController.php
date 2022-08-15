@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\ConfirmOrderRequest;
+use App\Http\Requests\ShortageRequest;
 use App\Mail\Admin\OrderCanceled;
 use App\Mail\Admin\OrderCreated;
 use App\Mail\Customer\OrderPrepared;
@@ -12,6 +13,7 @@ use App\Mail\Customer\OrderDone;
 use App\Mail\Customer\OrderPreparing;
 use App\Mail\Warehouse\OrderReceived;
 use App\Models\Order;
+use App\Models\OrderItem;
 use App\Models\PaymentMethod;
 use App\Models\Product;
 use App\Models\Role;
@@ -53,6 +55,20 @@ class OrderController extends Controller
         $order->delete();
 
         return redirect()->route('home')->with('status', 'Deleted successfully');
+    }
+
+    public function shortage(Order $order, ShortageRequest $request)
+    {
+        $stocks = array_combine($request->post('product'), $request->post('stock'));
+        $orderItems = $order->items()->pluck('id')->toArray();
+
+        foreach ($stocks as $itemId => $stock) {
+            if(in_array($itemId, $orderItems)) {
+                OrderItem::query()->where('id', $itemId)->update(['stock' => $stock]);
+            }
+        }
+
+        return redirect()->back()->with('status', 'OK');
     }
 
     public function confirm(ConfirmOrderRequest $request, OrderService $orderService)

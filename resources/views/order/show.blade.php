@@ -13,17 +13,22 @@
                         <div class="products-wrapper row gx-2 gy-2">
                             @foreach($order->items as $product)
                                 <div class="col-lg-4 col-md-6">
-                                    <div class="card shadow-sm">
+                                    <div class="card shadow-sm {{ !$product->shortage ?: 'border-danger' }}">
                                         <div class="card-body p-2">
                                             <div class="bg-light p-2 text-center mb-3 rounded product-img-wrapper">
                                                 <img src="{{ asset($product->image->name) }}">
                                             </div>
-                                            <h5 class="card-title">{{ $product->name }}</h5>
+                                            <h5 class="card-title">
+                                                {{ $product->name }}
+                                            </h5>
                                             <div class="row">
                                                 <div class="col-5">
                                                     <p class="card-text mb-0">{{ $product->price }}€</p>
                                                 </div>
                                                 <div class="col-7 text-end">
+                                                    @if($product->shortage)
+                                                        <i class="bi bi-exclamation-triangle text-danger" data-bs-toggle="tooltip" data-bs-placement="top" title="{{ sprintf(__('%s %s missing from the warehouse (%s left)'), $product->shortage, $product->units, $product->stock) }}"></i>
+                                                    @endif
                                                     {{ $product->qty }} {{ $product->units }} - {{ $product->amount }}€
                                                 </div>
                                             </div>
@@ -54,14 +59,59 @@
                                     </ul>
                                 </div>
                             @endif
+                            @role('warehouse', 'super_admin')
+                            <button type="button" class="btn btn-sm btn-light" data-bs-toggle="modal" data-bs-target="#shortageForm">
+                                <i class="bi bi-exclamation-triangle text-warning"></i> {{ __('Shortage') }}
+                            </button>
+                            <div class="modal fade" id="shortageForm" tabindex="-1" aria-hidden="true">
+                                <div class="modal-dialog modal-lg text-black">
+                                    <div class="modal-content">
+                                        <form action="{{ route('order.shortage', $order) }}" method="post">
+                                            @csrf
+                                            <div class="modal-header">
+                                                <h5 class="modal-title" id="exampleModalLabel">{{ __('Shortage') }}</h5>
+                                                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                            </div>
+                                            <div class="modal-body">
+                                                <table class="table mt-3">
+                                                    <thead class="table-dark">
+                                                    <tr>
+                                                        <th scope="col">{{ __('Product name') }}</th>
+                                                        <th scope="col">{{ __('Quantity') }}</th>
+                                                        <th scope="col">{{ __('Stock') }}</th>
+                                                    </tr>
+                                                    </thead>
+                                                    <tbody>
+                                                    @foreach($order->items as $product)
+                                                        <tr>
+                                                            <td>{{ $product->name }}</td>
+                                                            <td>{{ $product->qty }} {{ $product->units }}</td>
+                                                            <td>
+                                                                <input type="hidden" name="product[]" value="{{ $product->id }}">
+                                                                <input type="number" class="form-control form-control-sm" name="stock[]" placeholder="{{ __('Stock') }}" value="{{ $product->stock }}">
+                                                            </td>
+                                                        </tr>
+                                                    @endforeach
+                                                    </tbody>
+                                                </table>
+                                            </div>
+                                            <div class="modal-footer">
+                                                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">{{ __('Close') }}</button>
+                                                <button type="submit" class="btn btn-primary">{{ __('Save') }}</button>
+                                            </div>
+                                        </form>
+                                    </div>
+                                </div>
+                            </div>
+                            @endrole
                             @role('super_admin')
-                                <form method="post" action="{{ route('order.destroy', $order) }}" class="d-inline-block" onsubmit="return confirm('{{ __('Are you sure?') }}')">
-                                    @csrf
-                                    @method('delete')
-                                    <button type="submit" class="btn btn-sm btn-light d-inline-block text-danger">
-                                        <i class="bi bi-trash3-fill"></i>
-                                    </button>
-                                </form>
+                            <form method="post" action="{{ route('order.destroy', $order) }}" class="d-inline-block" onsubmit="return confirm('{{ __('Are you sure?') }}')">
+                                @csrf
+                                @method('delete')
+                                <button type="submit" class="btn btn-sm btn-light d-inline-block text-danger">
+                                    <i class="bi bi-trash3-fill"></i>
+                                </button>
+                            </form>
                             @endrole
                         </div>
                     </div>

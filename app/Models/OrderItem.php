@@ -22,4 +22,17 @@ class OrderItem extends Model
     {
         return $this->product()->exists() ? $this->product->image : Image::placeholder();
     }
+
+    public function getShortageAttribute()
+    {
+        if ($this->stock !== null) {
+            $diff = $this->stock - $this->qty;
+
+            if($diff < 0) {
+                return abs($diff);
+            }
+        }
+
+        return false;
+    }
 }
