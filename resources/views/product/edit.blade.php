@@ -27,6 +27,14 @@
                                     <input type="number" class="form-control" id="product_price" name="price" step=".01" value="{{ $product->price }}" required>
                                 </div>
                             </div>
+                            @role('warehouse', 'customer', 'admin') <div class="d-none"> @endrole
+                            <div class="row mb-3">
+                                <div class="col-lg-5">
+                                    <label for="product_prime_cost" class="form-label">{{ __('Prime cost') }}</label>
+                                    <input type="number" class="form-control" id="product_prime_cost" name="prime_cost" step=".01" value="{{ $product->prime_cost ?: 0 }}" required>
+                                </div>
+                            </div>
+                                @role('warehouse', 'customer', 'admin') </div> @endrole
                             <div class="row mb-3">
                                 <div class="col-lg-5">
                                     <label for="product_units" class="form-label">{{ __('Units') }}</label>

@@ -50,6 +50,7 @@ class OrderService
                 'product_id' => $product->id,
                 'qty' => $product->pivot->qty,
                 'units' => $product->units,
+                'prime_cost' => $product->prime_cost,
             ]);
 
             auth()->user()->cart()->detach($product);

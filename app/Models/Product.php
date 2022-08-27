@@ -10,7 +10,7 @@ class Product extends Model
 {
     use HasFactory, Searchable;
 
-    protected $fillable = ['name', 'price', 'units'];
+    protected $fillable = ['name', 'price', 'units', 'prime_cost'];
 
     public function searchableAs()
     {

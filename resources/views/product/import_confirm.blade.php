@@ -13,6 +13,7 @@
                                 <th scope="col">{{ __('name') }}</th>
                                 <th scope="col">{{ __('price') }}</th>
                                 <th scope="col">{{ __('units') }}</th>
+                                <th scope="col">{{ __('prime_cost') }}</th>
                             </tr>
                             </thead>
                             <tbody>
@@ -21,6 +22,7 @@
                                     <td>{{ $row->name }}</td>
                                     <td>{{ $row->price }}</td>
                                     <td>{{ $row->units }}</td>
+                                    <td>{{ $row->prime_cost }}</td>
                                 </tr>
                             @endforeach
                             </tbody>

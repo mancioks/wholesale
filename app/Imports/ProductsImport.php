@@ -23,6 +23,7 @@ class ProductsImport implements ToModel, WithHeadingRow, WithValidation
             'name' => $row['name'],
             'price' => $row['price'],
             'units' => $row['units'],
+            'prime_cost' => $row['prime_cost'],
         ]);
     }
 
@@ -32,6 +33,7 @@ class ProductsImport implements ToModel, WithHeadingRow, WithValidation
             '*.name' => 'required',
             '*.price' => 'required|numeric',
             '*.units' => 'required',
+            '*.prime_cost' => 'required|numeric',
         ];
     }
 }

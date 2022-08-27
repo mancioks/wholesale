@@ -46,6 +46,9 @@
                                 <th scope="col">#</th>
                                 <th scope="col">{{ __('Title') }}</th>
                                 <th scope="col">{{ __('Price') }}</th>
+                                @role('super_admin')
+                                    <th scope="col">{{ __('Prime cost') }}</th>
+                                @endrole
                                 <th scope="col">{{ __('Image') }}</th>
                                 <th scope="col"></th>
                             </tr>
@@ -56,6 +59,9 @@
                                     <th scope="row">{{ $product->id }}</th>
                                     <td>{{ $product->name }}</td>
                                     <td>{{ $product->price }}</td>
+                                    @role('super_admin')
+                                        <td>{{ $product->prime_cost ?: '-' }}</td>
+                                    @endrole
                                     <td>
                                         <img src="{{ asset($product->image->name) }}" class="card-img-top w-auto" style="height: 30px;">
                                     </td>

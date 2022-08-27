@@ -26,6 +26,7 @@ class StoreProductRequest extends FormRequest
         return [
             'name' => 'required|unique:products,name',
             'price' => 'required|numeric|min:0',
+            'prime_cost' => 'required|numeric|min:0',
             'image' => 'required|file|mimes:jpg,jpeg,bmp,png,webp,gif',
             'units' => 'required',
         ];

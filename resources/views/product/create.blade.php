@@ -23,6 +23,12 @@
                             </div>
                             <div class="row mb-3">
                                 <div class="col-lg-5">
+                                    <label for="product_prime_cost" class="form-label">{{ __('Prime cost') }}</label>
+                                    <input type="number" class="form-control" id="product_prime_cost" name="prime_cost" step=".01" value="{{ old('prime_cost') }}" required>
+                                </div>
+                            </div>
+                            <div class="row mb-3">
+                                <div class="col-lg-5">
                                     <label for="product_units" class="form-label">{{ __('Units') }}</label>
                                     <input type="text" class="form-control" id="product_units" name="units" value="{{ old('units') }}" required>
                                 </div>
