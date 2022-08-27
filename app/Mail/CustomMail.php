@@ -17,16 +17,18 @@ class CustomMail extends Mailable
      */
     public $title;
     public $content;
+    public $data;
 
     /**
      * Create a new message instance.
      *
      * @return void
      */
-    public function __construct($title, $content)
+    public function __construct($title, $content, $data = [])
     {
         $this->title = $title;
         $this->content = $content;
+        $this->data = (object) $data;
     }
 
     /**

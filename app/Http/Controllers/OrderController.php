@@ -93,7 +93,7 @@ class OrderController extends Controller
         }
 
         $recipients = User::ofRole(Role::SUPER_ADMIN)->get();
-        MailService::send($recipients, 'Sukurtas naujas užsakymas', sprintf('Užsakymą %s sukūrė %s', $order->number, auth()->user()->name));
+        MailService::send($recipients, 'Sukurtas naujas užsakymas', sprintf('Užsakymą %s sukūrė %s', $order->number, auth()->user()->name), ['order' => $order]);
 
         return redirect()->route('order.success', $order)->with('status', 'Order created');
     }
@@ -123,7 +123,7 @@ class OrderController extends Controller
                 }
 
                 $recipients = User::ofRole(Role::SUPER_ADMIN)->get();
-                MailService::send($recipients, 'Užsakymas atšauktas', sprintf('Užsakymą %s atšaukė %s', $order->number, auth()->user()->name));
+                MailService::send($recipients, 'Užsakymas atšauktas', sprintf('Užsakymą %s atšaukė %s', $order->number, auth()->user()->name), ['order' => $order]);
 
                 break;
 
@@ -133,7 +133,7 @@ class OrderController extends Controller
                 }
 
                 $recipients = User::ofRole(Role::SUPER_ADMIN)->get();
-                MailService::send($recipients, 'Užsakymas atmestas', sprintf('Užsakymą %s atmetė %s', $order->number, auth()->user()->name));
+                MailService::send($recipients, 'Užsakymas atmestas', sprintf('Užsakymą %s atmetė %s', $order->number, auth()->user()->name), ['order' => $order]);
 
                 break;
 
@@ -150,7 +150,7 @@ class OrderController extends Controller
                 }
 
                 $recipients = User::ofRole(Role::SUPER_ADMIN)->get();
-                MailService::send($recipients, 'Užsakymas priimtas', sprintf('Užsakymą %s priėmė %s', $order->number, auth()->user()->name));
+                MailService::send($recipients, 'Užsakymas priimtas', sprintf('Užsakymą %s priėmė %s', $order->number, auth()->user()->name), ['order' => $order]);
 
                 break;
 
@@ -160,7 +160,7 @@ class OrderController extends Controller
                 }
 
                 $recipients = User::ofRole(Role::SUPER_ADMIN)->get();
-                MailService::send($recipients, 'Užsakymas pradėtas ruošti', sprintf('Užsakymą %s pradėjo ruošti %s', $order->number, auth()->user()->name));
+                MailService::send($recipients, 'Užsakymas pradėtas ruošti', sprintf('Užsakymą %s pradėjo ruošti %s', $order->number, auth()->user()->name), ['order' => $order]);
 
                 break;
 
@@ -170,7 +170,7 @@ class OrderController extends Controller
                 }
 
                 $recipients = User::ofRole(Role::SUPER_ADMIN)->get();
-                MailService::send($recipients, 'Užsakymas suruoštas', sprintf('Užsakymą %s suruošė %s', $order->number, auth()->user()->name));
+                MailService::send($recipients, 'Užsakymas suruoštas', sprintf('Užsakymą %s suruošė %s', $order->number, auth()->user()->name), ['order' => $order]);
 
                 break;
 
@@ -187,7 +187,7 @@ class OrderController extends Controller
                 }
 
                 $recipients = User::ofRole(Role::SUPER_ADMIN)->get();
-                MailService::send($recipients, 'Užsakymas atsiimtas', sprintf('Užsakymą %s pažymėjo kaip atsiimtą %s', $order->number, auth()->user()->name));
+                MailService::send($recipients, 'Užsakymas atsiimtas', sprintf('Užsakymą %s pažymėjo kaip atsiimtą %s', $order->number, auth()->user()->name), ['order' => $order]);
 
                 break;
 
@@ -201,7 +201,7 @@ class OrderController extends Controller
                 }
 
                 $recipients = User::ofRole(Role::SUPER_ADMIN)->get();
-                MailService::send($recipients, 'Užsakymas užbaigtas', sprintf('Užsakymą %s užbaigė %s', $order->number, auth()->user()->name));
+                MailService::send($recipients, 'Užsakymas užbaigtas', sprintf('Užsakymą %s užbaigė %s', $order->number, auth()->user()->name), ['order' => $order]);
 
                 break;
         }

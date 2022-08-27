@@ -7,11 +7,11 @@ use Illuminate\Support\Facades\Mail;
 
 class MailService
 {
-    public static function send($recipients, $title, $content)
+    public static function send($recipients, $title, $content, $data = [])
     {
         foreach ($recipients as $recipient) {
             if($recipient->get_emails) {
-                Mail::to($recipient)->send(new CustomMail($title, $content));
+                Mail::to($recipient)->send(new CustomMail($title, $content, $data));
             }
         }
     }
