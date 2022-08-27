@@ -77,6 +77,7 @@ class OrderService
                         Status::ACCEPTED,
                         Status::PREPARING,
                         Status::PREPARED,
+                        Status::TAKEN,
                         Status::DONE,
                     ]);
                 }
@@ -114,6 +115,7 @@ class OrderService
             Status::CANCELED => 'Canceled',
             Status::PREPARING => 'Preparing',
             Status::PREPARED => 'Prepared',
+            Status::TAKEN => 'Taken',
             Status::DONE => 'Done',
         ];
 
@@ -130,6 +132,7 @@ class OrderService
                     Status::CANCELED => $filters[Status::CANCELED],
                     Status::PREPARING => $filters[Status::PREPARING],
                     Status::PREPARED => $filters[Status::PREPARED],
+                    Status::TAKEN => $filters[Status::TAKEN],
                     Status::DONE => $filters[Status::DONE],
                 ];
                 break;
@@ -139,6 +142,7 @@ class OrderService
                     Status::ACCEPTED => $filters[Status::ACCEPTED],
                     Status::PREPARING => $filters[Status::PREPARING],
                     Status::PREPARED => $filters[Status::PREPARED],
+                    Status::TAKEN => $filters[Status::TAKEN],
                     Status::DONE => $filters[Status::DONE],
                 ];
                 break;

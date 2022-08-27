@@ -23,6 +23,7 @@ class OrderListClassName
                     case Status::PREPARED:
                     case Status::ACCEPTED:
                     case Status::PREPARING:
+                    case Status::TAKEN:
                         $this->className = 'bg-warning';
                         break;
                 }
@@ -35,6 +36,7 @@ class OrderListClassName
                     case Status::ACCEPTED:
                     case Status::PREPARING:
                     case Status::PREPARED:
+                    case Status::TAKEN:
                         $this->className = 'bg-primary';
                         break;
                     case Status::DONE:
@@ -48,6 +50,7 @@ class OrderListClassName
                         $this->className = 'bg-danger';
                         break;
                     case Status::PREPARING:
+                    case Status::PREPARED:
                         $this->className = 'bg-warning';
                         break;
                 }
@@ -66,6 +69,7 @@ class OrderListClassName
                         break;
                     case Status::ACCEPTED:
                     case Status::PREPARED:
+                    case Status::TAKEN:
                         $this->className = 'bg-success';
                         break;
                 }

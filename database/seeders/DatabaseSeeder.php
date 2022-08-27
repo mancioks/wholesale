@@ -19,10 +19,10 @@ class DatabaseSeeder extends Seeder
             SettingSeeder::class,
             RoleSeeder::class,
             StatusSeeder::class,
+            StatusTakenSeeder::class,
             PaymentMethodSeeder::class,
             PlaceholderImageSeeder::class,
             PaymentStatusSeeder::class,
-            //ProductSeeder::class,
             UserSeeder::class,
             SuperAdminRoleSeeder::class,
         ]);

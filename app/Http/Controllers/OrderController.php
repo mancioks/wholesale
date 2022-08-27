@@ -11,6 +11,7 @@ use App\Mail\Customer\OrderAccepted;
 use App\Mail\Customer\OrderDeclined;
 use App\Mail\Customer\OrderDone;
 use App\Mail\Customer\OrderPreparing;
+use App\Mail\Customer\OrderTaken;
 use App\Mail\Warehouse\OrderReceived;
 use App\Models\Order;
 use App\Models\OrderItem;
@@ -168,15 +169,25 @@ class OrderController extends Controller
                     Mail::to($order->user)->send(new OrderPrepared($order));
                 }
 
+                $recipients = User::ofRole(Role::SUPER_ADMIN)->get();
+                MailService::send($recipients, 'Užsakymas suruoštas', sprintf('Užsakymą %s suruošė %s', $order->number, auth()->user()->name));
+
+                break;
+
+            case Status::TAKEN:
+                if($order->user->get_emails) {
+                    Mail::to($order->user)->send(new OrderTaken($order));
+                }
+
                 $recipients = User::ofRole(Role::ADMIN)->get();
                 foreach ($recipients as $recipient) {
                     if($recipient->get_emails) {
-                        Mail::to($recipient)->send(new \App\Mail\Admin\OrderPrepared($order));
+                        Mail::to($recipient)->send(new \App\Mail\Admin\OrderTaken($order));
                     }
                 }
 
                 $recipients = User::ofRole(Role::SUPER_ADMIN)->get();
-                MailService::send($recipients, 'Užsakymas suruoštas', sprintf('Užsakymą %s suruošė %s', $order->number, auth()->user()->name));
+                MailService::send($recipients, 'Užsakymas atsiimtas', sprintf('Užsakymą %s pažymėjo kaip atsiimtą %s', $order->number, auth()->user()->name));
 
                 break;
 

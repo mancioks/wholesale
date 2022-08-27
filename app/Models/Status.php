@@ -15,4 +15,5 @@ class Status extends Model
     const PREPARING = 5;
     const PREPARED = 6;
     const DONE = 7;
+    const TAKEN = 8;
 }

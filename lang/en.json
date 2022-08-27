@@ -121,5 +121,7 @@
     "%s %s missing from the warehouse (%s left)": "Trūksta %s %s (Likutis: %s)",
     "Shortage": "Trūkumas",
     "Stock": "Likutis",
-    "Save": "Išsaugoti"
+    "Save": "Išsaugoti",
+    "Taken": "Atsiimta",
+    "Order taken": "Užsakymas atsiimtas"
 }

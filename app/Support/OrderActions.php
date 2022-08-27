@@ -22,7 +22,7 @@ class OrderActions
                     Status::DECLINED => 'Decline',
                 ];
             }
-            if ($order->status->id === Status::PREPARED) {
+            if ($order->status->id === Status::TAKEN) {
                 $actions = [
                     Status::DONE => 'Complete order',
                 ];
@@ -41,6 +41,7 @@ class OrderActions
                 Status::CANCELED => 'Cancel',
                 Status::PREPARING => 'Start preparing',
                 Status::PREPARED => 'Order prepared',
+                Status::TAKEN => 'Order taken',
                 Status::DONE => 'Complete order',
                 Status::CREATED => 'Restore',
             ];
@@ -66,6 +67,11 @@ class OrderActions
             if ($order->status->id === Status::PREPARING) {
                 $actions = [
                     Status::PREPARED => 'Order prepared',
+                ];
+            }
+            if ($order->status->id === Status::PREPARED) {
+                $actions = [
+                    Status::TAKEN => 'Order taken',
                 ];
             }
         }
