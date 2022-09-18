@@ -7,6 +7,7 @@ use App\Http\Requests\StoreUserSettingsRequest;
 use App\Http\Requests\UpdateUserRequest;
 use App\Models\OrderItem;
 use App\Models\Role;
+use App\Models\Status;
 use App\Models\User;
 use App\Models\UserDetails;
 use App\Models\Warehouse;
@@ -115,7 +116,7 @@ class UserController extends Controller
 
     public function items(User $user, Request $request)
     {
-        $orders = $user->orders();
+        $orders = $user->orders()->whereNotIn('status_id', [Status::CANCELED, Status::DECLINED]);
         $filtering = false;
 
         $filterFrom = $request->get('filter_from');
