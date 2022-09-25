@@ -6,68 +6,44 @@
             <div class="col-md-12">
                 <div class="card">
                     <div class="card-body">
-                        <h2>{{ __('Products') }}</h2>
-                        <div class="actions-wrapper">
-                            <a href="{{ route('product.create') }}" class="btn btn-success"><i class="bi bi-plus-square"></i> {{ __('Create product') }}</a>
-                            <a href="{{ route('product.import') }}" class="btn btn-warning"><i class="bi bi-filetype-csv"></i>{{ __('Import products') }}</a>
+                        <div class="mb-3">
+                            <a href="{{ route('user.show', $user) }}" class="btn btn-outline-primary">{{ __('User info') }}</a>
+                            <a href="{{ route('user.orders', $user) }}" class="btn btn-outline-primary">{{ __('Orders') }}</a>
+                            <a href="{{ route('user.items', $user) }}" class="btn btn-outline-primary">{{ __('Ordered items') }}</a>
+                            <a href="{{ route('user.prices', $user) }}" class="btn btn-primary">{{ __('User prices') }}</a>
                         </div>
-                        <div class="mb-3 mt-3">
-                            <form action="{{ route('product.index') }}" method="get">
-                                <div class="position-relative">
-                                    <div class="input-group rounded">
-                                        <input type="text" class="form-control rounded" autocomplete="off" placeholder="{{ __('Search') }}" name="query" id="productSearch" value="{{ $search_query }}" />
-                                        <button type="submit" class="input-group-text border-0">
-                                            <i class="fas fa-search"></i>
-                                        </button>
-                                    </div>
-                                    <div class="position-absolute start-0 end-0 bg-light p-2 mt-1 rounded border border-white shadow d-none zindex-10" id="searchSuggestions">
-                                        <div class="">August AT-8</div>
-                                        <div class="">August AT-8</div>
-                                    </div>
-                                </div>
-                            </form>
+                        <h2 class="d-inline-block">{{ $user->name }} {{ __('Prices') }}</h2>
+                        <div>
+                            {{ __('Select product and add price to user') }}:
                         </div>
-                        <div class="mt-3">
-                            {{ $products->links('pagination::bootstrap-5') }}
-                        </div>
-                        @if($search_query)
-                            <div class="mb-3">
-                                <div class="h4 mb-0">
-                                    Search results for: "{{ $search_query }}"
+                        <div class="mb-3 mt-1">
+                            <div class="position-relative">
+                                <div class="input-group rounded">
+                                    <input type="text" class="form-control rounded" autocomplete="off" placeholder="{{ __('Search') }}" name="query" id="productSearch" />
                                 </div>
-                                <div>
-                                    <a class="small text-decoration-none text-primary" href="{{ route('product.index') }}">Show all</a>
-                                </div>
+                                <div class="position-absolute start-0 end-0 bg-light p-2 mt-1 rounded border border-white shadow d-none zindex-10" id="searchSuggestions"></div>
                             </div>
-                        @endif
-                        <table class="table">
+                        </div>
+                        <table class="table mt-3">
                             <thead class="table-dark">
                             <tr>
                                 <th scope="col">#</th>
-                                <th scope="col">{{ __('Title') }}</th>
+                                <th scope="col">{{ __('Product name') }}</th>
                                 <th scope="col">{{ __('Price') }}</th>
-                                @role('super_admin')
-                                    <th scope="col">{{ __('Prime cost') }}</th>
-                                @endrole
-                                <th scope="col">{{ __('Image') }}</th>
-                                <th scope="col"></th>
+                                <th scope="col">{{ __('User price') }}</th>
+                                <th scope="col">{{ __('Actions') }}</th>
                             </tr>
                             </thead>
                             <tbody>
-                            @forelse($products as $product)
+                            @forelse($user->prices as $product)
                                 <tr>
                                     <th scope="row">{{ $product->id }}</th>
-                                    <td>{{ $product->name }}</td>
+                                    <th scope="row">{{ $product->name }}</th>
                                     <td>{{ $product->original_price }}€</td>
-                                    @role('super_admin')
-                                        <td>{{ $product->prime_cost ?: '-' }}€</td>
-                                    @endrole
+                                    <td>{{ $product->pivot->price }}€</td>
                                     <td>
-                                        <img src="{{ asset($product->image->name) }}" class="card-img-top w-auto" style="height: 30px;">
-                                    </td>
-                                    <td>
-                                        <a href="{{ route('product.edit', $product->id) }}" class="btn btn-primary btn-sm d-inline-block">{{ __('Edit') }}</a>
-                                        <form method="post" action="{{ route('product.destroy', $product->id) }}" class="d-inline-block" onsubmit="return confirm('{{ __('Are you sure?') }}')">
+                                        <a href="{{ route('user.prices.set', [$user, $product]) }}" class="btn btn-warning btn-sm d-inline-block">{{ __('Edit') }}</a>
+                                        <form method="post" action="{{ route('user.prices.delete', [$user, $product]) }}" class="d-inline-block" onsubmit="return confirm('{{ __('Are you sure?') }}')">
                                             @csrf
                                             @method('delete')
                                             <button type="submit" class="btn btn-danger btn-sm d-inline-block">{{ __('Delete') }}</button>
@@ -76,14 +52,11 @@
                                 </tr>
                             @empty
                                 <tr>
-                                    <td colspan="5">{{ __('No products') }}</td>
+                                    <td colspan="5">{{ __('Empty') }}</td>
                                 </tr>
                             @endforelse
                             </tbody>
                         </table>
-                        <div class="mt-1">
-                            {{ $products->links('pagination::bootstrap-5') }}
-                        </div>
                     </div>
                 </div>
             </div>
@@ -113,7 +86,9 @@
         function createResultElement(item) {
             var element = document.createElement('a');
             element.classList.add('d-block', 'text-decoration-none', 'text-black');
-            element.href = '{{ route('product.edit', '%element-link%') }}'.replace('%element-link%', item.id);
+            element.href = '{{ route('user.prices.set', ['%user-id%', '%product-id%']) }}'
+                .replace('%user-id%', {{ $user->id }})
+                .replace('%product-id%', item.id);
             element.innerHTML = document.getElementById('searchSuggestion').innerHTML;
             element.innerHTML = element.innerHTML.replace('%item-name%', item.name)
                 .replace('#%item-image%', item.image)

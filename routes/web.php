@@ -68,6 +68,10 @@ Route::group(['middleware' => 'auth'], function () {
         Route::resource('user', \App\Http\Controllers\UserController::class);
         Route::get('user/{user}/orders', [\App\Http\Controllers\UserController::class, 'orders'])->name('user.orders');
         Route::get('user/{user}/items', [\App\Http\Controllers\UserController::class, 'items'])->name('user.items');
+        Route::get('user/{user}/prices', [\App\Http\Controllers\UserController::class, 'prices'])->name('user.prices');
+        Route::get('user/{user}/prices/set/{product}', [\App\Http\Controllers\UserController::class, 'setPrice'])->name('user.prices.set');
+        Route::delete('user/{user}/prices/delete/{product}', [\App\Http\Controllers\UserController::class, 'deletePrice'])->name('user.prices.delete');
+        Route::put('user/{user}/prices/assign/{product}', [\App\Http\Controllers\UserController::class, 'assignPrice'])->name('user.prices.assign');
         Route::get('user/{user}/activate', [\App\Http\Controllers\UserController::class, 'activate'])->name('user.activate');
         Route::get('user/{user}/deactivate', [\App\Http\Controllers\UserController::class, 'deactivate'])->name('user.deactivate');
 

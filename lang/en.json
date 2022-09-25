@@ -124,5 +124,12 @@
     "Save": "Išsaugoti",
     "Taken": "Atsiimta",
     "Order taken": "Užsakymas atsiimtas",
-    "Prime cost": "Savikaina"
+    "Prime cost": "Savikaina",
+    "User price": "Vartotojo kaina",
+    "Prices": "Kainos",
+    "Select product and add price to user": "Pasirinkite produktą ir pridėkite kainą vartotojui",
+    "User prices": "Vartotojo kainos",
+    "Product price": "Prekės kaina",
+    "Assign": "Priskirti",
+    "Price assignment": "Kainos priskyrimas"
 }

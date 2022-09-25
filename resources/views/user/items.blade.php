@@ -10,6 +10,7 @@
                             <a href="{{ route('user.show', $user) }}" class="btn btn-outline-primary">{{ __('User info') }}</a>
                             <a href="{{ route('user.orders', $user) }}" class="btn btn-outline-primary">{{ __('Orders') }}</a>
                             <a href="{{ route('user.items', $user) }}" class="btn btn-primary">{{ __('Ordered items') }}</a>
+                            <a href="{{ route('user.prices', $user) }}" class="btn btn-outline-primary">{{ __('User prices') }}</a>
                         </div>
                         <div class="row">
                             <div class="col-8">

@@ -20,7 +20,7 @@ class ProductSearchController extends Controller
                 'id' => $entity->id,
                 'name' => $entity->name,
                 'image' => env('APP_URL') . '/' . $entity->image->name,
-                'price' => price_format($entity->price) . '€',
+                'price' => price_format($entity->original_price) . '€',
             ];
         }
 

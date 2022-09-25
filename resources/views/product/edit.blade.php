@@ -24,7 +24,7 @@
                             <div class="row mb-3">
                                 <div class="col-lg-5">
                                     <label for="product_price" class="form-label">{{ __('Price') }} ({{ __('Without VAT') }})</label>
-                                    <input type="number" class="form-control" id="product_price" name="price" step=".01" value="{{ $product->price }}" required>
+                                    <input type="number" class="form-control" id="product_price" name="price" step=".01" value="{{ $product->original_price }}" required>
                                 </div>
                             </div>
                             @role('warehouse', 'customer', 'admin') <div class="d-none"> @endrole

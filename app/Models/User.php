@@ -60,6 +60,11 @@ class User extends Authenticatable
         return $this->belongsToMany(Product::class, 'cart')->withPivot('qty');
     }
 
+    public function prices()
+    {
+        return $this->belongsToMany(Product::class, 'user_prices')->withPivot('price');
+    }
+
     public static function boot() {
         parent::boot();
 
@@ -67,11 +72,6 @@ class User extends Authenticatable
             if($user->orders) {
                 foreach ($user->orders as $order) {
                     $order->delete();
-                }
-            }
-            if($user->cart) {
-                foreach ($user->cart as $cart) {
-                    $cart->delete();
                 }
             }
             if($user->import_queue) {

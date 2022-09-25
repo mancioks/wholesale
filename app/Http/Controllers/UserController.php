@@ -2,10 +2,12 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\AssignPriceRequest;
 use App\Http\Requests\StoreUserRequest;
 use App\Http\Requests\StoreUserSettingsRequest;
 use App\Http\Requests\UpdateUserRequest;
 use App\Models\OrderItem;
+use App\Models\Product;
 use App\Models\Role;
 use App\Models\Status;
 use App\Models\User;
@@ -142,5 +144,38 @@ class UserController extends Controller
         $items = $items->groupBy(['name', 'price']);
 
         return view('user.items', compact('items', 'user', 'filtering'));
+    }
+
+    public function prices(User $user)
+    {
+        return view('user.prices', compact('user'));
+    }
+
+    public function setPrice(User $user, Product $product)
+    {
+        $userPrice = $product->priceUsers()->where('user_id', $user->id)->first();
+
+        return view('user.prices.set', compact('user', 'product', 'userPrice'));
+    }
+
+    public function assignPrice(User $user, Product $product, AssignPriceRequest $request)
+    {
+        if ($user->prices()->where('product_id', $product->id)->exists()) {
+            $user->prices()->find($product)->pivot->update(['price' => $request->post('user_price')]);
+        } else {
+            $user->prices()->attach($product, ['price' => $request->post('user_price')]);
+        }
+
+        return redirect()->route('user.prices', $user)->with('status', 'Price assigned');
+    }
+
+    public function deletePrice(User $user, Product $product)
+    {
+        if ($user->prices()->where('product_id', $product->id)->exists()) {
+            $user->prices()->detach($product);
+            return redirect()->route('user.prices', $user)->with('status', 'Price removed');
+        }
+
+        return abort(404);
     }
 }
