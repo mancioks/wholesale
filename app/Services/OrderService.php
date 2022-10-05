@@ -18,11 +18,30 @@ class OrderService
             abort(403);
         }
 
+        $user = auth()->user();
+        if ($user->acting()->exists()) {
+            $user = $user->acting;
+        }
+
+        if ($user->details()->exists()) {
+            $details['company_name'] = $user->details->company_name ?: '-';
+            $details['address'] = $user->details->address ?: '-';
+            $details['registration_code'] = $user->details->registration_code ?: '-';
+            $details['vat_number'] = $user->details->vat_number ?: '-';
+            $details['phone_number'] = $user->details->phone_number ?: '-';
+        } else {
+            $details['company_name'] = '-';
+            $details['address'] = '-';
+            $details['registration_code'] = '-';
+            $details['vat_number'] = '-';
+            $details['phone_number'] = '-';
+        }
+
         return Order::query()->create([
-            'user_id' => auth()->id(),
+            'user_id' => $user->id,
             'status_id' => 1,
             'discount' => 0,
-            'pvm' => $request->post('invoice_to_other') ? setting('pvm') : auth()->user()->pvm_size,
+            'pvm' => $request->post('invoice_to_other') ? setting('pvm') : $user->pvm_size,
             'total' => auth()->user()->total,
             'payment_method_id' => $request->post('payment_method'),
             'payment_status_id' => PaymentStatus::WAITING,
@@ -30,13 +49,14 @@ class OrderService
             'warehouse_id' => $request->post('warehouse_id'),
             'message' => $request->post('message'),
             'company_details' => setting('company.details'),
-            'customer_name' => $request->post('invoice_to_other') ? $request->post('name') : auth()->user()->name,
-            'customer_email' => $request->post('invoice_to_other') ? $request->post('email') : auth()->user()->email,
-            'customer_company_name' => $request->post('invoice_to_other') ? $request->post('company_name') : auth()->user()->details->company_name,
-            'customer_company_address' => $request->post('invoice_to_other') ? $request->post('address') : auth()->user()->details->address,
-            'customer_company_registration_code' => $request->post('invoice_to_other') ? $request->post('registration_code') : auth()->user()->details->registration_code,
-            'customer_company_vat_number' => $request->post('invoice_to_other') ? $request->post('vat_number') : auth()->user()->details->vat_number,
-            'customer_company_phone_number' => $request->post('invoice_to_other') ? $request->post('phone_number') : auth()->user()->details->phone_number,
+            'customer_name' => $request->post('invoice_to_other') ? $request->post('name') : $user->name,
+            'customer_email' => $request->post('invoice_to_other') ? $request->post('email') : $user->email,
+            'customer_company_name' => $request->post('invoice_to_other') ? $request->post('company_name') : $details['company_name'],
+            'customer_company_address' => $request->post('invoice_to_other') ? $request->post('address') : $details['address'],
+            'customer_company_registration_code' => $request->post('invoice_to_other') ? $request->post('registration_code') : $details['registration_code'],
+            'customer_company_vat_number' => $request->post('invoice_to_other') ? $request->post('vat_number') : $details['vat_number'],
+            'customer_company_phone_number' => $request->post('invoice_to_other') ? $request->post('phone_number') : $details['phone_number'],
+            'created_by' => auth()->user()->acting()->exists() ? auth()->user()->id : null,
         ]);
     }
 
@@ -52,9 +72,9 @@ class OrderService
                 'units' => $product->units,
                 'prime_cost' => $product->prime_cost,
             ]);
-
-            auth()->user()->cart()->detach($product);
         }
+
+        CartService::clearCart(auth()->user());
     }
 
     public function getOrders($user, $params = []) {

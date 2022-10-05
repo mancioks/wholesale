@@ -126,22 +126,36 @@
         </nav>
         <div style="height: 60px;"></div>
         <main class="py-4">
-            @prefix('order')
-            @if(auth()->user()->details()->doesntExist())
-                <div class="container">
-                    <div class="row justify-content-center">
-                        <div class="col-md-12">
-                            <div class="alert alert-dark">
-                                {{ __('Add company details to make orders.') }}
-                                <div class="pt-2">
-                                    <a href="{{ route('user.settings') }}" class="btn btn-primary">Add company details</a>
+            @route('order.create', 'cart', 'order.review')
+                @if(auth()->user()->acting()->exists())
+                    <div class="container">
+                        <div class="row justify-content-center">
+                            <div class="col-md-12">
+                                <div class="alert alert-primary">
+                                    {{ sprintf(__('Creating order for %s'), auth()->user()->acting->name) }}
+                                    <div class="pt-2">
+                                        <a href="{{ route('user.remove-acting') }}" class="btn btn-secondary">{{ __('Cancel') }}</a>
+                                    </div>
                                 </div>
                             </div>
                         </div>
                     </div>
-                </div>
-            @endif
-            @endprefix
+                @endif
+                @if(auth()->user()->details()->doesntExist())
+                    <div class="container">
+                        <div class="row justify-content-center">
+                            <div class="col-md-12">
+                                <div class="alert alert-dark">
+                                    {{ __('Add company details to make orders.') }}
+                                    <div class="pt-2">
+                                        <a href="{{ route('user.settings') }}" class="btn btn-primary">Add company details</a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                @endif
+            @endroute
             @if ($errors->any())
                 <div class="container">
                     <div class="row justify-content-center">

@@ -4,6 +4,7 @@ namespace App\Providers;
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Blade;
+use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\View;
 use Illuminate\Support\ServiceProvider;
 
@@ -45,6 +46,15 @@ class AppServiceProvider extends ServiceProvider
 
         Blade::if('prefix', function ($prefix) {
             return request()->is($prefix.'*');
+        });
+
+        Blade::if('route', function (...$routes) {
+            foreach ($routes as $route) {
+                if (Route::currentRouteName() === $route) {
+                    return true;
+                }
+            }
+            return false;
         });
     }
 }

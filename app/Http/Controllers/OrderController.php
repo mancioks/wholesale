@@ -74,8 +74,13 @@ class OrderController extends Controller
 
     public function confirm(ConfirmOrderRequest $request, OrderService $orderService)
     {
-        if(auth()->user()->details()->doesntExist()) {
+        if (auth()->user()->details()->doesntExist()) {
             return redirect()->route('user.settings');
+        }
+
+        $user = auth()->user();
+        if ($user->acting()->exists()) {
+            $user = $user->acting;
         }
 
         $order = $orderService->create($request);
@@ -88,12 +93,24 @@ class OrderController extends Controller
             }
         }
 
-        if($order->user->get_emails) {
+        if ($order->user->get_emails) {
             Mail::to($order->user)->send(new \App\Mail\Customer\OrderCreated($order));
         }
 
         $recipients = User::ofRole(Role::SUPER_ADMIN)->get();
-        MailService::send($recipients, 'Sukurtas naujas užsakymas', sprintf('Užsakymą %s sukūrė %s', $order->number, auth()->user()->name), ['order' => $order]);
+
+        $orderCreatedBy = $user->name;
+        if (auth()->user()->acting()->exists()) {
+            $orderCreatedBy = $orderCreatedBy . ' (admin: '.auth()->user()->name.')';
+        }
+
+        MailService::send($recipients, 'Sukurtas naujas užsakymas', sprintf('Užsakymą %s sukūrė %s', $order->number, $orderCreatedBy), ['order' => $order]);
+
+        if (auth()->user()->acting()->exists()) {
+            auth()->user()->update(['acting_as' => null]);
+
+            return redirect()->route('order.show', $order)->with('status', sprintf(__('Order created for %s'), $user->name));
+        }
 
         return redirect()->route('order.success', $order)->with('status', 'Order created');
     }
@@ -105,7 +122,7 @@ class OrderController extends Controller
 
     public function setStatus(Order $order, Status $status)
     {
-        if(!array_key_exists($status->id, $order->actions)) {
+        if (!array_key_exists($status->id, $order->actions)) {
             return redirect()->back()->withErrors(['Cannot change status, try again']);
         }
 
@@ -117,7 +134,7 @@ class OrderController extends Controller
             case Status::CANCELED:
                 $recipients = User::ofRole(Role::ADMIN)->get();
                 foreach ($recipients as $recipient) {
-                    if($recipient->get_emails) {
+                    if ($recipient->get_emails) {
                         Mail::to($recipient)->send(new OrderCanceled($order));
                     }
                 }

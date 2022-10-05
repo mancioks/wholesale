@@ -24,6 +24,7 @@ class User extends Authenticatable
         'pvm',
         'warehouse_id',
         'activated',
+        'acting_as'
     ];
 
     /**
@@ -109,7 +110,13 @@ class User extends Authenticatable
 
     public function getPvmSizeAttribute()
     {
-        return $this->pvm ? Setting::get('pvm') : 0;
+        $pvmSize = $this->pvm ? Setting::get('pvm') : 0;
+
+        if ($this->acting()->exists()) {
+            $pvmSize = $this->acting->pvm ? Setting::get('pvm') : 0;
+        }
+
+        return $pvmSize;
     }
 
     public function getGetEmailsAttribute()
@@ -142,5 +149,10 @@ class User extends Authenticatable
     public function warehouse()
     {
         return $this->hasOne(Warehouse::class, 'id', 'warehouse_id');
+    }
+
+    public function acting()
+    {
+        return $this->hasOne(User::class, 'id', 'acting_as');
     }
 }

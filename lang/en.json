@@ -131,5 +131,9 @@
     "User prices": "Vartotojo kainos",
     "Product price": "Prekės kaina",
     "Assign": "Priskirti",
-    "Price assignment": "Kainos priskyrimas"
+    "Price assignment": "Kainos priskyrimas",
+    "Creating order for %s": "Kuriamas užsakymas vartotojui %s",
+    "Cart empty": "Krepšelis tuščias",
+    "Order created for %s": "Sukurtas užsakymas vartotojui %s",
+    "Created by": "Užsakymą sukūrė"
 }

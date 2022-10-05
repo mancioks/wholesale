@@ -29,6 +29,7 @@ class Order extends Model
         'customer_company_registration_code',
         'customer_company_vat_number',
         'customer_company_phone_number',
+        'created_by',
     ];
 
     public function status()
@@ -156,5 +157,10 @@ class Order extends Model
     public function getActionsAttribute()
     {
         return (new OrderActions($this))->get();
+    }
+
+    public function createdByUser()
+    {
+        return $this->hasOne(User::class, 'id', 'created_by');
     }
 }

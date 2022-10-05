@@ -45,8 +45,16 @@ class Product extends Model
     {
         return Attribute::make(
             get: function ($price) {
-                if ($custom = $this->priceUsers()->where('user_id', Auth::id())->first()) {
-                    $price = $custom->pivot->price;
+                if (auth()->user()) {
+                    $userIdForPrice = auth()->user()->id;
+
+                    if (auth()->user()->acting()->exists()) {
+                        $userIdForPrice = auth()->user()->acting->id;
+                    }
+
+                    if ($custom = $this->priceUsers()->where('user_id', $userIdForPrice)->first()) {
+                        $price = $custom->pivot->price;
+                    }
                 }
 
                 return $price;

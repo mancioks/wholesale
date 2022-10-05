@@ -254,6 +254,14 @@
                         </div>
                     </div>
                 @endif
+                @if($order->created_by)
+                    <div class="card mt-3 shadow shadow-sm">
+                        <div class="card-header bg-secondary text-white">{{ __('Created by') }}</div>
+                        <div class="card-body">
+                            {{ $order->createdByUser->name }}
+                        </div>
+                    </div>
+                @endif
             </div>
         </div>
     </div>

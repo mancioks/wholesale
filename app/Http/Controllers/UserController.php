@@ -13,6 +13,7 @@ use App\Models\Status;
 use App\Models\User;
 use App\Models\UserDetails;
 use App\Models\Warehouse;
+use App\Services\CartService;
 use Illuminate\Http\Request;
 use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\Hash;
@@ -177,5 +178,21 @@ class UserController extends Controller
         }
 
         return abort(404);
+    }
+
+    public function actAs(User $user)
+    {
+        auth()->user()->update(['acting_as' => $user->id]);
+        CartService::clearCart(auth()->user());
+
+        return redirect()->route('order.create');
+    }
+
+    public function removeActing()
+    {
+        auth()->user()->update(['acting_as' => null]);
+        CartService::clearCart(auth()->user());
+
+        return redirect()->back()->with('success', __('Acting as canceled'));
     }
 }
