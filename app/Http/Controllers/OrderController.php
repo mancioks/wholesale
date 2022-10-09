@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\ConfirmOrderRequest;
 use App\Http\Requests\ShortageRequest;
+use App\Http\Requests\UpdateOrderRequest;
 use App\Mail\Admin\OrderCanceled;
 use App\Mail\Admin\OrderCreated;
 use App\Mail\Customer\OrderPrepared;
@@ -41,6 +42,70 @@ class OrderController extends Controller
         $this->authorize('view', $order);
         $paymentMethods = PaymentMethod::all();
         return view('order.show', compact('order', 'paymentMethods'));
+    }
+
+    public function edit(Order $order)
+    {
+        $warehouses = Warehouse::all();
+        $paymentMethods = PaymentMethod::all();
+
+        return view('order.edit', compact('order', 'warehouses', 'paymentMethods'));
+    }
+
+    public function update(Order $order, UpdateOrderRequest $request)
+    {
+        $order->update([
+            'payment_method_id' => $request->post('payment_method_id'),
+            'warehouse_id' => $request->post('warehouse_id'),
+        ]);
+
+        $updatedProducts = $request->post('product');
+
+        if ($updatedProducts) {
+            foreach ($updatedProducts as $productId => $updatedProduct) {
+                $orderItem = OrderItem::query()->where(['id' => $productId])->firstOrFail();
+                $orderItem->update($updatedProduct);
+            }
+        }
+
+        $order = OrderService::recalculate($order);
+
+        return redirect()->route('order.show', $order)->with('status', 'Order updated');
+    }
+
+    public function removeItem(OrderItem $item)
+    {
+        $order = $item->order;
+        $item->delete();
+
+        OrderService::recalculate($order);
+
+        return redirect()->route('order.edit', $order)->with('status', 'Item removed');
+    }
+
+    public function addItem(Order $order, Product $product)
+    {
+        $orderUser = $order->user;
+        $userPrice = $product->priceUsers()->where(['user_id' => $orderUser->id]);
+
+        $price = $product->original_price;
+        if ($userPrice->exists()) {
+            $price = $userPrice->first()->pivot->price;
+        }
+
+        OrderItem::query()->create([
+            'order_id' => $order->id,
+            'name' => $product->name,
+            'price' => $price,
+            'product_id' => $product->id,
+            'qty' => 1,
+            'units' => $product->units,
+            'prime_cost' => $product->prime_cost,
+        ]);
+
+        OrderService::recalculate($order);
+
+        return redirect()->back()->with('status', 'Product added');
     }
 
     public function review()

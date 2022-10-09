@@ -172,4 +172,19 @@ class OrderService
 
         return $userFilters;
     }
+
+    public static function recalculate(Order $order)
+    {
+        $total = 0;
+
+        foreach ($order->items as $product) {
+            $total += $product->price * $product->qty;
+        }
+
+        $total = price_format($total * (1 + $order->pvm / 100));
+
+        $order->update(['total' => $total]);
+
+        return $order;
+    }
 }

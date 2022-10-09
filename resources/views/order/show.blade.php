@@ -11,7 +11,7 @@
                             <p>{{ $order->customer_name }}, {{ $order->customer_company_name }} {{ $order->customer_company_phone_number }} {{ $order->customer_email }}</p>
                         @endrole
                         <div class="products-wrapper row gx-2 gy-2">
-                            @foreach($order->items as $product)
+                            @forelse($order->items as $product)
                                 <div class="col-lg-4 col-md-6">
                                     <div class="card shadow-sm {{ !$product->shortage ?: 'border-danger' }}">
                                         <div class="card-body p-2">
@@ -40,7 +40,11 @@
                                         </div>
                                     </div>
                                 </div>
-                            @endforeach
+                            @empty
+                                <div class="p-2 ps-2 fs-5 text-black text-center bg-secondary bg-opacity-10 pt-5 pb-5 rounded-3 mt-1">
+                                    {{ __('No products') }}
+                                </div>
+                            @endforelse
                         </div>
                     </div>
                 </div>
@@ -110,6 +114,9 @@
                             </div>
                             @endrole
                             @role('super_admin')
+                            <a href="{{ route('order.edit', $order) }}" class="btn btn-sm btn-light d-inline-block text-primary">
+                                <i class="bi bi-pencil-fill"></i>
+                            </a>
                             <form method="post" action="{{ route('order.destroy', $order) }}" class="d-inline-block" onsubmit="return confirm('{{ __('Are you sure?') }}')">
                                 @csrf
                                 @method('delete')

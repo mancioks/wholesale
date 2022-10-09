@@ -193,6 +193,6 @@ class UserController extends Controller
         auth()->user()->update(['acting_as' => null]);
         CartService::clearCart(auth()->user());
 
-        return redirect()->back()->with('success', __('Acting as canceled'));
+        return redirect()->back()->with('status', __('Acting as canceled'));
     }
 }

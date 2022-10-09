@@ -83,6 +83,10 @@ Route::group(['middleware' => 'auth'], function () {
 
     Route::group(['middleware' => 'role:super_admin'], function() {
         Route::delete('order/{order}', [\App\Http\Controllers\OrderController::class, 'destroy'])->name('order.destroy');
+        Route::get('order/{order}/edit', [\App\Http\Controllers\OrderController::class, 'edit'])->name('order.edit');
+        Route::get('order-item/{item}/remove', [\App\Http\Controllers\OrderController::class, 'removeItem'])->name('order.item.remove');
+        Route::get('order/{order}/add/{product}', [\App\Http\Controllers\OrderController::class, 'addItem'])->name('order.item.add');
+        Route::post('order/{order}/update', [\App\Http\Controllers\OrderController::class, 'update'])->name('order.update');
     });
 
     Route::group(['middleware' => 'role:warehouse,super_admin'], function() {

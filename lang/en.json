@@ -135,5 +135,8 @@
     "Creating order for %s": "Kuriamas užsakymas vartotojui %s",
     "Cart empty": "Krepšelis tuščias",
     "Order created for %s": "Sukurtas užsakymas vartotojui %s",
-    "Created by": "Užsakymą sukūrė"
+    "Created by": "Užsakymą sukūrė",
+    "Order %s editing": "Užsakymo %s redagavimas",
+    "Select product you want to add": "Pasirinkite norimą pridėti produktą",
+    "No products": "Produktų nėra"
 }
