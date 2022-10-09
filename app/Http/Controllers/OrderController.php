@@ -33,8 +33,25 @@ class OrderController extends Controller
     public function create(Request $request)
     {
         $search_query = $request->get('query');
-        $products = Product::search($search_query)->orderBy('id', 'desc')->paginate(8);
-        return view('order.create', compact('products', 'search_query'));
+        $warehouses = Warehouse::where('active', true)->get();
+
+        //$products = Product::search($search_query)->orderBy('id', 'desc')->paginate(8);
+
+
+        $products = Product::query()
+            ->with('warehouses')
+            ->whereHas('warehouses', function ($q) {
+                $q->where('warehouse_id', auth()->user()->warehouse->id)->where('enabled', true);
+            })
+            ->where('name', 'LIKE', '%'.$search_query.'%')
+            ->orWhereHas('warehouses', function ($q) {
+                $q->where('warehouse_id', auth()->user()->warehouse->id)->where('enabled', true);
+            })
+            ->where(['id' => $search_query])
+            ->orderBy('id', 'desc')
+            ->paginate(8);
+
+        return view('order.create', compact('products', 'search_query', 'warehouses'));
     }
 
     public function show(Order $order)

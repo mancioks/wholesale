@@ -54,11 +54,10 @@
                                 <div class="warehouse-method mt-3">
                                     <h4>{{ __('Warehouse') }}</h4>
                                     @foreach($warehouses as $warehouse)
-                                        <input type="radio" class="btn-check" name="warehouse_id" value="{{ $warehouse->id }}" id="warehouse{{ $loop->index }}" autocomplete="off" {{ $loop->first ? 'checked' : '' }}>
-                                        <label class="btn btn-outline-primary text-start" for="warehouse{{ $loop->index }}">
+                                        <div class="btn btn-outline-dark text-start mb-1 @if(auth()->user()->warehouse->id === $warehouse->id) bg-dark text-white @else disabled opacity-25 @endif ">
                                             <b>{{ $warehouse->name }}</b><br>
                                             {{ $warehouse->address }}
-                                        </label>
+                                        </div>
                                     @endforeach
                                 </div>
                                 <div class="add-comment-to-order mt-3">

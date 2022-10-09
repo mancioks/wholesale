@@ -29,17 +29,21 @@ class UserController extends Controller
     public function create()
     {
         $roles = Role::all();
+
         return view('user.create', compact('roles'));
     }
 
     public function store(StoreUserRequest $request)
     {
+        $warehouse = Warehouse::query()->first();
+
         User::create([
             'name' => $request->post('name'),
             'email' => $request->post('email'),
             'password' => Hash::make($request->post('password')),
             'role_id' => $request->post('role_id'),
             'pvm' => $request->post('pvm') ? 1:0,
+            'warehouse_id' => $warehouse->id,
         ]);
 
         return redirect()->back()->with('status', 'User created');
@@ -48,9 +52,8 @@ class UserController extends Controller
     public function edit(User $user)
     {
         $roles = Role::all();
-        $warehouses = Warehouse::all();
 
-        return view('user.edit', compact('user', 'roles', 'warehouses'));
+        return view('user.edit', compact('user', 'roles'));
     }
 
     public function update(UpdateUserRequest $request, User $user)
@@ -64,7 +67,6 @@ class UserController extends Controller
             'email' => $request->post('email'),
             'role_id' => $request->post('role_id') ?: $user->role->id,
             'pvm' => $request->post('pvm') ? 1:0,
-            'warehouse_id' => $request->post('warehouse_id') !== 'null' ? $request->post('warehouse_id') : null,
         ]);
 
         return redirect()->back()->with('status', 'User updated');

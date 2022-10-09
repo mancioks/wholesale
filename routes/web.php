@@ -31,6 +31,8 @@ Route::group(['middleware' => 'auth'], function () {
         });
     });
 
+    Route::get('set/warehouse/{warehouse}', [\App\Http\Controllers\WarehouseController::class, 'setWarehouse'])->name('warehouse.set');
+
     Route::get('order/{order}', [\App\Http\Controllers\OrderController::class, 'show'])->name('order.show');
     Route::get('order/{order}/set/{status}', [\App\Http\Controllers\OrderController::class, 'setStatus'])->name('order.set.status');
 
@@ -57,6 +59,7 @@ Route::group(['middleware' => 'auth'], function () {
         });
 
         Route::resource('product', \App\Http\Controllers\ProductController::class);
+        Route::post('product/{product}/update-warehouses', [\App\Http\Controllers\ProductController::class, 'updateWarehouses'])->name('product.update.warehouses');
 
         Route::resource('warehouse', \App\Http\Controllers\WarehouseController::class);
     });

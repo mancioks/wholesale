@@ -27,11 +27,13 @@
                                     <td>{{ $warehouse->active }}</td>
                                     <td>
                                         <a href="{{ route('warehouse.edit', $warehouse->id) }}" class="btn btn-primary btn-sm d-inline-block">{{ __('Edit') }}</a>
+                                        {{--
                                         <form method="post" action="{{ route('warehouse.destroy', $warehouse->id) }}" class="d-inline-block" onsubmit="return confirm('{{ __('Are you sure?') }}')">
                                             @csrf
                                             @method('delete')
                                             <button type="submit" class="btn btn-danger btn-sm d-inline-block">{{ __('Delete') }}</button>
                                         </form>
+                                        --}}
                                     </td>
                                 </tr>
                             @empty

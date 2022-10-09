@@ -5,10 +5,12 @@ namespace App\Http\Controllers;
 use App\Http\Requests\ImportCsvRequest;
 use App\Http\Requests\StoreProductRequest;
 use App\Http\Requests\UpdateProductRequest;
+use App\Http\Requests\UpdateWarehousePriceRequest;
 use App\Imports\ProductsImport;
 use App\Models\Image;
 use App\Models\Product;
 use App\Models\Setting;
+use App\Services\WarehouseService;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
 use Maatwebsite\Excel\Facades\Excel;
@@ -38,6 +40,9 @@ class ProductController extends Controller
             'product_id' => $product->id,
         ]);
 
+        /** @var Product $product */
+        WarehouseService::attachProduct($product);
+
         return redirect()->back()->with('status', 'Product created');
     }
 
@@ -63,7 +68,7 @@ class ProductController extends Controller
             ]);
         }
 
-        return redirect()->route('product.index')->with('status', 'Product updated');
+        return redirect()->back()->with('status', 'Product updated');
     }
 
     public function destroy($id)
@@ -119,12 +124,37 @@ class ProductController extends Controller
             if ($product->exists()) {
                 $product->first()->update($data);
             } else {
-                Product::query()->create($data);
+                /** @var Product $product */
+                $product = Product::query()->create($data);
+
+                WarehouseService::attachProduct($product);
             }
         }
 
         auth()->user()->importQueue()->delete();
 
         return redirect()->route('product.index')->with('status', 'Import success');
+    }
+
+    public function updateWarehouses(UpdateWarehousePriceRequest $request, Product $product)
+    {
+        foreach ($request->post('warehouse') as $warehouseId => $data) {
+            $updateWarehouse = $product->warehouses()->where('warehouse_id', $warehouseId)->first();
+
+            if ($updateWarehouse) {
+                $enabled = isset($data['enabled']) ? 1 : 0;
+
+                $price = null;
+                if (isset($data['price']) && price_format($data['price']) !== $product->original_price) {
+                    $price = price_format($data['price']);
+                }
+
+                $update = ['enabled' => $enabled, 'price' => $price];
+
+                $updateWarehouse->pivot->update($update);
+            }
+        }
+
+        return redirect()->back()->with('status', 'Warehouses settings updated');
     }
 }

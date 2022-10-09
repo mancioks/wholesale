@@ -31,15 +31,6 @@
                                     </div>
                                     @endrole
                                     <div>
-                                        <label for="warehouse_id" class="form-label">{{ __('Warehouse') }}</label>
-                                        <select class="form-select" id="warehouse_id" name="warehouse_id">
-                                            <option value="null">{{ __('Not selected') }}</option>
-                                            @foreach($warehouses as $warehouse)
-                                                <option value="{{ $warehouse->id }}" {{ $warehouse->id == $user->warehouse_id ? 'selected':'' }}>{{ $warehouse->name }}</option>
-                                            @endforeach
-                                        </select>
-                                    </div>
-                                    <div>
                                         <div class="form-check form-switch mt-3">
                                             <input class="form-check-input" type="checkbox" role="switch" value="1" id="user_pvm" name="pvm" {{ $user->pvm ? 'checked' : '' }}>
                                             <label class="form-check-label" for="user_pvm">{{ __('PVM') }}</label>

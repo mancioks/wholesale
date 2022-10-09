@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Auth;
 
 use App\Http\Controllers\Controller;
 use App\Models\Role;
+use App\Models\Warehouse;
 use App\Providers\RouteServiceProvider;
 use App\Models\User;
 use App\Services\MailService;
@@ -66,12 +67,15 @@ class RegisterController extends Controller
      */
     protected function create(array $data)
     {
+        $warehouse = Warehouse::query()->first();
+
         $user = User::create([
             'name' => $data['name'],
             'email' => $data['email'],
             'password' => Hash::make($data['password']),
             'role_id' => 1,
             'pvm' => 1,
+            'warehouse_id' => $warehouse->id,
         ]);
 
         $recipients = User::ofRole(Role::ADMIN, Role::SUPER_ADMIN)->get();

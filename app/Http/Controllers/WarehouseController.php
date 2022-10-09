@@ -4,6 +4,8 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\StoreWarehouseRequest;
 use App\Models\Warehouse;
+use App\Services\CartService;
+use App\Services\WarehouseService;
 
 class WarehouseController extends Controller
 {
@@ -27,7 +29,10 @@ class WarehouseController extends Controller
 
     public function store(StoreWarehouseRequest $request)
     {
-        Warehouse::query()->create($request->validated() + ['active' => $request->post('active') ? 1:0,]);
+        /** @var Warehouse $warehouse */
+        $warehouse = Warehouse::query()->create($request->validated() + ['active' => $request->post('active') ? 1:0,]);
+
+        WarehouseService::attachWarehouse($warehouse);
 
         return redirect()->route('warehouse.index')->with('status', __('Warehouse created'));
     }
@@ -42,5 +47,17 @@ class WarehouseController extends Controller
         $warehouse->update($request->validated() + ['active' => $request->post('active') ? 1:0,]);
 
         return redirect()->back()->with('status', __('Warehouse updated'));
+    }
+
+    public function setWarehouse(Warehouse $warehouse)
+    {
+        CartService::clearCart(auth()->user());
+
+        if ($warehouse->active) {
+            auth()->user()->update(['warehouse_id' => $warehouse->id]);
+            return redirect()->route('order.create')->with('status', 'Warehouse changed');
+        }
+
+        return redirect()->route('order.create')->withErrors(['Warehouse not active']);
     }
 }

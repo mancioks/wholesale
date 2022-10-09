@@ -25,6 +25,15 @@
                                 </div>
                             </form>
                         </div>
+                        <div class="warehouse-method mt-3 mb-3">
+                            <h4>{{ __('Warehouse') }}</h4>
+                            @foreach($warehouses as $warehouse)
+                                <a href="{{ route('warehouse.set', $warehouse) }}" class="btn btn-outline-dark text-start mb-1 @if(auth()->user()->warehouse->id === $warehouse->id) bg-dark text-white @endif ">
+                                    <b>{{ $warehouse->name }}</b><br>
+                                    {{ $warehouse->address }}
+                                </a>
+                            @endforeach
+                        </div>
                         <div>
                             {{ $products->links('pagination::bootstrap-5') }}
                         </div>
@@ -101,8 +110,7 @@
             element.href = '{{ route('order.create') }}?query=%search-query%'.replace('%search-query%', item.name);
             element.innerHTML = document.getElementById('searchSuggestion').innerHTML;
             element.innerHTML = element.innerHTML.replace('%item-name%', item.name)
-                .replace('#%item-image%', item.image)
-                .replace('%item-price%', item.price);
+                .replace('#%item-image%', item.image);
 
             return element;
         }
@@ -138,7 +146,6 @@
                 <img src="#%item-image%" class="card-img-top w-auto" style="height: 30px;">
             </div>
             %item-name%
-            <span class="badge bg-secondary bg-opacity-10 text-secondary">%item-price%</span>
         </div>
     </script>
 @endsection

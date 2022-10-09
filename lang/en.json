@@ -138,5 +138,10 @@
     "Created by": "Užsakymą sukūrė",
     "Order %s editing": "Užsakymo %s redagavimas",
     "Select product you want to add": "Pasirinkite norimą pridėti produktą",
-    "No products": "Produktų nėra"
+    "No products": "Produktų nėra",
+    "Can buy": "Galima pirkti",
+    "Update product info": "Atnaujinti produkto informaciją",
+    "Update warehouses settings": "Atnaujinti sandėlių informaciją",
+    "Fixed": "Fiksuota",
+    "Inherited": "Paveldėta"
 }

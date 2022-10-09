@@ -36,6 +36,11 @@ class Product extends Model
         return $this->belongsToMany(Product::class, 'user_prices')->withPivot('price');
     }
 
+    public function warehouses()
+    {
+        return $this->belongsToMany(Warehouse::class, 'warehouse_product')->withPivot(['price', 'enabled']);
+    }
+
     public function getImageAttribute()
     {
         return $this->photo()->exists() ? $this->photo : Image::placeholder();
@@ -50,6 +55,14 @@ class Product extends Model
 
                     if (auth()->user()->acting()->exists()) {
                         $userIdForPrice = auth()->user()->acting->id;
+                    }
+
+                    if (auth()->user()->warehouse()->exists()) {
+                        if ($custom = $this->warehouses()->where('warehouse_id', auth()->user()->warehouse->id)->first()) {
+                            if ($custom->pivot->price) {
+                                $price = $custom->pivot->price;
+                            }
+                        }
                     }
 
                     if ($custom = $this->priceUsers()->where('user_id', $userIdForPrice)->first()) {
