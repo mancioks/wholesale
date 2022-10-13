@@ -141,20 +141,6 @@
                         </div>
                     </div>
                 @endif
-                @if(auth()->user()->details()->doesntExist())
-                    <div class="container">
-                        <div class="row justify-content-center">
-                            <div class="col-md-12">
-                                <div class="alert alert-dark">
-                                    {{ __('Add company details to make orders.') }}
-                                    <div class="pt-2">
-                                        <a href="{{ route('user.settings') }}" class="btn btn-primary">Add company details</a>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                @endif
             @endroute
             @if ($errors->any())
                 <div class="container">

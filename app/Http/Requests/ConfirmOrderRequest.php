@@ -27,13 +27,6 @@ class ConfirmOrderRequest extends FormRequest
         return [
             'payment_method' => ['required', 'exists:payment_methods,id'],
             'message' => [''],
-            'name' => [Rule::when(function () { return $this->post('invoice_to_other'); }, ['required'])],
-            'email' => [Rule::when(function () { return $this->post('invoice_to_other'); }, ['required'])],
-            'company_name' => [Rule::when(function () { return $this->post('invoice_to_other'); }, ['required'])],
-            'address' => [Rule::when(function () { return $this->post('invoice_to_other'); }, ['required'])],
-            'registration_code' => [Rule::when(function () { return $this->post('invoice_to_other'); }, ['required'])],
-            'vat_number' => [Rule::when(function () { return $this->post('invoice_to_other'); }, ['required'])],
-            'phone_number' => [Rule::when(function () { return $this->post('invoice_to_other'); }, ['required'])],
         ];
     }
 }

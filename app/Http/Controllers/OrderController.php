@@ -129,8 +129,9 @@ class OrderController extends Controller
     {
         $payment_methods = PaymentMethod::all();
         $warehouses = Warehouse::where('active', true)->get();
+        $user = auth()->user()->acting()->exists() ? auth()->user()->acting : auth()->user();
 
-        return view('order.review', compact('payment_methods', 'warehouses'));
+        return view('order.review', compact('payment_methods', 'warehouses', 'user'));
     }
 
     public function destroy(Order $order)
@@ -156,10 +157,6 @@ class OrderController extends Controller
 
     public function confirm(ConfirmOrderRequest $request, OrderService $orderService)
     {
-        if (auth()->user()->details()->doesntExist()) {
-            return redirect()->route('user.settings');
-        }
-
         $user = auth()->user();
         if ($user->acting()->exists()) {
             $user = $user->acting;

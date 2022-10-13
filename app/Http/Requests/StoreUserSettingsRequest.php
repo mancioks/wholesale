@@ -24,11 +24,11 @@ class StoreUserSettingsRequest extends FormRequest
     public function rules()
     {
         return [
-            'company_name' => 'required',
-            'address' => 'required',
-            'registration_code' => 'required',
-            'vat_number' => 'required',
-            'phone_number' => 'required',
+            'company_name' => '',
+            'address' => '',
+            'registration_code' => '',
+            'vat_number' => '',
+            'phone_number' => '',
         ];
     }
 }

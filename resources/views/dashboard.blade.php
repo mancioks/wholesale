@@ -57,7 +57,7 @@
                                     <div class="card shadow-sm">
                                         <div class="card-header {{ $order->list_class }} text-white">
                                             {{ __('Order') }} {{ $order->number }}
-                                            @role('admin', 'warehouse', 'super_admin') ({{ $order->user->name }}, {{ $order->customer_company_name }}) @endrole
+                                            @role('admin', 'warehouse', 'super_admin') ({{ $order->user->name }}) @endrole
                                         </div>
                                         <div class="card-body p-3 pb-0">
                                             <div class="row">

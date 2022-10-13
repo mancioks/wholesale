@@ -30,6 +30,7 @@ class Order extends Model
         'customer_company_vat_number',
         'customer_company_phone_number',
         'created_by',
+        'pre_invoice_required',
     ];
 
     public function status()

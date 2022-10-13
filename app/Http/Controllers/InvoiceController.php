@@ -9,6 +9,11 @@ class InvoiceController extends Controller
     public function invoice(Order $order)
     {
         $this->authorize('view', $order);
+
+        if (!$order->pre_invoice_required) {
+            abort(404);
+        }
+
         return $order->invoice->stream();
     }
 

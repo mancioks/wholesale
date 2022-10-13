@@ -31,10 +31,14 @@ class OrderCreated extends Mailable
      */
     public function build()
     {
-        return $this->subject('Užsakymas sukurtas!')
-            ->view('email.customer.created')
-            ->attachData($this->order->invoice->output(), 'invoice.pdf', [
+        $response = $this->subject('Užsakymas sukurtas!')->view('email.customer.created');
+
+        if ($this->order->pre_invoice_required) {
+            $response->attachData($this->order->invoice->output(), 'invoice.pdf', [
                 'mime' => 'application/pdf',
             ]);
+        }
+
+        return $response;
     }
 }

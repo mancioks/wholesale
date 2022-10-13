@@ -12,27 +12,27 @@
                             <div class="row">
                                 <div class="col-lg-3 mb-3">
                                     <label class="form-label">{{ __('Company name') }}</label>
-                                    <input type="text" class="form-control" name="company_name" value="{{ $user->details ? $user->details->company_name : '' }}" required>
+                                    <input type="text" class="form-control" name="company_name" value="{{ $user->details ? $user->details->company_name : '' }}">
                                 </div>
                                 <div class="col-lg-3 mb-3">
                                     <label class="form-label">{{ __('Address') }}</label>
-                                    <input type="text" class="form-control" name="address" value="{{ $user->details ? $user->details->address : '' }}" required>
+                                    <input type="text" class="form-control" name="address" value="{{ $user->details ? $user->details->address : '' }}">
                                 </div>
                             </div>
                             <div class="row">
                                 <div class="col-lg-3 mb-3">
                                     <label class="form-label">{{ __('Registration code') }}</label>
-                                    <input type="text" class="form-control" name="registration_code" value="{{ $user->details ? $user->details->registration_code : '' }}" required>
+                                    <input type="text" class="form-control" name="registration_code" value="{{ $user->details ? $user->details->registration_code : '' }}">
                                 </div>
                                 <div class="col-lg-3 mb-3">
                                     <label class="form-label">{{ __('VAT number') }}</label>
-                                    <input type="text" class="form-control" name="vat_number" value="{{ $user->details ? $user->details->vat_number : '' }}" required>
+                                    <input type="text" class="form-control" name="vat_number" value="{{ $user->details ? $user->details->vat_number : '' }}">
                                 </div>
                             </div>
                             <div class="row">
                                 <div class="col-lg-3 mb-3">
                                     <label class="form-label">{{ __('Phone number') }}</label>
-                                    <input type="text" class="form-control" name="phone_number" value="{{ $user->details ? $user->details->phone_number : '' }}" required>
+                                    <input type="text" class="form-control" name="phone_number" value="{{ $user->details ? $user->details->phone_number : '' }}">
                                 </div>
                             </div>
                             <div class="row">

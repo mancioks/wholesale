@@ -8,7 +8,19 @@
                     <div class="card-body">
                         <h2>{{ __('Order') }} {{ $order->number }}</h2>
                         @role('warehouse', 'admin', 'super_admin')
-                            <p>{{ $order->customer_name }}, {{ $order->customer_company_name }} {{ $order->customer_company_phone_number }} {{ $order->customer_email }}</p>
+                            <p>{{ $order->user->name }}, {{ $order->user->email }}</p>
+                            @if($order->pre_invoice_required)
+                                <div class="card shadow-sm mb-4 p-3 bg-dark bg-opacity-10">
+                                    <h4>{{ __('Props') }}:</h4>
+                                    {!! $order->customer_name !== '' ? __('Full name').': '.$order->customer_name.'<br>' : '' !!}
+                                    {!! $order->customer_email !== '' ? __('Email').': '.$order->customer_email.'<br>' : '' !!}
+                                    {!! $order->customer_company_name !== '' ? __('Company name').': '.$order->customer_company_name.'<br>' : '' !!}
+                                    {!! $order->customer_company_address !== '' ? __('Address').': '.$order->customer_company_address.'<br>' : '' !!}
+                                    {!! $order->customer_company_registration_code !== '' ? __('Registration code').': '.$order->customer_company_registration_code.'<br>' : '' !!}
+                                    {!! $order->customer_company_vat_number !== '' ? __('VAT number').': '.$order->customer_company_vat_number.'<br>' : '' !!}
+                                    {!! $order->customer_company_phone_number !== '' ? __('Phone number').': '.$order->customer_company_phone_number.'<br>' : '' !!}
+                                </div>
+                            @endif
                         @endrole
                         <div class="products-wrapper row gx-2 gy-2">
                             @forelse($order->items as $product)
@@ -148,7 +160,7 @@
                                     </a>
                                 </div>
                             @else
-                                @if(!$order->is_canceled)
+                                @if(!$order->is_canceled && $order->pre_invoice_required)
                                     <div class="mt-2">
                                         <a href="{{ route('invoice', $order) }}" class="btn btn-outline-dark" target="_blank">
                                             <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-file-pdf" viewBox="0 0 16 16">

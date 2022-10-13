@@ -9,7 +9,9 @@
                         <h2>{{ __('Order') }} {{ $order->number }} {{ __('created') }}!</h2>
                         <div class="row">
                             <div class="col-lg-6">
-                                <p>{{ __('Pre-invoice has been sent to you by email') }} ({{ $order->user->email }})</p>
+                                @if ($order->pre_invoice_required)
+                                    <p>{{ __('Pre-invoice has been sent to you by email') }} ({{ $order->user->email }})</p>
+                                @endif
                                 <p>{{ __('Payment method') }}: <b>{{ $order->paymentMethod->name }}</b></p>
                                 @if($order->paymentMethod->key == 'bank_transfer')
                                     <h3>{{ __('Company details') }}</h3>

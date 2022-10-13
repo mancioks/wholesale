@@ -100,7 +100,7 @@
     "User info": "Vartotojo informacija",
     "Role": "Rolė",
     "Registered": "Registracija",
-    "Full name": "Vardas",
+    "Full name": "Vardas, Pavardė",
     "Image": "Paveikslėlis",
     "Units": "Vienetai",
     "Product name": "Prekės pavadinimas",
@@ -143,5 +143,7 @@
     "Update product info": "Atnaujinti produkto informaciją",
     "Update warehouses settings": "Atnaujinti sandėlių informaciją",
     "Fixed": "Fiksuota",
-    "Inherited": "Paveldėta"
+    "Inherited": "Paveldėta",
+    "Pre-invoice required": "Reikalinga išankstinė sąskaita",
+    "Props": "Rekvizitai"
 }
