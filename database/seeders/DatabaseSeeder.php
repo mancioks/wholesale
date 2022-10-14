@@ -24,7 +24,6 @@ class DatabaseSeeder extends Seeder
             PlaceholderImageSeeder::class,
             PaymentStatusSeeder::class,
             UserSeeder::class,
-            SuperAdminRoleSeeder::class,
         ]);
     }
 }
