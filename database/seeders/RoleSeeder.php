@@ -15,12 +15,14 @@ class RoleSeeder extends Seeder
      */
     public function run()
     {
-         $roles = ['customer', 'warehouse', 'admin'];
+        $roles = ['customer', 'warehouse', 'admin', 'super_admin', 'installer'];
 
-         foreach ($roles as $role) {
-             Role::query()->create([
-                 'name' => $role,
-             ]);
-         }
+        foreach ($roles as $role) {
+            if (Role::query()->where(['name' => $role])->doesntExist()) {
+                Role::query()->create([
+                    'name' => $role,
+                ]);
+            }
+        }
     }
 }
