@@ -78,6 +78,64 @@
                         <div class="mt-4 mb-1">
                             {{ $products->links('pagination::bootstrap-5') }}
                         </div>
+                        <div class="products-wrapper row gx-2 gy-2 mb-3">
+                            <h2>{{ __('Recommended products') }}</h2>
+                            @forelse($userPopularProducts as $userPopularProduct)
+                                <div class="col-lg-3 col-md-4 col-sm-6">
+                                    <div class="card shadow-sm">
+                                        <div class="card-body p-2">
+                                            <div class="bg-light p-2 text-center mb-3 rounded product-img-wrapper">
+                                                <img src="{{ asset($userPopularProduct->image->name) }}">
+                                            </div>
+                                            <h5 class="card-title">{{ $userPopularProduct->name }}</h5>
+                                            <p class="card-text mb-2">{{ $userPopularProduct->price }}€ / {{ $userPopularProduct->units }}</p>
+                                            <form action="{{ route('cart.add', $userPopularProduct->id) }}" method="post">
+                                                @csrf
+                                                <div class="row">
+                                                    <div class="col-4 pe-0">
+                                                        <input type="number" name="qty" value="1" class="form-control text-center remove-outline border-1 border-dark cursor-auto w-100">
+                                                    </div>
+                                                    <div class="col-8 ps-1">
+                                                        <button type="submit" class="btn btn-dark w-100 text-center">{{ __('Add to cart') }}</button>
+                                                    </div>
+                                                </div>
+                                            </form>
+                                        </div>
+                                    </div>
+                                </div>
+                            @empty
+                                <div>{{ __('Recommendations will appear after your first order') }}</div>
+                            @endforelse
+                        </div>
+                        <div class="products-wrapper row gx-2 gy-2 mb-3">
+                            <h2>{{ __('Newest products') }}</h2>
+                            @forelse($newProducts as $newProduct)
+                                <div class="col-lg-3 col-md-4 col-sm-6">
+                                    <div class="card shadow-sm">
+                                        <div class="card-body p-2">
+                                            <div class="bg-light p-2 text-center mb-3 rounded product-img-wrapper">
+                                                <img src="{{ asset($newProduct->image->name) }}">
+                                            </div>
+                                            <h5 class="card-title">{{ $newProduct->name }}</h5>
+                                            <p class="card-text mb-2">{{ $newProduct->price }}€ / {{ $newProduct->units }}</p>
+                                            <form action="{{ route('cart.add', $newProduct->id) }}" method="post">
+                                                @csrf
+                                                <div class="row">
+                                                    <div class="col-4 pe-0">
+                                                        <input type="number" name="qty" value="1" class="form-control text-center remove-outline border-1 border-dark cursor-auto w-100">
+                                                    </div>
+                                                    <div class="col-8 ps-1">
+                                                        <button type="submit" class="btn btn-dark w-100 text-center">{{ __('Add to cart') }}</button>
+                                                    </div>
+                                                </div>
+                                            </form>
+                                        </div>
+                                    </div>
+                                </div>
+                            @empty
+                                <div>{{ __('No products') }}</div>
+                            @endforelse
+                        </div>
                     </div>
                 </div>
             </div>
