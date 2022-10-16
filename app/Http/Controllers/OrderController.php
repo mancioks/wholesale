@@ -53,9 +53,8 @@ class OrderController extends Controller
             ->paginate(12);
 
         $userPopularProducts = UserService::getUserPopularProducts(auth()->user(), 4);
-        $newProducts = Product::latest()->take(4)->get();
 
-        return view('order.create', compact('products', 'search_query', 'warehouses', 'userPopularProducts', 'newProducts'));
+        return view('order.create', compact('products', 'search_query', 'warehouses', 'userPopularProducts'));
     }
 
     public function show(Order $order)
