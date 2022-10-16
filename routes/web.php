@@ -61,6 +61,9 @@ Route::group(['middleware' => 'auth'], function () {
         Route::resource('product', \App\Http\Controllers\ProductController::class);
         Route::post('product/{product}/update-warehouses', [\App\Http\Controllers\ProductController::class, 'updateWarehouses'])->name('product.update.warehouses');
 
+        Route::get('warehouse/{warehouse}/disable-all-products', [\App\Http\Controllers\WarehouseController::class, 'disableAllProducts'])->name('warehouse.products.disable');
+        Route::get('warehouse/{warehouse}/enable-all-products', [\App\Http\Controllers\WarehouseController::class, 'enableAllProducts'])->name('warehouse.products.enable');
+
         Route::resource('warehouse', \App\Http\Controllers\WarehouseController::class);
     });
 

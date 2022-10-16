@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\StoreWarehouseRequest;
+use App\Models\Product;
 use App\Models\Warehouse;
 use App\Services\CartService;
 use App\Services\WarehouseService;
@@ -35,6 +36,26 @@ class WarehouseController extends Controller
         WarehouseService::attachWarehouse($warehouse);
 
         return redirect()->route('warehouse.index')->with('status', __('Warehouse created'));
+    }
+
+    public function disableAllProducts(Warehouse $warehouse)
+    {
+        /** @var Product $product */
+        foreach ($warehouse->products as $product) {
+            $product->pivot->update(['enabled' => false]);
+        }
+
+        return redirect()->back()->with('status', 'All products disabled');
+    }
+
+    public function enableAllProducts(Warehouse $warehouse)
+    {
+        /** @var Product $product */
+        foreach ($warehouse->products as $product) {
+            $product->pivot->update(['enabled' => true]);
+        }
+
+        return redirect()->back()->with('status', 'All products enabled');
     }
 
     public function edit(Warehouse $warehouse)

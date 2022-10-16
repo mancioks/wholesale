@@ -36,21 +36,25 @@ class OrderController extends Controller
         $search_query = $request->get('query');
         $warehouses = Warehouse::where('active', true)->get();
 
-        //$products = Product::search($search_query)->orderBy('id', 'desc')->paginate(8);
-
-
-        $products = Product::query()
-            ->with('warehouses')
-            ->whereHas('warehouses', function ($q) {
-                $q->where('warehouse_id', auth()->user()->warehouse->id)->where('enabled', true);
-            })
-            ->where('name', 'LIKE', '%'.$search_query.'%')
-            ->orWhereHas('warehouses', function ($q) {
-                $q->where('warehouse_id', auth()->user()->warehouse->id)->where('enabled', true);
-            })
-            ->where(['id' => $search_query])
-            ->orderBy('id', 'desc')
-            ->paginate(12);
+        if (auth()->user()->acting()->exists()) {
+            $products = auth()->user()->warehouse->products()
+                ->where('name', 'LIKE', '%'.$search_query.'%')
+                ->orderBy('id', 'desc')
+                ->paginate(12);
+        } else {
+            $products = Product::query()
+                ->with('warehouses')
+                ->whereHas('warehouses', function ($q) {
+                    $q->where('warehouse_id', auth()->user()->warehouse->id)->where('enabled', true);
+                })
+                ->where('name', 'LIKE', '%'.$search_query.'%')
+                ->orWhereHas('warehouses', function ($q) {
+                    $q->where('warehouse_id', auth()->user()->warehouse->id)->where('enabled', true);
+                })
+                ->where(['id' => $search_query])
+                ->orderBy('id', 'desc')
+                ->paginate(12);
+        }
 
         $userPopularProducts = UserService::getUserPopularProducts(auth()->user(), 4);
 
