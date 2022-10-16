@@ -25,6 +25,7 @@ use App\Models\User;
 use App\Models\Warehouse;
 use App\Services\MailService;
 use App\Services\OrderService;
+use App\Services\UserService;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Mail;
 
@@ -49,9 +50,12 @@ class OrderController extends Controller
             })
             ->where(['id' => $search_query])
             ->orderBy('id', 'desc')
-            ->paginate(8);
+            ->paginate(12);
 
-        return view('order.create', compact('products', 'search_query', 'warehouses'));
+        $userPopularProducts = UserService::getUserPopularProducts(auth()->user(), 4);
+        $newProducts = Product::latest()->take(4)->get();
+
+        return view('order.create', compact('products', 'search_query', 'warehouses', 'userPopularProducts', 'newProducts'));
     }
 
     public function show(Order $order)
