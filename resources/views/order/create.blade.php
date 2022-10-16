@@ -56,7 +56,12 @@
                                                 <img src="{{ asset($product->image->name) }}">
                                             </div>
                                             <h5 class="card-title">{{ $product->name }}</h5>
-                                            <p class="card-text mb-2">{{ $product->price }}€ / {{ $product->units }}</p>
+                                            <p class="card-text mb-2">
+                                                {{ $product->price }}€ / {{ $product->units }}
+                                                @if($product->pivot && !$product->pivot->enabled)
+                                                    <span class="badge bg-danger ms-1">{{ __('Not for sale') }}</span>
+                                                @endif
+                                            </p>
                                             <form action="{{ route('cart.add', $product->id) }}" method="post">
                                                 @csrf
                                                 <div class="row">
@@ -72,7 +77,7 @@
                                     </div>
                                 </div>
                             @empty
-                                <div>{{ __('No products found') }}</div>
+                                <div>{{ __('No products found in selected warehouse') }}</div>
                             @endforelse
                         </div>
                         <div class="mt-4 mb-1">

@@ -17,8 +17,10 @@ class CartController extends Controller
     {
         $user = auth()->user();
 
-        if (!$product->warehouses()->where('warehouse_id', $user->warehouse->id)->where('enabled', true)->exists()) {
-            return redirect()->back()->withErrors(['Product not exist']);
+        if (!auth()->user()->acting()->exists()) {
+            if (!$product->warehouses()->where('warehouse_id', $user->warehouse->id)->where('enabled', true)->exists()) {
+                return redirect()->back()->withErrors([__('Product not available in selected warehouse')]);
+            }
         }
 
         if ($user->cart()->where('product_id', $product->id)->exists()) {
