@@ -63,6 +63,12 @@
                                 </li>
                             @endif
                         @else
+                            @role('super_admin')
+                            <li class="nav-item">
+                                <a href="{{ route('admin.dashboard') }}" class="btn btn-dark">Naujas administravimas <span class="badge bg-warning text-dark">BETA</span></a>
+                            </li>
+                            @endrole
+
                             @role('admin', 'super_admin')
                                 <li class="nav-item dropdown">
                                     <a id="navbarDropdownAdmin" class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false" v-pre>

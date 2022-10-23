@@ -5,5 +5,5 @@
 @endsection
 
 @section('content')
-    Beta
+    Čia bus rodomi statistikų grafikai
 @endsection
