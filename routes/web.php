@@ -49,6 +49,23 @@ Route::group(['middleware' => 'auth'], function () {
     Route::post('user/settings/store', [\App\Http\Controllers\UserController::class, 'storeSettings'])->name('user.settings.store');
 
     Route::group(['middleware' => 'role:admin,super_admin,warehouse'], function () {
+
+        Route::prefix('admin')->name('admin.')->group(function () {
+            Route::get('/dashboard', [\App\Http\Controllers\Admin\DashboardController::class, 'index'])->name('dashboard');
+            Route::get('/settings', [\App\Http\Controllers\Admin\SettingsController::class, 'index'])->name('settings');
+            Route::resource('warehouse', \App\Http\Controllers\Admin\WarehouseController::class);
+            Route::resource('order', \App\Http\Controllers\Admin\OrderController::class);
+            Route::resource('product', \App\Http\Controllers\Admin\ProductController::class);
+            Route::resource('user', \App\Http\Controllers\Admin\UserController::class);
+        });
+
+        Route::prefix('api/datatable')->name('api.datatable.')->controller(\App\Http\Controllers\Api\DataTableController::class)->group(function () {
+            Route::get('warehouses', 'warehouses')->name('warehouses');
+            Route::get('orders', 'orders')->name('orders');
+            Route::get('products', 'products')->name('products');
+            Route::get('users', 'users')->name('users');
+        });
+
         Route::prefix('product')->controller(\App\Http\Controllers\ProductController::class)->group(function() {
             Route::name('product.')->group(function() {
                 Route::get('/import', 'import')->name('import');
