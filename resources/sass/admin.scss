@@ -1,0 +1,143 @@
+// Fonts
+@import url('https://fonts.googleapis.com/css?family=Nunito');
+
+// Variables
+@import 'variables';
+
+// Bootstrap
+@import '~bootstrap/scss/bootstrap';
+
+@import '~bootstrap-icons/font/bootstrap-icons';
+
+.btn.remove-outline:focus {
+    outline: none;
+    box-shadow: none;
+}
+.cursor-auto{
+    cursor: auto;
+}
+.product-img-wrapper{
+    width: 100% !important;
+    height: 150px !important;
+}
+.product-img-wrapper img{
+    max-width: 100%;
+    max-height: 100%;
+}
+
+.zindex-10{
+    z-index:10;
+}
+
+body {
+    font-size: .875rem;
+}
+
+.feather {
+    width: 16px;
+    height: 16px;
+    vertical-align: text-bottom;
+}
+
+/*
+ * Sidebar
+ */
+
+.sidebar {
+    position: fixed;
+    top: 0;
+    /* rtl:raw:
+    right: 0;
+    */
+    bottom: 0;
+    /* rtl:remove */
+    left: 0;
+    z-index: 100; /* Behind the navbar */
+    padding: 48px 0 0; /* Height of navbar */
+    box-shadow: inset -1px 0 0 rgba(0, 0, 0, .1);
+}
+
+@media (max-width: 767.98px) {
+    .sidebar {
+        /*top: 5rem;*/
+    }
+    .navbar-nav {
+        padding-right: 6rem;
+    }
+}
+
+.sidebar-sticky {
+    position: relative;
+    top: 0;
+    height: calc(100vh);
+    padding-top: .5rem;
+    overflow-x: hidden;
+    overflow-y: auto; /* Scrollable contents if viewport is shorter than content. */
+}
+
+.sidebar-heading {
+    font-size: .75rem;
+    text-transform: uppercase;
+}
+
+/*
+ * Navbar
+ */
+
+.navbar-brand {
+}
+
+.navbar .navbar-toggler {
+    top: .25rem;
+    right: 1rem;
+}
+
+.navbar .form-control {
+    padding: .75rem 1rem;
+    border-width: 0;
+    border-radius: 0;
+}
+
+.form-control-dark {
+    color: #fff;
+    background-color: rgba(255, 255, 255, .1);
+    border-color: rgba(255, 255, 255, .1);
+}
+
+.form-control-dark:focus {
+    border-color: transparent;
+    box-shadow: 0 0 0 3px rgba(255, 255, 255, .25);
+}
+
+.text-left {
+    text-align: left !important;
+}
+
+.dashboard-link {
+    @extend .btn;
+    @extend .btn-dark;
+    @extend .rounded-1;
+    @extend .w-100;
+    @extend .d-block;
+    @extend .text-left;
+    @extend .mt-1;
+}
+
+.dashboard-sub-link-padding {
+    padding-left: 35px;
+}
+
+.dashboard-sub-link {
+    @extend .btn;
+    @extend .btn-dark;
+    @extend .w-100;
+    @extend .text-left;
+    @extend .p-0;
+    @extend .text-secondary;
+}
+
+.dashboard-sub-link:hover {
+    @extend .bg-transparent;
+    @extend .text-light;
+    border-color: transparent;
+}

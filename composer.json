@@ -15,7 +15,8 @@
         "laravel/tinker": "^2.7",
         "laravel/ui": "^3.4",
         "maatwebsite/excel": "^3.1",
-        "psr/simple-cache": "^2.0"
+        "psr/simple-cache": "^2.0",
+        "yajra/laravel-datatables": "^9.0"
     },
     "require-dev": {
         "fakerphp/faker": "^1.9.1",

@@ -37,6 +37,11 @@ class SettingSeeder extends Seeder
                 'title' => 'Logo',
                 'type' => 'text',
             ],
+            'logo.white' => [
+                'value' => 'images/vandenvala-white.png',
+                'title' => 'Logo white',
+                'type' => 'text',
+            ],
             'company.details' => [
                 'value' => 'Company, UAB',
                 'title' => 'Company details',
@@ -52,13 +57,15 @@ class SettingSeeder extends Seeder
         ];
 
         foreach ($settings as $name => $setting) {
-            Setting::query()->create([
-                'name' => $name,
-                'value' => $setting['value'],
-                'type' => $setting['type'],
-                'title' => $setting['title'],
-                'edit' => $setting['edit'] ?? 0,
-            ]);
+            if (Setting::query()->where(['name' => $name])->doesntExist()) {
+                Setting::query()->create([
+                    'name' => $name,
+                    'value' => $setting['value'],
+                    'type' => $setting['type'],
+                    'title' => $setting['title'],
+                    'edit' => $setting['edit'] ?? 0,
+                ]);
+            }
         }
     }
 }
