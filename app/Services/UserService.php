@@ -16,6 +16,10 @@ class UserService
 
         $ordersId = $orders->pluck('id')->toArray();
 
+        if (empty($ordersId)) {
+            return [];
+        }
+
         $items = OrderItem::query()->whereIn('order_id', $ordersId)->get();
 
         $userItems = [];
@@ -28,10 +32,18 @@ class UserService
             }
         }
 
+        if (empty($userItems)) {
+            return [];
+        }
+
         arsort($userItems);
 
         $productIds = array_keys(array_slice($userItems, 0, $limit, true));
         $productOrderIds = implode(',', $productIds);
+
+        if (empty($productIds)) {
+            return [];
+        }
 
         $products = Product::query()->whereIn('id', $productIds)->orderByRaw(DB::raw("FIELD(id, $productOrderIds)"))->get();
 
