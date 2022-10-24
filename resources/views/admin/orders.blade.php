@@ -4,11 +4,12 @@
     {{ __('Orders') }}
 @endsection
 @section('actions')
+    @include('components.admin.modals.create-order')
 @endsection
 @section('content')
     <div class="card shadow-sm mt-3">
         <div class="card-body">
-            <table class="table" id="datatable">
+            <table class="table" id="datatable" style="width:100%">
                 <thead>
                 <tr>
                     <th>Id</th>

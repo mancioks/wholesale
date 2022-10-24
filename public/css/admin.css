@@ -7634,7 +7634,7 @@ textarea.form-control-lg {
   margin-top: 0.25rem !important;
 }
 
-.mt-2 {
+.mt-2, #datatable_wrapper .row:last-child {
   margin-top: 0.5rem !important;
 }
 

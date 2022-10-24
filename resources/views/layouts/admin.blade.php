@@ -22,6 +22,7 @@
     <link href="{{ asset('css/admin.css') }}" rel="stylesheet">
 
     @yield('styles')
+    @livewireStyles
 </head>
 <body class="bg-white">
     <div id="app">
@@ -72,8 +73,11 @@
             "processing": true,
             "serverSide": true,
             "order": [[ 0, "desc" ]],
+            scrollX: true,
         });
     </script>
+
     @yield('scripts')
+    @livewireScripts
 </body>
 </html>

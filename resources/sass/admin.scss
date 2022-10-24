@@ -141,3 +141,7 @@ body {
     @extend .text-light;
     border-color: transparent;
 }
+
+#datatable_wrapper .row:last-child {
+    @extend .mt-2;
+}
