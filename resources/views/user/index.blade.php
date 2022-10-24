@@ -7,9 +7,11 @@
                 <div class="card">
                     <div class="card-body">
                         <h2>{{ __('Users') }}</h2>
+                        @role('admin', 'super_admin')
                         <div class="actions-wrapper">
                             <a href="{{ route('user.create') }}" class="btn btn-success">Create user</a>
                         </div>
+                        @endrole
                         <table class="table mt-3">
                             <thead class="table-dark">
                             <tr>
@@ -31,21 +33,25 @@
                                     <td>{{ $user->role->name }}</td>
                                     <td>{{ $user->activated ? __('Yes') : __('No') }}</td>
                                     <td>
-                                        @if($user->activated)
-                                            <a href="{{ route('user.deactivate', $user->id) }}" class="btn btn-warning btn-sm d-inline-block">{{ __('Deactivate') }}</a>
-                                        @else
-                                            <a href="{{ route('user.activate', $user->id) }}" class="btn btn-success btn-sm d-inline-block">{{ __('Activate') }}</a>
-                                        @endif
+                                        @role('admin', 'super_admin')
+                                            @if($user->activated)
+                                                <a href="{{ route('user.deactivate', $user->id) }}" class="btn btn-warning btn-sm d-inline-block">{{ __('Deactivate') }}</a>
+                                            @else
+                                                <a href="{{ route('user.activate', $user->id) }}" class="btn btn-success btn-sm d-inline-block">{{ __('Activate') }}</a>
+                                            @endif
+                                        @endrole
                                     </td>
                                     <td>
                                         <a href="{{ route('user.show', $user->id) }}" class="btn btn-primary btn-sm d-inline-block">{{ __('View') }}</a>
                                         <a href="{{ route('user.act-as', $user->id) }}" class="btn btn-secondary btn-sm d-inline-block">{{ __('Create order') }}</a>
+                                        @role('admin', 'super_admin')
                                         <a href="{{ route('user.edit', $user->id) }}" class="btn btn-warning btn-sm d-inline-block">{{ __('Edit') }}</a>
                                         <form method="post" action="{{ route('user.destroy', $user->id) }}" class="d-inline-block" onsubmit="return confirm('{{ __('Are you sure?') }}')">
                                             @csrf
                                             @method('delete')
                                             <button type="submit" class="btn btn-danger btn-sm d-inline-block">Delete</button>
                                         </form>
+                                        @endrole
                                     </td>
                                 </tr>
                             @empty

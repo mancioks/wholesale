@@ -88,20 +88,24 @@ Route::group(['middleware' => 'auth'], function () {
         Route::get('payments', [\App\Http\Controllers\PaymentController::class, 'index'])->name('payments');
         Route::post('payments/{order}', [\App\Http\Controllers\PaymentController::class, 'store'])->name('payments.store');
 
-        Route::get('user/{user}/orders', [\App\Http\Controllers\UserController::class, 'orders'])->name('user.orders');
-        Route::get('user/{user}/items', [\App\Http\Controllers\UserController::class, 'items'])->name('user.items');
         Route::get('user/{user}/prices', [\App\Http\Controllers\UserController::class, 'prices'])->name('user.prices');
         Route::get('user/{user}/prices/set/{product}', [\App\Http\Controllers\UserController::class, 'setPrice'])->name('user.prices.set');
         Route::delete('user/{user}/prices/delete/{product}', [\App\Http\Controllers\UserController::class, 'deletePrice'])->name('user.prices.delete');
         Route::put('user/{user}/prices/assign/{product}', [\App\Http\Controllers\UserController::class, 'assignPrice'])->name('user.prices.assign');
         Route::get('user/{user}/activate', [\App\Http\Controllers\UserController::class, 'activate'])->name('user.activate');
         Route::get('user/{user}/deactivate', [\App\Http\Controllers\UserController::class, 'deactivate'])->name('user.deactivate');
+        // turi buti apacioj kitu kas yra su prefix user
+        Route::get('/settings', [\App\Http\Controllers\SettingsController::class, 'index'])->name('settings');
+        Route::put('/settings/update', [\App\Http\Controllers\SettingsController::class, 'update'])->name('settings.update');
+    });
+
+    Route::group(['middleware' => 'role:warehouse,admin,super_admin'], function () {
+        Route::get('user/{user}/orders', [\App\Http\Controllers\UserController::class, 'orders'])->name('user.orders');
+        Route::get('user/{user}/items', [\App\Http\Controllers\UserController::class, 'items'])->name('user.items');
         Route::get('user/act-as/{user}', [\App\Http\Controllers\UserController::class, 'actAs'])->name('user.act-as');
         Route::get('user/remove-acting', [\App\Http\Controllers\UserController::class, 'removeActing'])->name('user.remove-acting');
         // turi buti apacioj kitu kas yra su prefix user
         Route::resource('user', \App\Http\Controllers\UserController::class);
-        Route::get('/settings', [\App\Http\Controllers\SettingsController::class, 'index'])->name('settings');
-        Route::put('/settings/update', [\App\Http\Controllers\SettingsController::class, 'update'])->name('settings.update');
     });
 
     Route::group(['middleware' => 'role:super_admin'], function() {

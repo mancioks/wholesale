@@ -93,6 +93,7 @@
 
                                 <div class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdownAdmin">
                                     <a href="{{ route('product.index') }}" class="dropdown-item">{{ __('Products') }}</a>
+                                    <a href="{{ route('user.index') }}" class="dropdown-item">{{ __('Users') }}</a>
                                     <a href="{{ route('warehouse.index') }}" class="dropdown-item">{{ __('Warehouses') }}</a>
                                 </div>
                             </li>
