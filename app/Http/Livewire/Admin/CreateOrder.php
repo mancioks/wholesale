@@ -2,7 +2,10 @@
 
 namespace App\Http\Livewire\Admin;
 
+use App\Models\PaymentMethod;
 use App\Models\Product;
+use App\Models\User;
+use App\Models\Warehouse;
 use Illuminate\Database\Eloquent\Collection;
 use Livewire\Component;
 
@@ -11,7 +14,13 @@ class CreateOrder extends Component
     public Collection $products;
     public $productQty;
     public $searchQuery;
-    public Collection $searchResults;
+    public $customers;
+    public $paymentMethods;
+    public $warehouses;
+    public $searchResults;
+    public $selectedWarehouse;
+    public $selectedCustomer;
+    public $selectedPaymentMethod;
 
     public function mount()
     {
@@ -19,12 +28,22 @@ class CreateOrder extends Component
         $this->productQty = [];
         $this->searchQuery = '';
         $this->searchResults = new Collection();
+        $this->customers = User::all();
+        $this->paymentMethods = PaymentMethod::all();
+        $this->warehouses = Warehouse::where('active', true)->get();
     }
 
     public function updatedSearchQuery()
     {
         if ($this->searchQuery && $this->searchQuery !== '') {
-            $this->searchResults = Product::search($this->searchQuery)->take(5)->get();
+            $this->searchResults = Product::search($this->searchQuery)->take(8)->get();
+
+            /*$this->searchResults = $this->selectedWarehouse2->products()
+                ->where('name', 'LIKE', '%'.$this->searchQuery.'%')
+                ->orderBy('id', 'desc')
+                ->take(8)->get();*/
+        } else {
+            $this->searchResults = new Collection();
         }
     }
 
@@ -44,6 +63,11 @@ class CreateOrder extends Component
                 $this->productQty[$product->id] = 1;
             }
         }
+    }
+
+    public function remove($productId)
+    {
+        $this->products = $this->products->keyBy('id')->forget($productId);
     }
 
     public function render()
