@@ -1,10 +1,15 @@
 <div>
     <div class="row">
         <div class="col-md-8">
+            @if($success)
+                <div class="alert alert-success">
+                    {{ __('Order created successfully') }}
+                </div>
+            @endif
             <label class="form-label">{{ __('Products') }}</label>
             <div class="position-relative mb-2">
                 <input wire:model.debounce.200ms="searchQuery" placeholder="{{ __('Add product') }}" class="form-control shadow-none {{ !$searchQuery ?: 'rounded-0 rounded-top' }}">
-                <div class="form-control position-absolute start-0 end-0 {{ !$searchQuery ? 'd-none' : 'rounded-0 rounded-bottom border-top-0' }}">
+                <div class="form-control position-absolute start-0 end-0 {{ !$searchQuery ? 'd-none' : 'rounded-0 rounded-bottom border-top-0 shadow' }}">
 
                     @if ($searchResults->isNotEmpty())
                         <div class="products-wrapper row gx-2 gy-2 pt-1 pb-1">
@@ -53,18 +58,65 @@
                             {{ $product->name }}
                         </td>
                         <td>{{ $product->original_price }}€</td>
-                        <td><input type="number" class="form-control form-control-sm w-100" wire:model.defer="productQty.{{ $product->id }}"></td>
+                        <td><input type="number" class="form-control form-control-sm w-100" wire:model="productQty.{{ $product->id }}"></td>
                         <td>
                             <button wire:click="remove({{ $product->id }})" class="btn btn-sm btn-danger">{{ __('Remove') }}</button>
                         </td>
                     </tr>
                 @empty
                     <tr>
-                        <td colspan="5">{{ __('No products') }}</td>
+                        <td colspan="5">
+                            {{ __('No products') }}
+                            @error('products')
+                                <div class="small text-danger">{{ $message }}</div>
+                            @enderror
+                        </td>
                     </tr>
                 @endforelse
                 </tbody>
             </table>
+            <div class="row">
+                <div class="col-12">
+                    <div class="form-check form-switch">
+                        <input wire:model="preInvoiceRequired" value="1" class="form-check-input" type="checkbox" role="switch" id="pre_invoice_required">
+                        <label class="form-check-label" for="pre_invoice_required">{{ __('Pre-invoice required') }}</label>
+                    </div>
+                </div>
+                @if ($preInvoiceRequired)
+                    <div class="col-md-6">
+                        <div class="mb-3">
+                            <label for="name" class="form-label">{{ __('Full name') }}</label>
+                            <input type="text" id="name" wire:model="name" name="name" class="form-control">
+                        </div>
+                        <div class="mb-3">
+                            <label for="company_name" class="form-label">{{ __('Company name') }}</label>
+                            <input type="text" id="company_name" wire:model="companyName" name="company_name" class="form-control">
+                        </div>
+                        <div class="mb-3">
+                            <label for="company_code" class="form-label">{{ __('Registration code') }}</label>
+                            <input type="text" id="company_code" wire:model="companyCode" name="company_code" class="form-control">
+                        </div>
+                        <div class="mb-3">
+                            <label for="company_phone" class="form-label">{{ __('Phone number') }}</label>
+                            <input type="text" id="company_phone" wire:model="companyPhone" name="company_phone" class="form-control">
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="mb-3">
+                            <label for="email" class="form-label">{{ __('Email') }}</label>
+                            <input type="text" id="email" wire:model="email" name="email" class="form-control">
+                        </div>
+                        <div class="mb-3">
+                            <label for="address" class="form-label">{{ __('Address') }}</label>
+                            <input type="text" id="address" wire:model="address" name="address" class="form-control">
+                        </div>
+                        <div class="mb-3">
+                            <label for="pvm_code" class="form-label">{{ __('VAT number') }}</label>
+                            <input type="text" id="pvm_code" wire:model="pvmCode" name="pvm_code" class="form-control">
+                        </div>
+                    </div>
+                @endif
+            </div>
         </div>
         <div class="col-md-4">
             <div class="mb-3">
@@ -75,9 +127,11 @@
                         <option value="{{ $customer->id }}">{{ $customer->name }}</option>
                     @endforeach
                 </select>
+                @error('selectedCustomer')
+                    <div class="small text-danger">{{ $message }}</div>
+                @enderror
             </div>
             <div class="mb-3">
-                {{ $selectedWarehouse }}
                 <label for="warehouse" class="form-label">{{ __('Warehouse') }}</label>
                 <select class="form-select" id="warehouse" wire:model="selectedWarehouse">
                     <option hidden>{{ __('Select') }}</option>
@@ -85,6 +139,9 @@
                         <option value="{{ $warehouse->id }}">{{ $warehouse->name }}</option>
                     @endforeach
                 </select>
+                @error('selectedWarehouse')
+                    <div class="small text-danger">{{ $message }}</div>
+                @enderror
             </div>
             <div class="mb-3">
                 <label for="paymentmethod" class="form-label">{{ __('Payment method') }}</label>
@@ -94,7 +151,26 @@
                         <option value="{{ $payment_method->id }}">{{ __($payment_method->name) }}</option>
                     @endforeach
                 </select>
+                @error('selectedPaymentMethod')
+                    <div class="small text-danger">{{ $message }}</div>
+                @enderror
+            </div>
+            <div class="mb-3">
+                <label for="message" class="form-label">{{ __('Message') }}</label>
+                <textarea name="message" wire:model="message" id="message" class="form-control"></textarea>
+            </div>
+            <div class="mb-3">
+                <div class="form-check form-switch">
+                    <input wire:model="addPvm" value="1" class="form-check-input" type="checkbox" role="switch" id="add_ovm">
+                    <label class="form-check-label" for="add_ovm">{{ __('Add PVM') }}</label>
+                </div>
             </div>
         </div>
     </div>
+    <div class="row">
+        <div class="col-12">
+            {{ __('Subtotal') }}: {{ price_format($total) }}€
+        </div>
+    </div>
+    <button wire:click.prevent="submit" class="btn btn-primary">{{ __('Create') }}</button>
 </div>

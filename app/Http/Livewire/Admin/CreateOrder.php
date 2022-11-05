@@ -2,8 +2,13 @@
 
 namespace App\Http\Livewire\Admin;
 
+use App\Models\Order;
+use App\Models\OrderItem;
 use App\Models\PaymentMethod;
+use App\Models\PaymentStatus;
 use App\Models\Product;
+use App\Models\Setting;
+use App\Models\Status;
 use App\Models\User;
 use App\Models\Warehouse;
 use Illuminate\Database\Eloquent\Collection;
@@ -21,6 +26,20 @@ class CreateOrder extends Component
     public $selectedWarehouse;
     public $selectedCustomer;
     public $selectedPaymentMethod;
+    public $preInvoiceRequired;
+    public $addPvm;
+    public $total;
+
+    public $name;
+    public $companyName;
+    public $companyCode;
+    public $companyPhone;
+    public $email;
+    public $address;
+    public $pvmCode;
+    public $message;
+
+    public $success;
 
     public function mount()
     {
@@ -31,17 +50,49 @@ class CreateOrder extends Component
         $this->customers = User::all();
         $this->paymentMethods = PaymentMethod::all();
         $this->warehouses = Warehouse::where('active', true)->get();
+        $this->preInvoiceRequired = false;
+        $this->addPvm = true;
+        $this->total = 0;
+        $this->success = false;
+    }
+
+    public function getUserProperty()
+    {
+        return User::find($this->selectedCustomer);
+    }
+
+    public function updatedProductQty()
+    {
+        $this->recalculateTotal();
+    }
+
+    public function updatedAddPvm()
+    {
+        $this->recalculateTotal();
+    }
+
+    private function recalculateTotal()
+    {
+        $this->success = false;
+        $this->total = 0;
+
+        foreach ($this->products as $product) {
+            if (!array_key_exists($product->id, $this->productQty) || (int)$this->productQty[$product->id] < 1) {
+                $this->productQty[$product->id] = 1;
+            }
+
+            $this->total += $product->price * (int)$this->productQty[$product->id];
+        }
+
+        if ($this->addPvm) {
+            $this->total *= setting('pvm') / 100 + 1;
+        }
     }
 
     public function updatedSearchQuery()
     {
         if ($this->searchQuery && $this->searchQuery !== '') {
             $this->searchResults = Product::search($this->searchQuery)->take(8)->get();
-
-            /*$this->searchResults = $this->selectedWarehouse2->products()
-                ->where('name', 'LIKE', '%'.$this->searchQuery.'%')
-                ->orderBy('id', 'desc')
-                ->take(8)->get();*/
         } else {
             $this->searchResults = new Collection();
         }
@@ -52,7 +103,7 @@ class CreateOrder extends Component
         $this->searchQuery = '';
         $this->searchResults = new Collection();
 
-        $product = Product::query()->where('id', $productId)->first();
+        $product = Product::find($productId);
         if (!$this->products->find($product)) {
             $this->products->add($product);
             $this->productQty[$product->id] = 1;
@@ -63,11 +114,89 @@ class CreateOrder extends Component
                 $this->productQty[$product->id] = 1;
             }
         }
+
+        $this->recalculateTotal();
     }
 
     public function remove($productId)
     {
         $this->products = $this->products->keyBy('id')->forget($productId);
+
+        $this->recalculateTotal();
+    }
+
+    public function submit()
+    {
+        $this->validate([
+            'selectedWarehouse' => 'required',
+            'selectedCustomer' => 'required',
+            'selectedPaymentMethod' => 'required',
+            'products' => 'required',
+        ]);
+
+        $this->recalculateTotal();
+
+        $this->createOrder();
+        $this->resetFields();
+
+        $this->emit('orderCreated');
+        $this->success = true;
+    }
+
+    private function resetFields()
+    {
+        $this->mount();
+        $this->selectedCustomer = null;
+        $this->selectedWarehouse = null;
+        $this->selectedPaymentMethod = null;
+        $this->addPvm = null;
+        $this->preInvoiceRequired = null;
+        $this->name = '';
+        $this->companyName = '';
+        $this->companyCode = '';
+        $this->companyPhone = '';
+        $this->email = '';
+        $this->address = '';
+        $this->pvmCode = '';
+        $this->message = '';
+    }
+
+    private function createOrder()
+    {
+        $order = Order::create([
+            'user_id' => $this->user->id,
+            'status_id' => Status::CREATED,
+            'discount' => 0,
+            'pvm' => $this->addPvm ? Setting::get('pvm') : 0,
+            'total' => $this->total,
+            'payment_method_id' => $this->selectedPaymentMethod,
+            'payment_status_id' => PaymentStatus::WAITING,
+            'vat_number' => 0,
+            'warehouse_id' => $this->selectedWarehouse,
+            'message' => $this->message ?: '',
+            'company_details' => setting('company.details'),
+            'customer_name' => $this->name ?: $this->user->name,
+            'customer_email' => $this->email ?: $this->user->email,
+            'customer_company_name' => $this->companyName ?: '',
+            'customer_company_address' => $this->address ?: '',
+            'customer_company_registration_code' => $this->companyCode ?: '',
+            'customer_company_vat_number' => $this->pvmCode ?: '',
+            'customer_company_phone_number' => $this->companyPhone ?: '',
+            'pre_invoice_required' => $this->preInvoiceRequired,
+            'created_by' => auth()->user()->id,
+        ]);
+
+        foreach ($this->products as $product) {
+            OrderItem::query()->create([
+                'order_id' => $order->id,
+                'name' => $product->name,
+                'price' => $product->price,
+                'product_id' => $product->id,
+                'qty' => $this->productQty[$product->id],
+                'units' => $product->units,
+                'prime_cost' => $product->prime_cost,
+            ]);
+        }
     }
 
     public function render()

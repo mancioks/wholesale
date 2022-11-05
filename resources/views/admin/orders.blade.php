@@ -33,8 +33,10 @@
 
 @section('scripts')
     <script>
+        let ordersDataTable;
+
         $(document).ready( function () {
-            $('#datatable').DataTable({
+            ordersDataTable = $('#datatable').DataTable({
                 "ajax": "{{ route('api.datatable.orders') }}",
                 "columns": [
                     { "data": "number" },
@@ -67,5 +69,11 @@
                 ]
             });
         } );
+
+        document.addEventListener('livewire:load', function () {
+            window.livewire.on('orderCreated', () => {
+                ordersDataTable.ajax.reload();
+            });
+        });
     </script>
 @endsection
