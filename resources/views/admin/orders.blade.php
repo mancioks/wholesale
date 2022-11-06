@@ -51,7 +51,7 @@
                     {
                         targets: -1,
                         render: function (data, type, row) {
-                            return '<a href="' + ('{{ route('order.show', '%id%') }}').replace('%id%', row['id']) + '" class="btn btn-sm btn-primary">{{ __('Show order') }}</a>';
+                            return '<a href="' + ('{{ route('admin.order.show', '%id%') }}').replace('%id%', row['id']) + '" class="btn btn-sm btn-primary">{{ __('Show order') }}</a>';
                         }
                     },
                     {

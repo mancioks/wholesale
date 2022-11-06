@@ -28,6 +28,7 @@ class CreateOrder extends Component
     public $selectedPaymentMethod;
     public $preInvoiceRequired;
     public $addPvm;
+    public $subTotal;
     public $total;
 
     public $name;
@@ -52,6 +53,7 @@ class CreateOrder extends Component
         $this->warehouses = Warehouse::where('active', true)->get();
         $this->preInvoiceRequired = false;
         $this->addPvm = true;
+        $this->subTotal = 0;
         $this->total = 0;
         $this->success = false;
     }
@@ -74,6 +76,7 @@ class CreateOrder extends Component
     private function recalculateTotal()
     {
         $this->success = false;
+        $this->subTotal = 0;
         $this->total = 0;
 
         foreach ($this->products as $product) {
@@ -81,8 +84,10 @@ class CreateOrder extends Component
                 $this->productQty[$product->id] = 1;
             }
 
-            $this->total += $product->price * (int)$this->productQty[$product->id];
+            $this->subTotal += $product->price * (int)$this->productQty[$product->id];
         }
+
+        $this->total = $this->subTotal;
 
         if ($this->addPvm) {
             $this->total *= setting('pvm') / 100 + 1;

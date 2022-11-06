@@ -51,6 +51,10 @@
                     <div class="col-md-9 ms-sm-auto col-lg-10 px-md-4">
                         <h2>@yield('title')</h2>
 
+                        @hasSection('subtitle')
+                            <p>@yield('subtitle')</p>
+                        @endif
+
                         @include('components.admin.dashboard-messages')
 
                         @hasSection('actions')
