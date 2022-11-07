@@ -7,6 +7,7 @@ use App\Models\OrderItem;
 use App\Models\PaymentMethod;
 use App\Models\PaymentStatus;
 use App\Models\Product;
+use App\Models\Role;
 use App\Models\Setting;
 use App\Models\Status;
 use App\Models\User;
@@ -30,6 +31,7 @@ class CreateOrder extends Component
     public $addPvm;
     public $subTotal;
     public $total;
+    public $waybillRequired;
 
     public $name;
     public $companyName;
@@ -41,6 +43,13 @@ class CreateOrder extends Component
     public $message;
 
     public $success;
+
+    public $orderType;
+
+    public $orderTypes = [
+        Order::ORDER_TYPE_NORMAL => 'Normal',
+        Order::ORDER_TYPE_ISSUE => 'Issue',
+    ];
 
     public function mount()
     {
@@ -56,11 +65,26 @@ class CreateOrder extends Component
         $this->subTotal = 0;
         $this->total = 0;
         $this->success = false;
+        $this->orderType = Order::ORDER_TYPE_NORMAL;
+        $this->waybillRequired = false;
     }
 
     public function getUserProperty()
     {
         return User::find($this->selectedCustomer);
+    }
+
+    public function updatedOrderType()
+    {
+        if ($this->orderType === Order::ORDER_TYPE_ISSUE) {
+            $this->customers = User::where('role_id', Role::INSTALLER)->get();
+            $this->waybillRequired = true;
+        } else {
+            $this->customers = User::all();
+            $this->waybillRequired = false;
+        }
+
+        $this->reset(['selectedCustomer', 'selectedPaymentMethod']);
     }
 
     public function updatedProductQty()
@@ -84,7 +108,7 @@ class CreateOrder extends Component
                 $this->productQty[$product->id] = 1;
             }
 
-            $this->subTotal += $product->price * (int)$this->productQty[$product->id];
+            $this->subTotal += $product->original_price * (int)$this->productQty[$product->id];
         }
 
         $this->total = $this->subTotal;
@@ -132,12 +156,20 @@ class CreateOrder extends Component
 
     public function submit()
     {
-        $this->validate([
-            'selectedWarehouse' => 'required',
-            'selectedCustomer' => 'required',
-            'selectedPaymentMethod' => 'required',
-            'products' => 'required',
-        ]);
+        if ($this->orderType === Order::ORDER_TYPE_NORMAL) {
+            $this->validate([
+                'selectedWarehouse' => 'required',
+                'selectedCustomer' => 'required',
+                'selectedPaymentMethod' => 'required',
+                'products' => 'required',
+            ]);
+        } else {
+            $this->validate([
+                'selectedWarehouse' => 'required',
+                'selectedCustomer' => 'required',
+                'products' => 'required',
+            ]);
+        }
 
         $this->recalculateTotal();
 
@@ -168,14 +200,20 @@ class CreateOrder extends Component
 
     private function createOrder()
     {
+        $statusId = Status::CREATED;
+
+        if ($this->orderType === Order::ORDER_TYPE_ISSUE) {
+            $statusId = Status::PREPARED;
+        }
+
         $order = Order::create([
             'user_id' => $this->user->id,
-            'status_id' => Status::CREATED,
+            'status_id' => $statusId,
             'discount' => 0,
             'pvm' => $this->addPvm ? Setting::get('pvm') : 0,
             'total' => $this->total,
             'payment_method_id' => $this->selectedPaymentMethod,
-            'payment_status_id' => PaymentStatus::WAITING,
+            'payment_status_id' => PaymentStatus::PAID,
             'vat_number' => 0,
             'warehouse_id' => $this->selectedWarehouse,
             'message' => $this->message ?: '',
@@ -189,13 +227,15 @@ class CreateOrder extends Component
             'customer_company_phone_number' => $this->companyPhone ?: '',
             'pre_invoice_required' => $this->preInvoiceRequired,
             'created_by' => auth()->user()->id,
+            'order_type' => $this->orderType,
+            'waybill_required' => $this->waybillRequired,
         ]);
 
         foreach ($this->products as $product) {
             OrderItem::query()->create([
                 'order_id' => $order->id,
                 'name' => $product->name,
-                'price' => $product->price,
+                'price' => $product->original_price,
                 'product_id' => $product->id,
                 'qty' => $this->productQty[$product->id],
                 'units' => $product->units,

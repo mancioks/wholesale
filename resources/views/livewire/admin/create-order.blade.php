@@ -85,8 +85,8 @@
                     <tr class="border-0">
                         <td colspan="4" class="text-end border-0">
                             <div class="form-check form-switch d-inline-block">
-                                <input wire:model="addPvm" value="1" class="form-check-input" type="checkbox" role="switch" id="add_ovm">
-                                <label class="form-check-label" for="add_ovm">{{ __('Add PVM') }}</label>
+                                <input wire:model="addPvm" value="1" class="form-check-input" type="checkbox" role="switch" id="add_pvm">
+                                <label class="form-check-label" for="add_pvm">{{ __('Add PVM') }}</label>
                             </div>
                         </td>
                         <td class="border">{{ $addPvm ? setting('pvm') : '0' }}%</td>
@@ -98,49 +98,67 @@
                     </tbody>
                 </table>
                 <div class="row">
-                    <div class="col-12">
-                        <div class="form-check form-switch">
-                            <input wire:model="preInvoiceRequired" value="1" class="form-check-input" type="checkbox" role="switch" id="pre_invoice_required">
-                            <label class="form-check-label" for="pre_invoice_required">{{ __('Pre-invoice required') }}</label>
-                        </div>
-                    </div>
-                    @if ($preInvoiceRequired)
-                        <div class="col-md-6">
-                            <div class="mb-3">
-                                <label for="name" class="form-label">{{ __('Full name') }}</label>
-                                <input type="text" id="name" wire:model="name" name="name" class="form-control">
-                            </div>
-                            <div class="mb-3">
-                                <label for="company_name" class="form-label">{{ __('Company name') }}</label>
-                                <input type="text" id="company_name" wire:model="companyName" name="company_name" class="form-control">
-                            </div>
-                            <div class="mb-3">
-                                <label for="company_code" class="form-label">{{ __('Registration code') }}</label>
-                                <input type="text" id="company_code" wire:model="companyCode" name="company_code" class="form-control">
-                            </div>
-                            <div class="mb-3">
-                                <label for="company_phone" class="form-label">{{ __('Phone number') }}</label>
-                                <input type="text" id="company_phone" wire:model="companyPhone" name="company_phone" class="form-control">
+                    @if($orderType === config('constants.ORDER_TYPE_NORMAL'))
+                        <div class="col-12">
+                            <div class="form-check form-switch">
+                                <input wire:model="preInvoiceRequired" value="1" class="form-check-input" type="checkbox" role="switch" id="pre_invoice_required">
+                                <label class="form-check-label" for="pre_invoice_required">{{ __('Pre-invoice required') }}</label>
                             </div>
                         </div>
-                        <div class="col-md-6">
-                            <div class="mb-3">
-                                <label for="email" class="form-label">{{ __('Email') }}</label>
-                                <input type="text" id="email" wire:model="email" name="email" class="form-control">
+                        @if ($preInvoiceRequired)
+                            <div class="col-md-6">
+                                <div class="mb-3">
+                                    <label for="name" class="form-label">{{ __('Full name') }}</label>
+                                    <input type="text" id="name" wire:model="name" name="name" class="form-control">
+                                </div>
+                                <div class="mb-3">
+                                    <label for="company_name" class="form-label">{{ __('Company name') }}</label>
+                                    <input type="text" id="company_name" wire:model="companyName" name="company_name" class="form-control">
+                                </div>
+                                <div class="mb-3">
+                                    <label for="company_code" class="form-label">{{ __('Registration code') }}</label>
+                                    <input type="text" id="company_code" wire:model="companyCode" name="company_code" class="form-control">
+                                </div>
+                                <div class="mb-3">
+                                    <label for="company_phone" class="form-label">{{ __('Phone number') }}</label>
+                                    <input type="text" id="company_phone" wire:model="companyPhone" name="company_phone" class="form-control">
+                                </div>
                             </div>
-                            <div class="mb-3">
-                                <label for="address" class="form-label">{{ __('Address') }}</label>
-                                <input type="text" id="address" wire:model="address" name="address" class="form-control">
+                            <div class="col-md-6">
+                                <div class="mb-3">
+                                    <label for="email" class="form-label">{{ __('Email') }}</label>
+                                    <input type="text" id="email" wire:model="email" name="email" class="form-control">
+                                </div>
+                                <div class="mb-3">
+                                    <label for="address" class="form-label">{{ __('Address') }}</label>
+                                    <input type="text" id="address" wire:model="address" name="address" class="form-control">
+                                </div>
+                                <div class="mb-3">
+                                    <label for="pvm_code" class="form-label">{{ __('VAT number') }}</label>
+                                    <input type="text" id="pvm_code" wire:model="pvmCode" name="pvm_code" class="form-control">
+                                </div>
                             </div>
-                            <div class="mb-3">
-                                <label for="pvm_code" class="form-label">{{ __('VAT number') }}</label>
-                                <input type="text" id="pvm_code" wire:model="pvmCode" name="pvm_code" class="form-control">
-                            </div>
-                        </div>
+                        @endif
                     @endif
                 </div>
             </div>
             <div class="col-md-4">
+                <div class="mb-3">
+                    <label for="order_type" class="form-label">{{ __('Type') }}</label>
+                    <select class="form-select" id="order_type" wire:model="orderType">
+                        @foreach($orderTypes as $type => $name)
+                            <option value="{{ $type }}">{{ __($name) }}</option>
+                        @endforeach
+                    </select>
+                </div>
+                @if($orderType === config('constants.ORDER_TYPE_ISSUE'))
+                    <div class="mb-3">
+                        <div class="form-check form-switch d-inline-block">
+                            <input wire:model="waybillRequired" value="1" class="form-check-input" type="checkbox" role="switch" id="waybill_required">
+                            <label class="form-check-label" for="waybill_required">{{ __('Bill of lading is required') }}</label>
+                        </div>
+                    </div>
+                @endif
                 <div class="mb-3">
                     <label for="customer" class="form-label">{{ __('Customer') }}</label>
                     <select class="form-select" id="customer" wire:model="selectedCustomer">
@@ -165,18 +183,20 @@
                     <div class="small text-danger">{{ $message }}</div>
                     @enderror
                 </div>
-                <div class="mb-3">
-                    <label for="paymentmethod" class="form-label">{{ __('Payment method') }}</label>
-                    <select class="form-select" id="paymentmethod" wire:model="selectedPaymentMethod">
-                        <option hidden>{{ __('Select') }}</option>
-                        @foreach($paymentMethods as $payment_method)
-                            <option value="{{ $payment_method->id }}">{{ __($payment_method->name) }}</option>
-                        @endforeach
-                    </select>
-                    @error('selectedPaymentMethod')
-                    <div class="small text-danger">{{ $message }}</div>
-                    @enderror
-                </div>
+                @if($orderType === config('constants.ORDER_TYPE_NORMAL'))
+                    <div class="mb-3">
+                        <label for="paymentmethod" class="form-label">{{ __('Payment method') }}</label>
+                        <select class="form-select" id="paymentmethod" wire:model="selectedPaymentMethod">
+                            <option hidden>{{ __('Select') }}</option>
+                            @foreach($paymentMethods as $payment_method)
+                                <option value="{{ $payment_method->id }}">{{ __($payment_method->name) }}</option>
+                            @endforeach
+                        </select>
+                        @error('selectedPaymentMethod')
+                        <div class="small text-danger">{{ $message }}</div>
+                        @enderror
+                    </div>
+                @endif
                 <div class="mb-3">
                     <label for="message" class="form-label">{{ __('Message') }}</label>
                     <textarea name="message" wire:model="message" id="message" class="form-control"></textarea>

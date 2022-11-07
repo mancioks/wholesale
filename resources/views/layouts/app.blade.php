@@ -63,7 +63,7 @@
                                 </li>
                             @endif
                         @else
-                            @role('super_admin')
+                            @role('super_admin', 'warehouse')
                             <li class="nav-item">
                                 <a href="{{ route('admin.dashboard') }}" class="btn btn-dark">Naujas administravimas <span class="badge bg-warning text-dark">BETA</span></a>
                             </li>

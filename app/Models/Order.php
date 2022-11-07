@@ -31,7 +31,12 @@ class Order extends Model
         'customer_company_phone_number',
         'created_by',
         'pre_invoice_required',
+        'order_type',
+        'waybill_required',
     ];
+
+    public const ORDER_TYPE_NORMAL = 'normal';
+    public const ORDER_TYPE_ISSUE = 'issue';
 
     public function status()
     {

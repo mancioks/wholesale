@@ -1,7 +1,12 @@
 @extends('layouts.admin')
 
 @section('title')
-    {{ __('Order') }} {{ $order->number }}
+    @if($order->type === config('constants.ORDER_TYPE_NORMAL'))
+        {{ __('Order') }}
+    @else
+        {{ __('Issue') }}
+    @endif
+    {{ $order->number }}
 @endsection
 @section('subtitle')
     {{ $order->user->name }}, {{ $order->user->email }}
@@ -131,7 +136,7 @@
                                 <label for="payment_method" class="col-form-label">{{ __('Payment method') }}</label>
                                 <select class="form-select" name="payment_method_id" id="payment_method">
                                     @foreach($paymentMethods as $paymentMethod)
-                                        <option value="{{ $paymentMethod->id }}" {{ $paymentMethod->id === $order->paymentMethod->id ? 'selected':'' }}>{{ $paymentMethod->name }}</option>
+                                        <option value="{{ $paymentMethod->id }}" {{ $order->paymentMethod && $paymentMethod->id === $order->paymentMethod->id ? 'selected':'' }}>{{ $paymentMethod->name }}</option>
                                     @endforeach
                                 </select>
                             </div>
@@ -236,9 +241,11 @@
                             <div class="mt-3 mb-0">
                                 {{ __('Total') }}: <b>{{ $order->total }} €</b>
                             </div>
-                            <div>
-                                {{ __('Payment method') }}: <b>{{ $order->paymentMethod->name }}</b>
-                            </div>
+                            @if($order->paymentMethod)
+                                <div>
+                                    {{ __('Payment method') }}: <b>{{ $order->paymentMethod->name }}</b>
+                                </div>
+                            @endif
                             <div class="mt-2 mb-0">
                                 {{ __('Created') }}: <b>{{ $order->created_at }}</b>
                             </div>
