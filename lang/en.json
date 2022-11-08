@@ -180,5 +180,7 @@
     "Normal": "Paprastas",
     "Issue": "Išdavimas",
     "Type": "Tipas",
-    "Bill of lading is required": "Reikalingas važtaraštis"
+    "Bill of lading is required": "Reikalingas važtaraštis",
+    "Regular": "Paprastas",
+    "Personalized": "Personalizuotas"
 }

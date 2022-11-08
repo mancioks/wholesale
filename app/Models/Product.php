@@ -12,7 +12,10 @@ class Product extends Model
 {
     use HasFactory, Searchable;
 
-    protected $fillable = ['name', 'price', 'units', 'prime_cost'];
+    public const PRODUCT_TYPE_REGULAR = 'regular';
+    public const PRODUCT_TYPE_PERSONALIZED = 'personalized';
+
+    protected $fillable = ['name', 'price', 'units', 'prime_cost', 'type'];
 
     protected $originalPrice;
 

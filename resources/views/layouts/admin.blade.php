@@ -35,7 +35,20 @@
             </button>
             <div class="navbar-nav">
                 <div class="nav-item text-nowrap">
-                    <a class="nav-link px-3" href="#">{{ __('Logout') }}</a>
+                    <div class="dropdown d-inline-block position-relative">
+                        <a href="#" class="btn text-white border-0 dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+                            <img src="{{ asset(setting('images.path').'user-avatar-default.png') }}" alt="{{ auth()->user()->name }}" class="bg-white mt-n1 rounded-1" height="25">
+                            {{ auth()->user()->name }}
+                        </a>
+                        <ul class="dropdown-menu position-absolute mt-2 dropdown-menu-end me-1">
+                            <li>
+                                <a class="dropdown-item" href="{{ route('logout') }}" onclick="event.preventDefault();document.getElementById('logout-form').submit();">{{ __('Logout') }}</a>
+                                <form id="logout-form" action="{{ route('logout') }}" method="POST" class="d-none">
+                                    @csrf
+                                </form>
+                            </li>
+                        </ul>
+                    </div>
                 </div>
             </div>
         </header>
@@ -78,6 +91,40 @@
             "serverSide": true,
             "order": [[ 0, "desc" ]],
             scrollX: true,
+        });
+    </script>
+
+    <script>
+        // open bootstrap modal with url hash
+        $(document).ready(function() {
+            // check if page was reloaded
+            if (!(window.performance && window.performance.navigation.type === 1)) {
+                if (window.location.hash) {
+                    var hash = window.location.hash.substring(1);
+                    if (hash) {
+                        var modal = $('#' + hash);
+                        if (modal.length) {
+                            modal.modal('show');
+                        }
+                    }
+                }
+            }
+        });
+
+        // do something when event is triggered
+        window.addEventListener('dashboard-sub-link-clicked', event => {
+            setTimeout(function() {
+                if (window.location.hash) {
+                    var hash = window.location.hash.substring(1);
+                    if (hash) {
+                        var modal = $('#' + hash);
+                        if (modal.length) {
+                            modal.modal('show');
+                        }
+                    }
+                }
+            }, 10);
+
         });
     </script>
 

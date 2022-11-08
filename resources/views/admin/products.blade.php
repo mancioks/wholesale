@@ -4,7 +4,7 @@
     {{ __('Products') }}
 @endsection
 @section('actions')
-    @include('components.admin.dashboard-action', ['route' => route('product.create'), 'title' => __('Create product'), 'class' => 'btn-primary', 'icon' => 'bi bi-plus-circle'])
+    @include('components.admin.modals.create-product')
     @include('components.admin.dashboard-action', ['route' => route('product.import'), 'title' => __('Import products'), 'class' => 'btn-warning', 'icon' => 'bi bi-filetype-csv'])
 @endsection
 @section('content')
