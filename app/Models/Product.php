@@ -44,6 +44,11 @@ class Product extends Model
         return $this->belongsToMany(Warehouse::class, 'warehouse_product')->withPivot(['price', 'enabled']);
     }
 
+    public function users()
+    {
+        return $this->belongsToMany(User::class, 'user_product');
+    }
+
     public function getImageAttribute()
     {
         return $this->photo()->exists() ? $this->photo : Image::placeholder();

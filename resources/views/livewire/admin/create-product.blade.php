@@ -16,18 +16,22 @@
                         <div class="mb-3">
                             <label for="product_name" class="form-label">{{ __('Product name') }}</label>
                             <input type="text" class="form-control" id="product_name" wire:model="name" name="name" required>
+                            @error('name') <div class="small text-danger">{{ $message }}</div> @enderror
                         </div>
                         <div class="mb-3">
                             <label for="product_price" class="form-label">{{ __('Price') }} ({{ __('Without VAT') }})</label>
                             <input type="number" class="form-control" id="product_price" wire:model="price" name="price" step=".01" required>
+                            @error('price') <div class="small text-danger">{{ $message }}</div> @enderror
                         </div>
                         <div class="mb-3">
                             <label for="product_prime_cost" class="form-label">{{ __('Prime cost') }}</label>
                             <input type="number" class="form-control" id="product_prime_cost" wire:model="primeCost" name="prime_cost" step=".01" required>
+                            @error('primeCost') <div class="small text-danger">{{ $message }}</div> @enderror
                         </div>
                         <div class="mb-3">
                             <label for="product_units" class="form-label">{{ __('Units') }}</label>
                             <input type="text" class="form-control" id="product_units" wire:model="units" name="units" required>
+                            @error('units') <div class="small text-danger">{{ $message }}</div> @enderror
                         </div>
                         <div class="mb-3">
                             <label class="form-label">{{ __('Photo') }}</label>
@@ -59,7 +63,7 @@
                 </div>
                 @if($productType === config('constants.PRODUCT_TYPE_PERSONALIZED'))
                     <div class="mb-3">
-                        <label for="customer" class="form-label">{{ __('Customer') }}</label>
+                        <label for="customer" class="form-label">{{ __('Customers') }}</label>
                         <div class="input-group">
                             <select class="form-select" id="customer" wire:model="selectedCustomer">
                                 <option hidden>{{ __('Select') }}</option>
@@ -70,6 +74,18 @@
                             <button class="btn btn-primary" wire:click="addCustomer">{{ __('Add') }}</button>
                         </div>
                         @error('selectedCustomer') <div class="small text-danger">{{ $message }}</div> @enderror
+                        @if($productUsers->isNotEmpty())
+                            <div>
+                                {{ __('Selected:') }}
+                                @foreach($productUsers as $productUser)
+                                    <div class="badge bg-light text-secondary border mt-1">
+                                        {{ $productUser->name }}
+                                        <span class="d-inline-block bg-danger text-white px-1 py-1 rounded ms-1" role="button" wire:click="removeCustomer({{ $productUser->id }})">✖</span>
+                                    </div>
+                                @endforeach
+                            </div>
+                        @endif
+                        @error('productUsers') <div class="small text-danger">{{ $message }}</div> @enderror
                     </div>
                 @endif
                 <table class="table table-bordered">
@@ -91,6 +107,7 @@
                                 @else
                                     <div class="badge bg-primary text-white d-inline-block">{{ __('Inherited') }}</div>
                                 @endif
+                                @error('warehousePrices.'.$warehouse->id) <div class="small text-danger">{{ $message }}</div> @enderror
                             </td>
                             <td>
                                 <div class="form-check form-switch">

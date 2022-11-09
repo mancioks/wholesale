@@ -1,7 +1,7 @@
 @extends('layouts.admin')
 
 @section('title')
-    @if($order->type === config('constants.ORDER_TYPE_NORMAL'))
+    @if($order->order_type === config('constants.ORDER_TYPE_NORMAL'))
         {{ __('Order') }}
     @else
         {{ __('Issue') }}

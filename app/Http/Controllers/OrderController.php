@@ -47,10 +47,12 @@ class OrderController extends Controller
                 ->whereHas('warehouses', function ($q) {
                     $q->where('warehouse_id', auth()->user()->warehouse->id)->where('enabled', true);
                 })
+                ->where('type', Product::PRODUCT_TYPE_REGULAR)
                 ->where('name', 'LIKE', '%'.$search_query.'%')
                 ->orWhereHas('warehouses', function ($q) {
                     $q->where('warehouse_id', auth()->user()->warehouse->id)->where('enabled', true);
                 })
+                ->where('type', Product::PRODUCT_TYPE_REGULAR)
                 ->where(['id' => $search_query])
                 ->orderBy('id', 'desc')
                 ->paginate(12);

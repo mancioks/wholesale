@@ -99,7 +99,6 @@ class CreateOrder extends Component
 
     private function recalculateTotal()
     {
-        $this->success = false;
         $this->subTotal = 0;
         $this->total = 0;
 
@@ -116,6 +115,12 @@ class CreateOrder extends Component
         if ($this->addPvm) {
             $this->total *= setting('pvm') / 100 + 1;
         }
+    }
+
+    public function updated($propertyName)
+    {
+        $this->resetErrorBag($propertyName);
+        $this->success = false;
     }
 
     public function updatedSearchQuery()

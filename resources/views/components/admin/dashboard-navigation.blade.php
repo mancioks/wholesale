@@ -8,7 +8,7 @@
     </li>
     <li class="nav-item">
         @include('components.admin.dashboard-link', ['route' => 'admin.product.index', 'icon' => 'bi bi-cart', 'title' => 'Products'])
-        @include('components.admin.dashboard-sub-link', ['route' => 'product.create', 'icon' => 'bi bi-plus-circle', 'title' => 'Create product'])
+        @include('components.admin.dashboard-sub-link', ['route' => 'admin.product.index', 'icon' => 'bi bi-plus-circle', 'title' => 'Create product', 'hash' => 'create-product-modal'])
         @include('components.admin.dashboard-sub-link', ['route' => 'product.import', 'icon' => 'bi bi-filetype-csv', 'title' => 'Import products'])
     </li>
     <li class="nav-item">
@@ -40,11 +40,12 @@
     </li>
     <li class="nav-item">
         @include('components.admin.dashboard-link', ['route' => 'admin.product.index', 'icon' => 'bi bi-cart', 'title' => 'Products'])
-        @include('components.admin.dashboard-sub-link', ['route' => 'product.create', 'icon' => 'bi bi-plus-circle', 'title' => 'Create product'])
+        @include('components.admin.dashboard-sub-link', ['route' => 'admin.product.index', 'icon' => 'bi bi-plus-circle', 'title' => 'Create product', 'hash' => 'create-product-modal'])
         @include('components.admin.dashboard-sub-link', ['route' => 'product.import', 'icon' => 'bi bi-filetype-csv', 'title' => 'Import products'])
     </li>
     <li class="nav-item">
         @include('components.admin.dashboard-link', ['route' => 'admin.order.index', 'icon' => 'bi bi-card-checklist', 'title' => 'Orders'])
+        @include('components.admin.dashboard-sub-link', ['route' => 'admin.order.index', 'icon' => 'bi bi-plus-circle', 'title' => 'Create order', 'hash' => 'create-order-modal'])
     </li>
     <li class="nav-item">
         @include('components.admin.dashboard-link', ['route' => 'admin.warehouse.index', 'icon' => 'bi bi-building', 'title' => 'Warehouses'])

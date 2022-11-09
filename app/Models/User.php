@@ -155,4 +155,9 @@ class User extends Authenticatable
     {
         return $this->hasOne(User::class, 'id', 'acting_as');
     }
+
+    public function products()
+    {
+        return $this->belongsToMany(Product::class, 'user_product');
+    }
 }
