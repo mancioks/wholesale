@@ -25,135 +25,37 @@
         </div>
     @endif
     @role('warehouse', 'super_admin')
-    <button type="button" class="btn btn-sm btn-warning" data-bs-toggle="modal" data-bs-target="#shortageForm">
-        <i class="bi bi-exclamation-triangle"></i> {{ __('Shortage') }}
-    </button>
-    <div class="modal fade" id="shortageForm" tabindex="-1" aria-hidden="true">
-        <div class="modal-dialog modal-lg text-black">
-            <div class="modal-content">
-                <form action="{{ route('order.shortage', $order) }}" method="post">
-                    @csrf
-                    <div class="modal-header">
-                        <h5 class="modal-title" id="exampleModalLabel">{{ __('Shortage') }}</h5>
-                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                    </div>
-                    <div class="modal-body">
-                        <table class="table mt-3">
-                            <thead class="table-dark">
-                            <tr>
-                                <th scope="col">{{ __('Product name') }}</th>
-                                <th scope="col">{{ __('Quantity') }}</th>
-                                <th scope="col">{{ __('Stock') }}</th>
-                            </tr>
-                            </thead>
-                            <tbody>
-                            @foreach($order->items as $product)
-                                <tr>
-                                    <td>{{ $product->name }}</td>
-                                    <td>{{ $product->qty }} {{ $product->units }}</td>
-                                    <td>
-                                        <input type="hidden" name="product[]" value="{{ $product->id }}">
-                                        <input type="number" class="form-control form-control-sm" name="stock[]" placeholder="{{ __('Stock') }}" value="{{ $product->stock }}">
-                                    </td>
-                                </tr>
-                            @endforeach
-                            </tbody>
-                        </table>
-                    </div>
-                    <div class="modal-footer">
-                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">{{ __('Close') }}</button>
-                        <button type="submit" class="btn btn-primary">{{ __('Save') }}</button>
-                    </div>
-                </form>
-            </div>
-        </div>
-    </div>
+        @include('components.admin.modals.shortage', ['order' => $order])
     @endrole
     @role('super_admin')
-    <a href="{{ route('order.edit', $order) }}" class="btn btn-sm btn-primary d-inline-block">
-        <i class="bi bi-pencil-fill"></i> {{ __('Edit') }}
-    </a>
-    <form method="post" action="{{ route('order.destroy', $order) }}" class="d-inline-block" onsubmit="return confirm('{{ __('Are you sure?') }}')">
-        @csrf
-        @method('delete')
-        <button type="submit" class="btn btn-sm btn-danger d-inline-block">
-            <i class="bi bi-trash3-fill"></i> {{ __('Delete') }}
-        </button>
-    </form>
+        @include('components.admin.dashboard-action', ['route' => route('order.edit', $order), 'title' => __('Edit'), 'class' => 'btn-primary', 'icon' => 'bi bi-pencil-fill'])
+        <form method="post" action="{{ route('order.destroy', $order) }}" class="d-inline-block" onsubmit="return confirm('{{ __('Are you sure?') }}')">
+            @csrf
+            @method('delete')
+            <button type="submit" class="btn btn-sm btn-danger d-inline-block">
+                <i class="bi bi-trash3-fill"></i> {{ __('Delete') }}
+            </button>
+        </form>
     @endrole
     @role('admin', 'super_admin')
-    <button type="button" class="btn btn-sm btn-secondary" data-bs-toggle="modal" data-bs-target="#paymentForm">
-        <i class="bi bi-cash-coin"></i> {{ __('Payments') }}
-    </button>
-    <div class="modal fade" id="paymentForm" tabindex="-1" aria-hidden="true">
-        <div class="modal-dialog modal-lg text-black">
-            <div class="modal-content">
-                <form action="{{ route('payments.store', $order) }}" method="post">
-                    @csrf
-                    <div class="modal-header">
-                        <h5 class="modal-title" id="exampleModalLabel">{{ __('Payments') }}</h5>
-                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                    </div>
-                    <div class="modal-body">
-                        <table class="table mt-3">
-                            <thead class="table-dark">
-                            <tr>
-                                <th scope="col">#</th>
-                                <th scope="col">{{ __('Method') }}</th>
-                                <th scope="col">{{ __('Date') }}</th>
-                                <th scope="col">{{ __('Amount') }}</th>
-                            </tr>
-                            </thead>
-                            <tbody>
-                            @forelse($order->payments as $payment)
-                                <tr>
-                                    <th scope="row">{{ $loop->index + 1 }}</th>
-                                    <td>{{ $payment->method->name }}</td>
-                                    <td>{{ $payment->created_at }}</td>
-                                    <td>{{ price_format($payment->amount) }}€</td>
-                                </tr>
-                            @empty
-                                <tr>
-                                    <td colspan="4">{{ __('No payments') }}</td>
-                                </tr>
-                            @endforelse
-                            <tr>
-                                <td colspan="3" class="border-0"></td>
-                                <td><b>{{ __('Paid') }}</b>: {{ price_format($order->paid_total) }}€</td>
-                            </tr>
-                            <tr>
-                                <td colspan="3" class="border-0"></td>
-                                <td><b>{{ __('Left to pay') }}</b>: {{ price_format($order->total - $order->paid_total) }}€</td>
-                            </tr>
-                            </tbody>
-                        </table>
-                        <div class="row">
-                            <div class="col-lg-6">
-                                <label for="amount" class="col-form-label">{{ __('Amount') }}</label>
-                                <input type="number" id="amount" class="form-control" name="amount" placeholder="{{ $order->total }}" step=".01">
-                            </div>
-                            <div class="col-lg-6">
-                                <label for="payment_method" class="col-form-label">{{ __('Payment method') }}</label>
-                                <select class="form-select" name="payment_method_id" id="payment_method">
-                                    @foreach($paymentMethods as $paymentMethod)
-                                        <option value="{{ $paymentMethod->id }}" {{ $order->paymentMethod && $paymentMethod->id === $order->paymentMethod->id ? 'selected':'' }}>{{ $paymentMethod->name }}</option>
-                                    @endforeach
-                                </select>
-                            </div>
-                        </div>
-
-                    </div>
-                    <div class="modal-footer">
-                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">{{ __('Close') }}</button>
-                        <button type="submit" class="btn btn-primary">{{ __('Add') }}</button>
-                    </div>
-                </form>
-            </div>
-        </div>
-    </div>
+        @include('components.admin.modals.payments', ['order' => $order, 'paymentMethods' => $paymentMethods])
     @endrole
 @endsection
 @section('content')
+    @if($order->status->id === constant('\App\Models\Status::PREPARED') && !$order->signature)
+        <div class="mt-3">
+            <div class="row">
+                <div class="col">
+                    <div class="shadow-sm card bg-warning bg-opacity-25">
+                        <div class="card-body">
+                            <span class="d-inline-block me-2">{{ __('Order must be signed') }}</span> @include('components.admin.modals.sign', ['order' => $order])
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    @endif
+
     <div class="mt-3">
         <div class="row justify-content-center">
             <div class="col-lg-8 order-last order-lg-first mt-3 mt-lg-0">
@@ -197,6 +99,19 @@
                         </div>
                     </div>
                 </div>
+                @if($order->signature)
+                    <div class="shadow-sm card mt-3">
+                        <div class="card-header bg-success text-white">
+                            {{ __('Signed') }}
+                        </div>
+                        <div class="card-body">
+                            <div class="d-inline-block border-bottom pb-2 border-secondary">
+                                <span class="align-bottom">{{ $order->user->name }}</span>
+                                <img src="{{ asset($order->signature) }}" class="align-bottom">
+                            </div>
+                        </div>
+                    </div>
+                @endif
             </div>
             <div class="col-lg-4">
                 <div class="card shadow shadow">
@@ -294,3 +209,4 @@
         </div>
     </div>
 @endsection
+

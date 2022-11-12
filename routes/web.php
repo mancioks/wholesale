@@ -57,6 +57,7 @@ Route::group(['middleware' => 'auth'], function () {
             Route::resource('order', \App\Http\Controllers\Admin\OrderController::class);
             Route::resource('product', \App\Http\Controllers\Admin\ProductController::class);
             Route::resource('user', \App\Http\Controllers\Admin\UserController::class);
+            Route::post('sign/{order}', [\App\Http\Controllers\Admin\SignatureController::class, 'sign'])->name('sign.order');
         });
 
         Route::prefix('api/datatable')->name('api.datatable.')->controller(\App\Http\Controllers\Api\DataTableController::class)->group(function () {

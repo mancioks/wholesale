@@ -32,6 +32,11 @@ class SettingSeeder extends Seeder
                 'title' => 'Images path',
                 'type' => 'text',
             ],
+            'signatures.path' => [
+                'value' => 'storage/uploads/',
+                'title' => 'Signatures path',
+                'type' => 'text',
+            ],
             'logo' => [
                 'value' => 'images/vandenvala.png',
                 'title' => 'Logo',

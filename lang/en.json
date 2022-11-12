@@ -184,5 +184,9 @@
     "Regular": "Paprastas",
     "Personalized": "Personalizuotas",
     "Dashboard": "Skydelis",
-    "No items": "Prekių nėra"
+    "No items": "Prekių nėra",
+    "Order must be signed": "Reikalingas kliento parašas",
+    "Sign": "Pasirašyti",
+    "Customer signature": "Kliento parašas",
+    "Clear": "Išvalyti"
 }

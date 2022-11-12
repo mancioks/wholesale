@@ -33,6 +33,8 @@ class Order extends Model
         'pre_invoice_required',
         'order_type',
         'waybill_required',
+        'accepted_by',
+        'signature',
     ];
 
     public const ORDER_TYPE_NORMAL = 'normal';

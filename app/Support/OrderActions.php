@@ -74,6 +74,10 @@ class OrderActions
                     Status::TAKEN => 'Order taken',
                 ];
             }
+
+            if ($order->status->id === Status::PREPARED && !$order->signature) {
+                unset($actions[Status::TAKEN]);
+            }
         }
 
         $this->actions = $actions;
