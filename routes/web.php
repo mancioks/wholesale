@@ -39,6 +39,7 @@ Route::group(['middleware' => 'auth'], function () {
     Route::get('cart', [\App\Http\Controllers\CartController::class, 'index'])->name('cart');
 
     Route::get('invoice/{order}', [\App\Http\Controllers\InvoiceController::class, 'invoice'])->name('invoice');
+    Route::get('waybill/{order}', [\App\Http\Controllers\InvoiceController::class, 'waybill'])->name('waybill');
     //Route::get('invoice/vat/{order}', [\App\Http\Controllers\InvoiceController::class, 'vatInvoice'])->name('vat.invoice');
 
     Route::get('/', [App\Http\Controllers\HomeController::class, 'dashboard'])->name('home');

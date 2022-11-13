@@ -107,6 +107,11 @@ class Order extends Model
         return PDF::loadView('pdf.invoice', ['order' => $this]);
     }
 
+    public function getWaybillAttribute()
+    {
+        return PDF::loadView('pdf.waybill', ['order' => $this]);
+    }
+
     public function getVatInvoiceAttribute()
     {
 //        if ($this->vat_number > 0) {
@@ -170,5 +175,10 @@ class Order extends Model
     public function createdByUser()
     {
         return $this->hasOne(User::class, 'id', 'created_by');
+    }
+
+    public function acceptedByUser()
+    {
+        return $this->hasOne(User::class, 'id', 'accepted_by');
     }
 }

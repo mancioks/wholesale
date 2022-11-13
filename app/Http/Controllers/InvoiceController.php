@@ -27,4 +27,15 @@ class InvoiceController extends Controller
 
         return abort(403);
     }
+
+    public function waybill(Order $order)
+    {
+        $this->authorize('view', $order);
+
+        if($order->waybill_required && $order->signature) {
+            return $order->waybill->stream();
+        }
+
+        return abort(403);
+    }
 }

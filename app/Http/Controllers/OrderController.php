@@ -294,6 +294,10 @@ class OrderController extends Controller
                 $recipients = User::ofRole(Role::SUPER_ADMIN)->get();
                 MailService::send($recipients, 'Užsakymas atsiimtas', sprintf('Užsakymą %s pažymėjo kaip atsiimtą %s', $order->number, auth()->user()->name), ['order' => $order]);
 
+                $order->update([
+                    'accepted_by' => auth()->user()->id,
+                ]);
+
                 break;
 
             case Status::DONE:
