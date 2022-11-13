@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\SignRequest;
 use App\Models\Order;
 use App\Models\Setting;
+use App\Models\Status;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
 use Intervention\Image\ImageManagerStatic as Image;
@@ -22,6 +23,8 @@ class SignatureController extends Controller
 
         $order->update([
             'signature' => $name,
+            'status_id' => Status::TAKEN,
+            'accepted_by' => auth()->user()->id,
         ]);
 
         return redirect()->back()->with('status', 'Order signed');
