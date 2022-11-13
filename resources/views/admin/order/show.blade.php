@@ -107,7 +107,7 @@
                         <div class="card-body">
                             <div class="d-inline-block border-bottom pb-2 border-secondary">
                                 <span class="align-bottom">{{ $order->user->name }}</span>
-                                <img src="{{ asset($order->signature) }}" class="align-bottom">
+                                <img src="{{ asset($order->signature) }}" class="align-bottom" height="70">
                             </div>
                         </div>
                     </div>
