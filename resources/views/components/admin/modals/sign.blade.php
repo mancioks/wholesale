@@ -14,7 +14,7 @@
                     <div class="wrapper w-100">
                         <canvas id="signature-pad" class="signature-pad" width=100 height=300></canvas>
                     </div>
-                    <textarea id="signature64" name="signature" class="d-none" required></textarea>
+                    <textarea id="signature64" name="signature" class="d-none"></textarea>
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" id="clear">{{ __('Clear') }}</button>

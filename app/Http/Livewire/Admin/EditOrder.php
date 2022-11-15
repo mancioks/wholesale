@@ -15,7 +15,7 @@ use App\Models\Warehouse;
 use Illuminate\Database\Eloquent\Collection;
 use Livewire\Component;
 
-class CreateOrder extends Component
+class EditOrder extends Component
 {
     public Collection $products;
     public $productQty;
@@ -46,13 +46,17 @@ class CreateOrder extends Component
 
     public $orderType;
 
+    public $order;
+
     public $orderTypes = [
         Order::ORDER_TYPE_NORMAL => 'Normal',
         Order::ORDER_TYPE_ISSUE => 'Issue',
     ];
 
-    public function mount()
+    public function mount(Order $order)
     {
+        $this->order = $order;
+
         $this->products = new Collection();
         $this->productQty = [];
         $this->searchQuery = '';
@@ -67,6 +71,38 @@ class CreateOrder extends Component
         $this->success = false;
         $this->orderType = Order::ORDER_TYPE_NORMAL;
         $this->waybillRequired = false;
+
+        $this->setOrder($order);
+    }
+
+    private function setOrder(Order $order)
+    {
+        $this->selectedCustomer = $order->user_id;
+        $this->selectedPaymentMethod = $order->payment_method_id;
+        $this->selectedWarehouse = $order->warehouse_id;
+        $this->preInvoiceRequired = $order->pre_invoice_required;
+        $this->addPvm = $order->pvm;
+        $this->subTotal = $order->sub_total;
+        $this->total = $order->total;
+        $this->waybillRequired = $order->waybill_required;
+        $this->orderType = $order->order_type;
+        $this->name = $order->customer_name;
+        $this->companyName = $order->customer_company_name;
+        $this->companyCode = $order->customer_company_registration_code;
+        $this->companyPhone = $order->customer_company_phone_number;
+        $this->email = $order->customer_email;
+        $this->address = $order->customer_company_address;
+        $this->pvmCode = $order->customer_company_vat_number;
+        $this->message = $order->message;
+
+
+        foreach ($order->items as $item) {
+            $this->productQty[$item->product_id] = $item->qty;
+            $product = Product::find($item->product_id);
+            $this->products->push($product);
+        }
+
+        $this->recalculateTotal();
     }
 
     public function getUserProperty()
@@ -178,49 +214,20 @@ class CreateOrder extends Component
 
         $this->recalculateTotal();
 
-        $this->createOrder();
-        $this->resetFields();
+        $this->editOrder();
 
-        $this->emit('orderCreated');
+        $this->emit('orderUpdated');
         $this->success = true;
     }
 
-    private function resetFields()
+    private function editOrder()
     {
-        $this->mount();
-        $this->selectedCustomer = null;
-        $this->selectedWarehouse = null;
-        $this->selectedPaymentMethod = null;
-        $this->addPvm = null;
-        $this->preInvoiceRequired = null;
-        $this->name = '';
-        $this->companyName = '';
-        $this->companyCode = '';
-        $this->companyPhone = '';
-        $this->email = '';
-        $this->address = '';
-        $this->pvmCode = '';
-        $this->message = '';
-    }
-
-    private function createOrder()
-    {
-        $statusId = Status::CREATED;
-        $paymentStatus = PaymentStatus::WAITING;
-
-        if ($this->orderType === Order::ORDER_TYPE_ISSUE) {
-            $statusId = Status::PREPARED;
-            $paymentStatus = PaymentStatus::PAID;
-        }
-
-        $order = Order::create([
+        $this->order->update([
             'user_id' => $this->user->id,
-            'status_id' => $statusId,
             'discount' => 0,
             'pvm' => $this->addPvm ? Setting::get('pvm') : 0,
             'total' => $this->total,
             'payment_method_id' => $this->selectedPaymentMethod,
-            'payment_status_id' => $paymentStatus,
             'vat_number' => 0,
             'warehouse_id' => $this->selectedWarehouse,
             'message' => $this->message ?: '',
@@ -233,10 +240,12 @@ class CreateOrder extends Component
             'customer_company_vat_number' => $this->pvmCode ?: '',
             'customer_company_phone_number' => $this->companyPhone ?: '',
             'pre_invoice_required' => $this->preInvoiceRequired,
-            'created_by' => auth()->user()->id,
             'order_type' => $this->orderType,
             'waybill_required' => $this->waybillRequired,
         ]);
+
+        $order = $this->order;
+        $order->items()->delete();
 
         foreach ($this->products as $product) {
             OrderItem::query()->create([
@@ -253,6 +262,6 @@ class CreateOrder extends Component
 
     public function render()
     {
-        return view('livewire.admin.create-order');
+        return view('livewire.admin.edit-order');
     }
 }

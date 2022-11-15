@@ -59,6 +59,12 @@ class SettingSeeder extends Seeder
                 'type' => 'number',
                 'edit' => 1,
             ],
+            'warehouse.virtual' => [
+                'value' => '1',
+                'title' => 'Virtual warehouse ID',
+                'type' => 'number',
+                'edit' => 1,
+            ],
         ];
 
         foreach ($settings as $name => $setting) {

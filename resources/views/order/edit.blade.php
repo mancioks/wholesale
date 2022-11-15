@@ -92,7 +92,7 @@
                                     {{ __('Payment method') }}
                                     <select class="form-select" name="payment_method_id">
                                         @foreach($paymentMethods as $paymentMethod)
-                                            <option value="{{ $paymentMethod->id }}" {{ $order->paymentMethod->id === $paymentMethod->id ? 'selected' : '' }}>{{ $paymentMethod->name }} {{ $order->paymentMethod->id === $paymentMethod->id ? '*' : '' }}</option>
+                                            <option value="{{ $paymentMethod->id }}" {{ $order->paymentMethod && $order->paymentMethod->id === $paymentMethod->id ? 'selected' : '' }}>{{ $paymentMethod->name }} {{ $order->paymentMethod && $order->paymentMethod->id === $paymentMethod->id ? '*' : '' }}</option>
                                         @endforeach
                                     </select>
                                 </div>

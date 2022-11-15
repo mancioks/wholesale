@@ -24,11 +24,11 @@
             </ul>
         </div>
     @endif
-    @role('warehouse', 'super_admin')
+    @role('warehouse', 'admin', 'super_admin')
+        @include('components.admin.modals.edit-order', ['order' => $order])
         @include('components.admin.modals.shortage', ['order' => $order])
     @endrole
     @role('super_admin')
-        @include('components.admin.dashboard-action', ['route' => route('order.edit', $order), 'title' => __('Edit'), 'class' => 'btn-primary', 'icon' => 'bi bi-pencil-fill'])
         <form method="post" action="{{ route('order.destroy', $order) }}" class="d-inline-block" onsubmit="return confirm('{{ __('Are you sure?') }}')">
             @csrf
             @method('delete')
@@ -197,3 +197,15 @@
     </div>
 @endsection
 
+@section('scripts')
+    <script>
+        document.addEventListener('livewire:load', function () {
+            window.livewire.on('orderUpdated', () => {
+                setTimeout(() => {
+                    $('#edit-order-modal').modal('hide');
+                    location.reload();
+                }, 1000);
+            });
+        });
+    </script>
+@endsection
