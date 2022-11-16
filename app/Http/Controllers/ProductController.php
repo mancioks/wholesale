@@ -122,12 +122,26 @@ class ProductController extends Controller
             ];
 
             if ($product->exists()) {
-                $product->first()->update($data);
+                $product = $product->first();
+                $product->update($data);
             } else {
                 /** @var Product $product */
                 $product = Product::query()->create($data);
-
                 WarehouseService::attachProduct($product);
+            }
+
+            if ($item->is_virtual) {
+                foreach ($product->warehouses as $warehouse) {
+                    if ($warehouse->id === (int)setting('warehouse.virtual')) {
+                        $warehouse->pivot->update([
+                            'enabled' => true,
+                        ]);
+                    } else {
+                        $warehouse->pivot->update([
+                            'enabled' => false,
+                        ]);
+                    }
+                }
             }
         }
 

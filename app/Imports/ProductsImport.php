@@ -24,6 +24,7 @@ class ProductsImport implements ToModel, WithHeadingRow, WithValidation
             'price' => $row['price'],
             'units' => $row['units'],
             'prime_cost' => $row['prime_cost'],
+            'is_virtual' => $row['is_virtual'],
         ]);
     }
 
@@ -34,6 +35,7 @@ class ProductsImport implements ToModel, WithHeadingRow, WithValidation
             '*.price' => 'required|numeric',
             '*.units' => 'required',
             '*.prime_cost' => 'required|numeric',
+            '*.is_virtual' => 'required|boolean',
         ];
     }
 }

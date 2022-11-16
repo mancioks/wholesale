@@ -14,6 +14,7 @@
                                 <th scope="col">{{ __('price') }}</th>
                                 <th scope="col">{{ __('units') }}</th>
                                 <th scope="col">{{ __('prime_cost') }}</th>
+                                <th scope="col">{{ __('is_virtual') }}</th>
                             </tr>
                             </thead>
                             <tbody>
@@ -23,6 +24,7 @@
                                     <td>{{ $row->price }}</td>
                                     <td>{{ $row->units }}</td>
                                     <td>{{ $row->prime_cost }}</td>
+                                    <td>{{ $row->is_virtual }}</td>
                                 </tr>
                             @endforeach
                             </tbody>

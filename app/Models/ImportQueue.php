@@ -6,5 +6,5 @@ use Illuminate\Database\Eloquent\Model;
 
 class ImportQueue extends Model
 {
-    protected $fillable = ['name', 'price', 'units', 'user_id', 'prime_cost'];
+    protected $fillable = ['name', 'price', 'units', 'user_id', 'prime_cost', 'is_virtual'];
 }

@@ -5,7 +5,7 @@
 @endsection
 @section('actions')
     @include('components.admin.modals.create-product')
-    @include('components.admin.dashboard-action', ['route' => route('product.import'), 'title' => __('Import products'), 'class' => 'btn-warning', 'icon' => 'bi bi-filetype-csv'])
+    @include('components.admin.dashboard-action', ['route' => route('admin.product-import'), 'title' => __('Import products'), 'class' => 'btn-warning', 'icon' => 'bi bi-filetype-csv'])
 @endsection
 @section('content')
     <div class="card shadow-sm mt-3">
