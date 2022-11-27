@@ -6,6 +6,7 @@
 @section('actions')
     @include('components.admin.modals.create-product')
     @include('components.admin.dashboard-action', ['route' => route('admin.product-import'), 'title' => __('Import products'), 'class' => 'btn-warning', 'icon' => 'bi bi-filetype-csv'])
+    @include('components.admin.dashboard-action', ['route' => route('admin.products.export'), 'title' => __('Export products'), 'class' => 'btn-success', 'icon' => 'bi bi-file-earmark-spreadsheet'])
 @endsection
 @section('content')
     <div class="card shadow-sm mt-3">

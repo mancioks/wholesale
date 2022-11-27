@@ -27,6 +27,7 @@ class CreateProduct extends Component
     public $warehouses;
 
     public $name;
+    public $code;
     public $price;
     public $primeCost;
     public $units;
@@ -146,6 +147,7 @@ class CreateProduct extends Component
         if ($this->productType === Product::PRODUCT_TYPE_REGULAR) {
             $this->validate([
                 'name' => 'required|unique:products,name',
+                'code' => 'required|unique:products,code',
                 'price' => 'required|numeric|min:0',
                 'primeCost' => 'required|numeric|min:0',
                 'units' => 'required',
@@ -154,6 +156,7 @@ class CreateProduct extends Component
         } else {
             $this->validate([
                 'name' => 'required|unique:products,name',
+                'code' => 'required|unique:products,code',
                 'price' => 'required|numeric|min:0',
                 'primeCost' => 'required|numeric|min:0',
                 'units' => 'required',
@@ -173,6 +176,7 @@ class CreateProduct extends Component
     {
         $product = Product::create([
             'name' => $this->name,
+            'code' => $this->code,
             'price' => $this->price,
             'prime_cost' => $this->primeCost,
             'units' => $this->units,
@@ -213,6 +217,7 @@ class CreateProduct extends Component
     {
         $this->mount();
         $this->name = '';
+        $this->code = '';
         $this->price = 0;
         $this->primeCost = 0;
         $this->units = '';

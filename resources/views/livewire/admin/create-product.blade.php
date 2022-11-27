@@ -19,6 +19,11 @@
                             @error('name') <div class="small text-danger">{{ $message }}</div> @enderror
                         </div>
                         <div class="mb-3">
+                            <label for="product_code" class="form-label">{{ __('Product code') }}</label>
+                            <input type="text" class="form-control" id="product_code" wire:model="code" name="code" required>
+                            @error('code') <div class="small text-danger">{{ $message }}</div> @enderror
+                        </div>
+                        <div class="mb-3">
                             <label for="product_price" class="form-label">{{ __('Price') }} ({{ __('Without VAT') }})</label>
                             <input type="number" class="form-control" id="product_price" wire:model="price" name="price" step=".01" required>
                             @error('price') <div class="small text-danger">{{ $message }}</div> @enderror

@@ -46,13 +46,14 @@ class ProductImportController extends Controller
         $importQueue = $importQueue->get();
 
         foreach ($importQueue as $item) {
-            $product = Product::where('name', $item->name);
+            $product = Product::where('code', $item->code);
 
             $data = [
                 'name' => $item->name,
                 'price' => $item->price,
                 'units' => $item->units,
                 'prime_cost' => $item->prime_cost,
+                'code' => $item->code,
             ];
 
             if ($product->exists()) {

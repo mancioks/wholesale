@@ -58,6 +58,7 @@ Route::group(['middleware' => 'auth'], function () {
             Route::post('/product-import/parse-csv', [\App\Http\Controllers\Admin\ProductImportController::class, 'parseCsv'])->name('product-import.parse-csv');
             Route::get('/product-import/confirm', [\App\Http\Controllers\Admin\ProductImportController::class, 'confirmCsv'])->name('product-import.confirm-csv');
             Route::get('/product-import/do-import', [\App\Http\Controllers\Admin\ProductImportController::class, 'doImport'])->name('product-import.do-import');
+            Route::get('/products/export', [\App\Http\Controllers\Admin\ProductController::class, 'export'])->name('products.export');
             Route::resource('warehouse', \App\Http\Controllers\Admin\WarehouseController::class);
             Route::resource('order', \App\Http\Controllers\Admin\OrderController::class);
             Route::resource('product', \App\Http\Controllers\Admin\ProductController::class);
