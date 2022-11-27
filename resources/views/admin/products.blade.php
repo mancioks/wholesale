@@ -17,6 +17,7 @@
                     <th>Id</th>
                     <th></th>
                     <th>{{ __('Name') }}</th>
+                    <th>{{ __('Code') }}</th>
                     <th>{{ __('Price') }}</th>
                     <th>{{ __('Prime cost') }}</th>
                     <th>{{ __('Actions') }}</th>
@@ -43,6 +44,7 @@
                     { "data": "id" },
                     { "data": "", "orderable": false },
                     { "data": "name" },
+                    { "data": "code" },
                     { "data": "price" },
                     { "data": "prime_cost" },
                     { "data": "", "orderable": false },
@@ -62,13 +64,13 @@
                         }
                     },
                     {
-                        targets: 3,
+                        targets: 4,
                         render: function (data, type, row) {
                             return data + '€';
                         }
                     },
                     {
-                        targets: 4,
+                        targets: 5,
                         render: function (data, type, row) {
                             return data + '€';
                         }

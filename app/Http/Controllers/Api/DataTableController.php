@@ -44,7 +44,7 @@ class DataTableController extends Controller
     public function products()
     {
         return datatables(
-            Product::query()->select('id', 'name', 'price', 'units', 'prime_cost'))
+            Product::query()->select('id', 'name', 'code', 'price', 'units', 'prime_cost'))
             ->addColumn('image', function (Product $product) {
                 return $product->image->name;
             })

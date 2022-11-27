@@ -189,5 +189,13 @@
     "Sign": "Pasirašyti",
     "Customer signature": "Kliento parašas",
     "Clear": "Išvalyti",
-    "Waybill": "Važtaraštis"
+    "Waybill": "Važtaraštis",
+    "Export products": "Eksportuoti produktus",
+    "Products CSV": "Produktų failas",
+    "Upload": "Įkelti",
+    "Product import": "Produktų importavimas",
+    "Code": "Kodas",
+    "Review and confirm": "Peržiūrėkite ir patvirtinkite",
+    "Duplicates will be merged": "Dublikatai bus sujungti",
+    "Confirm and import": "Informacija teisinga, importuoti"
 }
