@@ -65,39 +65,39 @@
                         @else
                             @role('super_admin', 'warehouse')
                             <li class="nav-item">
-                                <a href="{{ route('admin.dashboard') }}" class="btn btn-dark">Naujas administravimas <span class="badge bg-warning text-dark">BETA</span></a>
+                                <a href="{{ route('admin.dashboard') }}" class="btn btn-light">{{ __('Administration') }}</a>
                             </li>
                             @endrole
 
-                            @role('admin', 'super_admin')
-                                <li class="nav-item dropdown">
-                                    <a id="navbarDropdownAdmin" class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false" v-pre>
-                                        {{ __('Administration') }}
-                                    </a>
+{{--                            @role('admin', 'super_admin')--}}
+{{--                                <li class="nav-item dropdown">--}}
+{{--                                    <a id="navbarDropdownAdmin" class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false" v-pre>--}}
+{{--                                        {{ __('Administration') }}--}}
+{{--                                    </a>--}}
 
-                                    <div class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdownAdmin">
-                                        <a href="{{ route('product.index') }}" class="dropdown-item">{{ __('Products') }}</a>
-                                        <a href="{{ route('payments') }}" class="dropdown-item">{{ __('Payments') }}</a>
-                                        <a href="{{ route('user.index') }}" class="dropdown-item">{{ __('Users') }}</a>
-                                        <a href="{{ route('warehouse.index') }}" class="dropdown-item">{{ __('Warehouses') }}</a>
-                                        <a href="{{ route('settings') }}" class="dropdown-item">{{ __('Settings') }}</a>
-                                    </div>
-                                </li>
-                            @endrole
+{{--                                    <div class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdownAdmin">--}}
+{{--                                        <a href="{{ route('product.index') }}" class="dropdown-item">{{ __('Products') }}</a>--}}
+{{--                                        <a href="{{ route('payments') }}" class="dropdown-item">{{ __('Payments') }}</a>--}}
+{{--                                        <a href="{{ route('user.index') }}" class="dropdown-item">{{ __('Users') }}</a>--}}
+{{--                                        <a href="{{ route('warehouse.index') }}" class="dropdown-item">{{ __('Warehouses') }}</a>--}}
+{{--                                        <a href="{{ route('settings') }}" class="dropdown-item">{{ __('Settings') }}</a>--}}
+{{--                                    </div>--}}
+{{--                                </li>--}}
+{{--                            @endrole--}}
 
-                            @role('warehouse')
-                            <li class="nav-item dropdown">
-                                <a id="navbarDropdownAdmin" class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false" v-pre>
-                                    {{ __('Administration') }}
-                                </a>
+{{--                            @role('warehouse')--}}
+{{--                            <li class="nav-item dropdown">--}}
+{{--                                <a id="navbarDropdownAdmin" class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false" v-pre>--}}
+{{--                                    {{ __('Administration') }}--}}
+{{--                                </a>--}}
 
-                                <div class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdownAdmin">
-                                    <a href="{{ route('product.index') }}" class="dropdown-item">{{ __('Products') }}</a>
-                                    <a href="{{ route('user.index') }}" class="dropdown-item">{{ __('Users') }}</a>
-                                    <a href="{{ route('warehouse.index') }}" class="dropdown-item">{{ __('Warehouses') }}</a>
-                                </div>
-                            </li>
-                            @endrole
+{{--                                <div class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdownAdmin">--}}
+{{--                                    <a href="{{ route('product.index') }}" class="dropdown-item">{{ __('Products') }}</a>--}}
+{{--                                    <a href="{{ route('user.index') }}" class="dropdown-item">{{ __('Users') }}</a>--}}
+{{--                                    <a href="{{ route('warehouse.index') }}" class="dropdown-item">{{ __('Warehouses') }}</a>--}}
+{{--                                </div>--}}
+{{--                            </li>--}}
+{{--                            @endrole--}}
 
                             <li class="nav-item dropdown">
                                 <a id="navbarDropdown" class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false" v-pre>
