@@ -40,6 +40,11 @@ class Order extends Model
     public const ORDER_TYPE_NORMAL = 'normal';
     public const ORDER_TYPE_ISSUE = 'issue';
 
+    public const ORDER_TYPES = [
+        Order::ORDER_TYPE_NORMAL => 'Normal',
+        Order::ORDER_TYPE_ISSUE => 'Issue',
+    ];
+
     public function status()
     {
         return $this->hasOne(Status::class, 'id', 'status_id');

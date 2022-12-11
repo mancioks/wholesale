@@ -15,7 +15,7 @@ class Product extends Model
     public const PRODUCT_TYPE_REGULAR = 'regular';
     public const PRODUCT_TYPE_PERSONALIZED = 'personalized';
 
-    protected $fillable = ['name', 'price', 'units', 'prime_cost', 'type', 'code'];
+    protected $fillable = ['name', 'price', 'units', 'prime_cost', 'type', 'code', 'description'];
 
     protected $originalPrice;
 

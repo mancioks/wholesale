@@ -20,7 +20,10 @@ class DataTableController extends Controller
     public function orders()
     {
         return datatables(
-            Order::query()->select('id', 'total', 'user_id', 'status_id', 'created_at', 'updated_at')->get())
+            Order::query()->select('id', 'order_type', 'total', 'user_id', 'status_id', 'created_at', 'updated_at')->get())
+            ->editColumn('order_type', function (Order $order) {
+                return __(Order::ORDER_TYPES[$order->order_type]);
+            })
             ->addColumn('user.name', function (Order $order) {
                 return $order->user->name;
             })

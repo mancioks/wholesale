@@ -13,6 +13,7 @@
                 <thead>
                 <tr>
                     <th>Id</th>
+                    <th>{{ __('Type') }}</th>
                     <th>{{ __('User') }}</th>
                     <th>{{ __('Total') }}</th>
                     <th>{{ __('Status') }}</th>
@@ -40,6 +41,7 @@
                 "ajax": "{{ route('api.datatable.orders') }}",
                 "columns": [
                     { "data": "number" },
+                    { "data": "order_type" },
                     { "data": "user.name" },
                     { "data": "total" },
                     { "data": "status.name" },
@@ -55,13 +57,13 @@
                         }
                     },
                     {
-                        targets: 3,
+                        targets: 4,
                         render: function (data, type, row) {
                             return '<span class="badge ' + row['statuscolor'] + '">' + data + '</span>';
                         }
                     },
                     {
-                        targets: 2,
+                        targets: 3,
                         render: function (data, type, row) {
                             return data + '€';
                         }

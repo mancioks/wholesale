@@ -71,8 +71,13 @@
 
                         @include('components.admin.dashboard-messages')
 
+                        @yield('livewire-messages')
+
                         @hasSection('actions')
-                            <div class="dashboard-actions">@yield('actions')</div>
+                            <div class="dashboard-actions">
+                                @yield('actions')
+                                @yield('inner-actions')
+                            </div>
                         @endif
 
                         @yield('content')
@@ -92,6 +97,12 @@
             "serverSide": true,
             "order": [[ 0, "desc" ]],
             scrollX: true,
+        });
+        // scroll to top when datatable page changes
+        $(document).on('click', '.dataTables_paginate a', function() {
+            $('html, body').animate({
+                scrollTop: 0
+            }, 0);
         });
     </script>
 
@@ -126,6 +137,14 @@
                 }
             }, 10);
 
+        });
+    </script>
+
+    <script>
+        document.querySelectorAll('[data-click-button]').forEach(function (element) {
+            element.addEventListener('click', function () {
+                document.getElementById(element.getAttribute('data-click-button')).click();
+            });
         });
     </script>
 

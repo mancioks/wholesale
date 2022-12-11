@@ -46,10 +46,7 @@ class CreateOrder extends Component
 
     public $orderType;
 
-    public $orderTypes = [
-        Order::ORDER_TYPE_NORMAL => 'Normal',
-        Order::ORDER_TYPE_ISSUE => 'Issue',
-    ];
+    public $orderTypes = Order::ORDER_TYPES;
 
     public function mount()
     {
