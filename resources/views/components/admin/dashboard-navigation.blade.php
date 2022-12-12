@@ -20,6 +20,9 @@
         @include('components.admin.dashboard-link', ['route' => 'payments', 'icon' => 'bi bi-cash-coin', 'title' => 'Payments'])
     </li>
     <li class="nav-item">
+        @include('components.admin.dashboard-link', ['route' => 'admin.categories', 'icon' => 'bi bi-file-earmark', 'title' => 'Categories'])
+    </li>
+    <li class="nav-item">
         @include('components.admin.dashboard-link', ['route' => 'admin.user.index', 'icon' => 'bi bi-people', 'title' => 'Users'])
         @include('components.admin.dashboard-sub-link', ['route' => 'user.create', 'icon' => 'bi bi-plus-circle', 'title' => 'Create user'])
     </li>

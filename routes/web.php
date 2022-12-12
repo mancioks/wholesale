@@ -59,6 +59,7 @@ Route::group(['middleware' => 'auth'], function () {
             Route::get('/product-import/confirm', [\App\Http\Controllers\Admin\ProductImportController::class, 'confirmCsv'])->name('product-import.confirm-csv');
             Route::get('/product-import/do-import', [\App\Http\Controllers\Admin\ProductImportController::class, 'doImport'])->name('product-import.do-import');
             Route::get('/products/export', [\App\Http\Controllers\Admin\ProductController::class, 'export'])->name('products.export');
+            Route::get('/categories', [\App\Http\Controllers\Admin\CategoryController::class, 'index'])->name('categories');
             Route::resource('warehouse', \App\Http\Controllers\Admin\WarehouseController::class);
             Route::resource('order', \App\Http\Controllers\Admin\OrderController::class);
             Route::resource('product', \App\Http\Controllers\Admin\ProductController::class);
