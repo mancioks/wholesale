@@ -83,6 +83,7 @@ Route::group(['middleware' => 'auth'], function () {
             });
         });
 
+        Route::delete('product/bulk-destroy', [\App\Http\Controllers\ProductController::class, 'bulkDestroy'])->name('product.bulk-destroy');
         Route::resource('product', \App\Http\Controllers\ProductController::class);
         Route::post('product/{product}/update-warehouses', [\App\Http\Controllers\ProductController::class, 'updateWarehouses'])->name('product.update.warehouses');
 

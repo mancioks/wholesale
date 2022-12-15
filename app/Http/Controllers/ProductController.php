@@ -75,7 +75,13 @@ class ProductController extends Controller
     {
         $product = Product::findOrFail($id);
         $product->delete();
-        return redirect()->route('product.index')->with('status', 'Product deleted');
+        return redirect()->route('admin.product.index')->with('status', 'Product deleted');
+    }
+
+    public function bulkDestroy(Request $request)
+    {
+        $ids = $request->get('products');
+        Product::query()->whereIn('id', $ids)->delete();
     }
 
     public function import()
