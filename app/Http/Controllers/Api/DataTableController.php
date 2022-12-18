@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
+use App\Models\DiscountRule;
 use App\Models\Order;
 use App\Models\Product;
 use App\Models\User;
@@ -65,6 +66,35 @@ class DataTableController extends Controller
             })
             ->editColumn('activated', function (User $user) {
                 return $user->activated ? __('Yes') : __('No');
+            })->toJson();
+    }
+
+    public function discountRules()
+    {
+        return datatables(
+            DiscountRule::query()->select('id', 'size', 'from', 'to', 'type', 'model_name', 'model_id'))
+            ->addColumn('model.name', function (DiscountRule $discountRule) {
+                return $discountRule->model->name;
+            })
+            ->addColumn('range', function (DiscountRule $discountRule) {
+                $rangeFrom = $discountRule->from;
+                $rangeTo = $discountRule->to;
+
+                if ($rangeFrom === 0) {
+                    $rangeFrom = 1;
+                }
+
+                if ($rangeTo === 0) {
+                    $rangeTo = __('Unlimited');
+                }
+
+                return $rangeFrom . ' - ' . $rangeTo;
+            })
+            ->editColumn('type', function (DiscountRule $discountRule) {
+                return __(DiscountRule::TYPES[$discountRule->type]);
+            })
+            ->editColumn('model_name', function (DiscountRule $discountRule) {
+                return __(DiscountRule::MODELS[$discountRule->model_name]);
             })->toJson();
     }
 }

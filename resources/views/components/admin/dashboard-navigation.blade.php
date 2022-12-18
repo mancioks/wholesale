@@ -13,6 +13,9 @@
         @include('components.admin.dashboard-sub-link', ['route' => 'admin.products.export', 'icon' => 'bi bi-file-earmark-spreadsheet', 'title' => 'Export products'])
     </li>
     <li class="nav-item">
+        @include('components.admin.dashboard-link', ['route' => 'admin.discount-rules', 'icon' => 'bi bi-tag', 'title' => 'Discount rules'])
+    </li>
+    <li class="nav-item">
         @include('components.admin.dashboard-link', ['route' => 'admin.order.index', 'icon' => 'bi bi-card-checklist', 'title' => 'Orders'])
         @include('components.admin.dashboard-sub-link', ['route' => 'admin.order.index', 'icon' => 'bi bi-plus-circle', 'title' => 'Create order', 'hash' => 'create-order-modal'])
     </li>

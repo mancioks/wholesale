@@ -99,6 +99,11 @@ class EditOrder extends Component
         foreach ($order->items as $item) {
             $this->productQty[$item->product_id] = $item->qty;
             $product = Product::find($item->product_id);
+
+            if (!$product) {
+                continue;
+            }
+
             $this->products->push($product);
         }
 
@@ -202,13 +207,13 @@ class EditOrder extends Component
                 'selectedWarehouse' => 'required',
                 'selectedCustomer' => 'required',
                 'selectedPaymentMethod' => 'required',
-                'products' => 'required',
+                'products' => '',
             ]);
         } else {
             $this->validate([
                 'selectedWarehouse' => 'required',
                 'selectedCustomer' => 'required',
-                'products' => 'required',
+                'products' => '',
             ]);
         }
 

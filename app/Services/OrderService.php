@@ -68,7 +68,7 @@ class OrderService
         if(isset($params['filters']['status']) && isset($this->getFilters()[$params['filters']['status']])) {
             $filterStatusId = [$params['filters']['status']];
         }
-        switch ($user->role->id) {
+        /*switch ($user->role->id) {
             case Role::CUSTOMER:
                 $orders = $user->orders();
                 if(isset($filterStatusId)) {
@@ -98,6 +98,11 @@ class OrderService
                     $orders->whereIn('status_id', $filterStatusId);
                 }
                 break;
+        }*/
+
+        $orders = $user->orders();
+        if (isset($filterStatusId)) {
+            $orders->whereIn('status_id', $filterStatusId);
         }
 
         return $orders->orderBy('id', 'desc')->get();

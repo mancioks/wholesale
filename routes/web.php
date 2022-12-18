@@ -60,6 +60,7 @@ Route::group(['middleware' => 'auth'], function () {
             Route::get('/product-import/do-import', [\App\Http\Controllers\Admin\ProductImportController::class, 'doImport'])->name('product-import.do-import');
             Route::get('/products/export', [\App\Http\Controllers\Admin\ProductController::class, 'export'])->name('products.export');
             Route::get('/categories', [\App\Http\Controllers\Admin\CategoryController::class, 'index'])->name('categories');
+            Route::get('/discount-rules', [\App\Http\Controllers\Admin\DiscountRuleController::class, 'index'])->name('discount-rules');
             Route::resource('warehouse', \App\Http\Controllers\Admin\WarehouseController::class);
             Route::resource('order', \App\Http\Controllers\Admin\OrderController::class);
             Route::resource('product', \App\Http\Controllers\Admin\ProductController::class);
@@ -72,6 +73,7 @@ Route::group(['middleware' => 'auth'], function () {
             Route::get('orders', 'orders')->name('orders');
             Route::get('products', 'products')->name('products');
             Route::get('users', 'users')->name('users');
+            Route::get('discount-rules', 'discountRules')->name('discount-rules');
         });
 
         Route::prefix('product')->controller(\App\Http\Controllers\ProductController::class)->group(function() {
