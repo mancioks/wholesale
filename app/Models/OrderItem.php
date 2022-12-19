@@ -40,4 +40,11 @@ class OrderItem extends Model
 
         return false;
     }
+
+    public function discountRules()
+    {
+        return $this->hasMany(DiscountRule::class, 'model_id', 'product_id')
+            ->where('model_name', DiscountRule::MODEL_PRODUCT)
+            ->where('active', true);
+    }
 }

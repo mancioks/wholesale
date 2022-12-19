@@ -51,7 +51,7 @@
                 @if ($selectedModel)
 
                     <div class="input-group">
-                        <div class="form-control">Selected: <strong>{{ $selectedModel->name }}</strong></div>
+                        <div class="form-control">{{ $selectedModel->name }}</div>
                         <button class="btn btn-primary" wire:click="changeSelectedModel">{{ __('Change') }}</button>
                     </div>
                 @else
