@@ -7,12 +7,16 @@
     {{ __('Duplicates will be merged') }}
 @endsection
 @section('actions')
-    @include('components.admin.dashboard-action', ['route' => route('admin.product-import.do-import'), 'title' => __('Confirm and import'), 'class' => 'btn-warning', 'icon' => 'bi bi-filetype-csv'])
+    @include('components.admin.dashboard-action', ['route' => route('admin.product-import.do-import'), 'title' => __('Confirm and import') . ' ('. $importQueue->count() .')', 'class' => 'btn-warning', 'icon' => 'bi bi-filetype-csv'])
 @endsection
 
 @section('content')
     <div class="card shadow-sm mt-3">
         <div class="card-body">
+            <div class="mb-2">
+                <div class="bg-primary bg-opacity-25 d-inline-block p-3 py-2">{{ __('Product will be updated') }}</div>
+                <div class="bg-warning bg-opacity-25 d-inline-block p-3 py-2">{{ __('Product will be created') }}</div>
+            </div>
             <table class="table table-bordered">
                 <thead>
                 <tr class="bg-secondary text-white">
@@ -26,7 +30,7 @@
                 </thead>
                 <tbody>
                 @foreach($importQueue as $row)
-                    <tr>
+                    <tr class="{{ $row->found ? 'bg-primary' : 'bg-warning' }} bg-opacity-25">
                         <td>{{ $row->name }}</td>
                         <td>{{ $row->code }}</td>
                         <td>{{ $row->price }}</td>
