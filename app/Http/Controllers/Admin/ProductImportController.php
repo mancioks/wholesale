@@ -36,7 +36,7 @@ class ProductImportController extends Controller
         $importQueue = $importQueue->get();
 
         $importQueue = $importQueue->map(function ($item) {
-            $product = Product::query()->where('name', $item->name)->first();
+            $product = Product::query()->where('code', $item->code)->first();
             if ($product) {
                 $item->found = true;
                 $item->product = $product;
@@ -56,11 +56,11 @@ class ProductImportController extends Controller
         $importQueue = $importQueue->get();
 
         // delete not existing products
-        Product::query()->whereNotIn('name', $importQueue->pluck('name'))->delete();
+        // Product::query()->whereNotIn('name', $importQueue->pluck('name'))->delete();
 
         foreach ($importQueue as $item) {
-            //$product = Product::where('code', $item->code);
-            $product = Product::where('name', $item->name);
+            $product = Product::where('code', $item->code);
+            // $product = Product::where('name', $item->name);
 
             $data = [
                 'name' => $item->name,
