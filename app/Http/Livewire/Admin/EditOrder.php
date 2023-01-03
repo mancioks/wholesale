@@ -145,10 +145,14 @@ class EditOrder extends Component
 
         foreach ($this->products as $product) {
             if (!array_key_exists($product->id, $this->productQty) || (int)$this->productQty[$product->id] < 1) {
-                $this->productQty[$product->id] = 1;
+                if ($this->productQty[$product->id] !== "") {
+                    $this->productQty[$product->id] = 1;
+                }
             }
 
-            $this->subTotal += $product->original_price * (int)$this->productQty[$product->id];
+            if ($this->productQty[$product->id] !== "") {
+                $this->subTotal += $product->original_price * (int)$this->productQty[$product->id];
+            }
         }
 
         $this->total = $this->subTotal;
@@ -208,12 +212,14 @@ class EditOrder extends Component
                 'selectedCustomer' => 'required',
                 'selectedPaymentMethod' => 'required',
                 'products' => '',
+                'productQty.*' => 'required|integer|min:1',
             ]);
         } else {
             $this->validate([
                 'selectedWarehouse' => 'required',
                 'selectedCustomer' => 'required',
                 'products' => '',
+                'productQty.*' => 'required|integer|min:1',
             ]);
         }
 
@@ -261,6 +267,7 @@ class EditOrder extends Component
                 'qty' => $this->productQty[$product->id],
                 'units' => $product->units,
                 'prime_cost' => $product->prime_cost,
+                'code' => $product->code,
             ]);
         }
     }

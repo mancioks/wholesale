@@ -50,6 +50,7 @@
                             <i class="bi bi-info-circle"></i> {{ __($order->status->name) }}
                         </span>
                         <div class="float-end">
+                            @role('customer')
                             @if($order->actions)
                                 <div class="dropdown d-inline-block">
                                     <button class="btn btn-sm btn-light dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
@@ -62,6 +63,7 @@
                                     </ul>
                                 </div>
                             @endif
+                            @endrole
                         </div>
                     </div>
                     <div class="card-body">

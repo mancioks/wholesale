@@ -14,6 +14,7 @@ use App\Mail\Customer\OrderDone;
 use App\Mail\Customer\OrderPreparing;
 use App\Mail\Customer\OrderTaken;
 use App\Mail\Warehouse\OrderReceived;
+use App\Models\Category;
 use App\Models\Order;
 use App\Models\OrderItem;
 use App\Models\PaymentMethod;
@@ -61,6 +62,39 @@ class OrderController extends Controller
         $userPopularProducts = UserService::getUserPopularProducts(auth()->user(), 4);
 
         return view('order.create', compact('products', 'search_query', 'warehouses', 'userPopularProducts'));
+    }
+
+    public function new(Request $request)
+    {
+        $search_query = $request->get('query');
+        $warehouses = Warehouse::where('active', true)->get();
+
+        if (auth()->user()->acting()->exists()) {
+            $products = auth()->user()->warehouse->products()
+                ->where('name', 'LIKE', '%'.$search_query.'%')
+                ->orderBy('id', 'desc')
+                ->paginate(12);
+        } else {
+            $products = Product::query()
+                ->with('warehouses')
+                ->whereHas('warehouses', function ($q) {
+                    $q->where('warehouse_id', auth()->user()->warehouse->id)->where('enabled', true);
+                })
+                ->where('type', Product::PRODUCT_TYPE_REGULAR)
+                ->where('name', 'LIKE', '%'.$search_query.'%')
+                ->orWhereHas('warehouses', function ($q) {
+                    $q->where('warehouse_id', auth()->user()->warehouse->id)->where('enabled', true);
+                })
+                ->where('type', Product::PRODUCT_TYPE_REGULAR)
+                ->where(['id' => $search_query])
+                ->orderBy('id', 'desc')
+                ->paginate(12);
+        }
+
+        $userPopularProducts = UserService::getUserPopularProducts(auth()->user(), 4);
+        $categories = Category::where('slug', '!=', 'master')->get();
+
+        return view('order.new', compact('products', 'search_query', 'warehouses', 'userPopularProducts', 'categories'));
     }
 
     public function show(Order $order)
@@ -127,6 +161,7 @@ class OrderController extends Controller
             'qty' => 1,
             'units' => $product->units,
             'prime_cost' => $product->prime_cost,
+            'code' => $product->code,
         ]);
 
         OrderService::recalculate($order);

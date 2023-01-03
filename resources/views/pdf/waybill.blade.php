@@ -43,6 +43,7 @@
         <tr>
             <th>Eil. Nr.</th>
             <th>Krovinio pavadinimas</th>
+            <th>Kodas</th>
             <th>Mato vnt.</th>
             <th>Kiekis</th>
             <th>Kaina</th>
@@ -52,6 +53,7 @@
             <tr class="invoice-elements">
                 <td>{{ $loop->index + 1}}</td>
                 <td>{{ $product->name }}</td>
+                <td>{{ $product->code }}</td>
                 <td>{{ $product->units }}</td>
                 <td>{{ $product->qty }}</td>
                 <td>{{ $product->price }}€</td>
@@ -59,7 +61,7 @@
             </tr>
         @endforeach
         <tr>
-            <td colspan="4" rowspan="3" class="table-space"></td>
+            <td colspan="5" rowspan="3" class="table-space"></td>
             <td class="invoice-element">Iš viso</td>
             <td class="invoice-element">{{ $order->amount }}€</td>
         </tr>

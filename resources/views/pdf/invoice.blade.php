@@ -40,6 +40,7 @@
         <tr>
             <th>#</th>
             <th>Pavadinimas</th>
+            <th>Kodas</th>
             <th>Kiekis</th>
             <th>Kaina</th>
             <th>Suma</th>
@@ -48,16 +49,17 @@
             <tr class="invoice-elements">
                 <td>{{ $loop->index + 1}}</td>
                 <td>{{ $product->name }}</td>
+                <td>{{ $product->code }}</td>
                 <td>{{ $product->qty }} {{ $product->units }}</td>
                 <td>{{ $product->price }}€</td>
                 <td>{{ $product->amount }}€</td>
             </tr>
         @endforeach
         <tr>
-            <td colspan="5"></td>
+            <td colspan="6"></td>
         </tr>
         <tr>
-            <td colspan="3" rowspan="3" class="table-space">
+            <td colspan="4" rowspan="3" class="table-space">
                 <strong>Bendra suma žodžiais:</strong><br>
                 {{ $order->total_in_words }}
             </td>

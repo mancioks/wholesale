@@ -58,6 +58,7 @@ class OrderService
                 'qty' => $product->pivot->qty,
                 'units' => $product->units,
                 'prime_cost' => $product->prime_cost,
+                'code' => $product->code,
             ]);
         }
 

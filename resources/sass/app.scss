@@ -32,3 +32,26 @@
 .zindex-10{
     z-index:10;
 }
+
+.product-card-body-wrapper {
+    @extend .position-relative;
+    padding-bottom: 70px !important;
+
+    .product-price-wrapper {
+        @extend .position-absolute;
+        @extend .p-2;
+        left: 0 !important;
+        right: 0 !important;
+        bottom: 0 !important;
+    }
+}
+
+.product-card {
+    transition: all 0.1s ease-in-out;
+    @extend .shadow-sm;
+    &:hover {
+        transform: scale(0.95);
+        @extend .shadow;
+        z-index: 1000;
+    }
+}

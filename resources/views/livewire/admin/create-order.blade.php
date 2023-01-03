@@ -63,7 +63,10 @@
                                 {{ $product->name }}
                             </td>
                             <td>{{ $product->original_price }}€</td>
-                            <td><input type="number" class="form-control form-control-sm w-100" wire:model="productQty.{{ $product->id }}"></td>
+                            <td>
+                                <input type="number" class="form-control form-control-sm w-100" wire:model="productQty.{{ $product->id }}">
+                                @error('productQty.'.$product->id) <span class="text-danger">{{ $message }}</span> @enderror
+                            </td>
                             <td>
                                 <button wire:click="remove({{ $product->id }})" class="btn btn-sm btn-danger">{{ __('Remove') }}</button>
                             </td>

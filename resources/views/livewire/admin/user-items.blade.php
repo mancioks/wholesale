@@ -56,6 +56,7 @@
             <thead>
             <tr class="bg-secondary text-white">
                 <th scope="col">{{ __('Title') }}</th>
+                <th scope="col">{{ __('Code') }}</th>
                 <th scope="col">{{ __('Price') }}</th>
                 <th scope="col">{{ __('Quantity') }}</th>
                 <th scope="col">{{ __('Units') }}</th>
@@ -67,6 +68,7 @@
                 @foreach($group as $price => $item)
                     <tr>
                         <td>{{ $name }}</td>
+                        <td>{{ $item->first()->code }}</td>
                         <td>{{ $price }}</td>
                         <td>{{ $item->sum('qty') }}</td>
                         <td>{{ $item->first()->units }}</td>
@@ -77,7 +79,7 @@
                 @endforeach
             @empty
                 <tr>
-                    <td colspan="5">{{ __('No items') }}</td>
+                    <td colspan="6">{{ __('No items') }}</td>
                 </tr>
             @endforelse
             </tbody>

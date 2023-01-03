@@ -20,7 +20,9 @@ class Categories extends Component
 
     public function mount()
     {
-        $this->categories = Category::all();
+        // $this->categories = Category::all();
+        $this->categories = Category::query()->where('slug', 'master')->get();
+
         $this->masterCategories = Category::query()->where('slug', 'master')->get();
     }
 
@@ -43,7 +45,9 @@ class Categories extends Component
             'parent_id' => $this->selectedCategory,
         ]);
 
-        $this->categories = Category::all();
+        // $this->categories = Category::all();
+        $this->categories = Category::query()->where('slug', 'master')->get();
+
         $this->categoryName = '';
         $this->masterCategories = Category::query()->where('slug', 'master')->get();
     }

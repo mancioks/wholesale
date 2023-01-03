@@ -22,6 +22,7 @@ Route::group(['middleware' => 'auth'], function () {
         Route::get('order/review', [\App\Http\Controllers\OrderController::class, 'review'])->name('order.review');
         Route::post('order/confirm', [\App\Http\Controllers\OrderController::class, 'confirm'])->name('order.confirm');
         Route::resource('order', \App\Http\Controllers\OrderController::class)->except(['show', 'destroy']);
+        Route::get('order/new', [\App\Http\Controllers\OrderController::class, 'new'])->name('order.new');
         Route::get('order/{order}/success', [\App\Http\Controllers\OrderController::class, 'orderSuccess'])->name('order.success');
 
         Route::controller(\App\Http\Controllers\CartController::class)->prefix('cart')->group(function () {

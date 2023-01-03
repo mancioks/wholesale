@@ -57,6 +57,7 @@
             <tr class="bg-secondary text-white">
                 <th width="10"></th>
                 <th scope="col">{{ __('Title') }}</th>
+                <th scope="col">{{ __('Code') }}</th>
                 <th scope="col">{{ __('Price') }}</th>
                 <th scope="col">{{ __('Quantity') }}</th>
                 <th scope="col">{{ __('Amount') }}</th>
@@ -69,6 +70,7 @@
                 <tr>
                     <td><img src="{{ asset($item['item']->image->name) }}" class="card-img-top w-auto" style="height: 30px;"></td>
                     <td>{{ $item['item']->name }}</td>
+                    <td>{{ $item['item']->code }}</td>
                     <td>{{ $item['item']->price }} €</td>
                     <td>{{ $item['quantity'] }} {{ $item['item']->units }}</td>
                     <td>{{ $item['amount'] }} €</td>
@@ -84,7 +86,7 @@
                 </tr>
             @empty
                 <tr>
-                    <td colspan="5">{{ __('No items') }}</td>
+                    <td colspan="6">{{ __('No items') }}</td>
                 </tr>
             @endforelse
             </tbody>
