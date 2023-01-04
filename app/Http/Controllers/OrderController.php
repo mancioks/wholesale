@@ -182,7 +182,7 @@ class OrderController extends Controller
     {
         $order->delete();
 
-        return redirect()->route('home')->with('status', 'Deleted successfully');
+        return redirect()->route('admin.order.index')->with('status', 'Deleted successfully');
     }
 
     public function shortage(Order $order, ShortageRequest $request)

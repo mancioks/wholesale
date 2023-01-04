@@ -78,6 +78,12 @@
                                 @yield('actions')
                                 @yield('inner-actions')
                             </div>
+                        @else
+                            @hasSection('inner-actions')
+                                <div class="dashboard-actions">
+                                    @yield('inner-actions')
+                                </div>
+                            @endif
                         @endif
 
                         @yield('content')

@@ -7,7 +7,7 @@
     @role('warehouse', 'admin', 'super_admin')
 {{--    @include('components.admin.modals.edit-product', ['product' => $product])--}}
     @endrole
-    @role('super_admin')
+    @role('super_admin', 'warehouse', 'admin')
     <form method="post" action="{{ route('product.destroy', $product) }}" class="d-inline-block" onsubmit="return confirm('{{ __('Are you sure?') }}')">
         @csrf
         @method('delete')

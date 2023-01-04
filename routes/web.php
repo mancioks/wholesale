@@ -120,7 +120,7 @@ Route::group(['middleware' => 'auth'], function () {
         Route::resource('user', \App\Http\Controllers\UserController::class);
     });
 
-    Route::group(['middleware' => 'role:super_admin'], function() {
+    Route::group(['middleware' => 'role:super_admin,admin,warehouse'], function() {
         Route::delete('order/{order}', [\App\Http\Controllers\OrderController::class, 'destroy'])->name('order.destroy');
         Route::get('order/{order}/edit', [\App\Http\Controllers\OrderController::class, 'edit'])->name('order.edit');
         Route::get('order-item/{item}/remove', [\App\Http\Controllers\OrderController::class, 'removeItem'])->name('order.item.remove');
