@@ -1,5 +1,16 @@
 <div>
-    <h4>{{ __('Ordered items statistics with discount') }}</h4>
+    <div class="row">
+        <div class="col-6">
+            <h4>{{ __('Ordered items statistics with discount') }}</h4>
+        </div>
+        <div class="col-6 text-end">
+            @if($selectedUser && count($items) > 0)
+                <a href="#" class="btn btn-sm btn-primary d-inline-block" wire:click="exportStats">
+                    <i class="bi bi-file-earmark-spreadsheet"></i> {{ __('Export') }}
+                </a>
+            @endif
+        </div>
+    </div>
     <div>
         <div class="row">
             <div class="col-lg-3">

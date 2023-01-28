@@ -2,6 +2,7 @@
 
 namespace App\Http\Livewire\Admin;
 
+use App\Exports\UserItemsDiscountExport;
 use App\Models\DiscountRule;
 use App\Models\Order;
 use App\Models\OrderItem;
@@ -9,6 +10,7 @@ use App\Models\Status;
 use App\Models\User;
 use Illuminate\Support\Carbon;
 use Livewire\Component;
+use Maatwebsite\Excel\Facades\Excel;
 
 class UserItemsDiscount extends Component
 {
@@ -86,7 +88,39 @@ class UserItemsDiscount extends Component
         $this->items = $mappedItems;
     }
 
-    private function calculateTotals(array $mappedItems):array
+    public function exportStats()
+    {
+        $this->getItems();
+
+        $export = new UserItemsDiscountExport($this->items);
+
+        return Excel::download($export, sprintf('%s_items_discount_%s_%s.xlsx',
+            $this->getFormattedUserName(),
+            $this->orderType,
+            $this->getRange()
+        ));
+    }
+
+    private function getFormattedUserName()
+    {
+        $user = User::find($this->selectedUser);
+
+        return strtolower(str_replace(' ', '_', $user->name));
+    }
+
+    private function getRange(): string
+    {
+        if ($this->filtering) {
+            !$this->filteringFrom ? $filterFrom = 'to' : $filterFrom = $this->filteringFrom;
+            !$this->filteringTo ? $filterTo = date('Y-m-d') : $filterTo = $this->filteringTo;
+
+            return sprintf('%s_%s', $filterFrom, $filterTo);
+        }
+
+        return 'all';
+    }
+
+    private function calculateTotals(array $mappedItems): array
     {
         foreach ($mappedItems as $mappedItemKey => $mappedItem) {
             $mappedItem['amount'] = price_format($mappedItem['item']->price * $mappedItem['quantity']);

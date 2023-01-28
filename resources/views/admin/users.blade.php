@@ -47,7 +47,7 @@
                     {
                         targets: -1,
                         render: function (data, type, row) {
-                            return '<a href="' + ('{{ route('user.show', '%id%') }}').replace('%id%', row['id']) + '" class="btn btn-sm btn-primary">{{ __('View') }}</a> ' +
+                            return '<a href="' + ('{{ route('admin.user.show', '%id%') }}').replace('%id%', row['id']) + '" class="btn btn-sm btn-primary">{{ __('View') }}</a> ' +
                                    '<a href="' + ('{{ route('user.edit', '%id%') }}').replace('%id%', row['id']) + '" class="btn btn-sm btn-warning">{{ __('Edit') }}</a> ' +
                                    '<a href="' + ('{{ route('user.destroy', '%id%') }}').replace('%id%', row['id']) + '" class="btn btn-sm btn-danger" onclick="confirm(\'Are you sure?\')">{{ __('Delete') }}</a> ';
                         }
