@@ -63,7 +63,7 @@
                                 </li>
                             @endif
                         @else
-                            @role('super_admin', 'warehouse')
+                            @role('super_admin', 'warehouse', 'admin')
                             <li class="nav-item">
                                 <a href="{{ route('admin.dashboard') }}" class="btn btn-light">{{ __('Administration') }}</a>
                             </li>

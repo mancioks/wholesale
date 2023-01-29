@@ -24,7 +24,7 @@
             </ul>
         </div>
     @endif
-    @role('warehouse', 'admin', 'super_admin')
+    @role('admin', 'super_admin')
         @include('components.admin.modals.edit-order', ['order' => $order])
         @include('components.admin.modals.shortage', ['order' => $order])
         <form method="post" action="{{ route('order.destroy', $order) }}" class="d-inline-block" onsubmit="return confirm('{{ __('Are you sure?') }}')">
