@@ -3,10 +3,10 @@
     <table class="table table-bordered mt-3 mb-0">
         <thead>
         <tr class="bg-secondary text-white">
-            <th scope="col">{{ __('name') }}</th>
-            <th scope="col">{{ __('code') }}</th>
-            <th scope="col">{{ __('balance') }}</th>
-            <th scope="col">{{ __('units') }}</th>
+            <th scope="col">{{ __('Product') }}</th>
+            <th scope="col">{{ __('Code') }}</th>
+            <th scope="col">{{ __('Balance') }}</th>
+            <th scope="col">{{ __('Units') }}</th>
             <th scope="col">{{ __('Actions') }}</th>
         </tr>
         </thead>
