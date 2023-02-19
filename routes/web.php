@@ -55,6 +55,13 @@ Route::group(['middleware' => 'auth'], function () {
         Route::prefix('admin')->name('admin.')->group(function () {
             Route::get('/dashboard', [\App\Http\Controllers\Admin\DashboardController::class, 'index'])->name('dashboard');
             Route::get('/settings', [\App\Http\Controllers\Admin\SettingsController::class, 'index'])->name('settings');
+            Route::get('/tools', [\App\Http\Controllers\Admin\ToolController::class, 'index'])->name('tools');
+            Route::get('/tools/bonus-calculator', [\App\Http\Controllers\Admin\Tools\BonusCalculator::class, 'index'])->name('tools.bonus_calculator');
+            Route::get('/tools/bonus-calculator/create', [\App\Http\Controllers\Admin\Tools\BonusCalculator::class, 'create'])->name('tools.bonus_calculator.create');
+            Route::get('/tools/bonus-calculator/rules', [\App\Http\Controllers\Admin\Tools\BonusCalculator::class, 'rules'])->name('tools.bonus_calculator.rules');
+            Route::post('/tools/bonus-calculator/create-rule', [\App\Http\Controllers\Admin\Tools\BonusCalculator::class, 'createRule'])->name('tools.bonus_calculator.create-rule');
+            Route::post('/tools/bonus-calculator/import', [\App\Http\Controllers\Admin\Tools\BonusCalculator::class, 'import'])->name('tools.bonus_calculator.import');
+            Route::get('/tools/bonus-calculator/{bonusCalculation}', [\App\Http\Controllers\Admin\Tools\BonusCalculator::class, 'show'])->name('tools.bonus_calculator.show');
             Route::get('/product-import', [\App\Http\Controllers\Admin\ProductImportController::class, 'index'])->name('product-import');
             Route::post('/product-import/parse-csv', [\App\Http\Controllers\Admin\ProductImportController::class, 'parseCsv'])->name('product-import.parse-csv');
             Route::get('/product-import/confirm', [\App\Http\Controllers\Admin\ProductImportController::class, 'confirmCsv'])->name('product-import.confirm-csv');
@@ -67,6 +74,12 @@ Route::group(['middleware' => 'auth'], function () {
             Route::resource('product', \App\Http\Controllers\Admin\ProductController::class);
             Route::resource('user', \App\Http\Controllers\Admin\UserController::class);
             Route::post('sign/{order}', [\App\Http\Controllers\Admin\SignatureController::class, 'sign'])->name('sign.order');
+            Route::get('inventorization', [\App\Http\Controllers\Admin\InventorizationController::class, 'index'])->name('inventorization');
+            Route::post('inventorization/add', [\App\Http\Controllers\Admin\InventorizationController::class, 'add'])->name('inventorization.add');
+            Route::get('inventorization/{inventorization}', [\App\Http\Controllers\Admin\InventorizationController::class, 'show'])->name('inventorization.show');
+            Route::delete('inventorization/{inventorization}', [\App\Http\Controllers\Admin\InventorizationController::class, 'destroy'])->name('inventorization.destroy');
+            Route::get('inventorization/{inventorization}/add-all', [\App\Http\Controllers\Admin\InventorizationController::class, 'addAll'])->name('inventorization.add-all');
+            Route::get('inventorization/{inventorization}/export/{type}', [\App\Http\Controllers\Admin\InventorizationController::class, 'export'])->name('inventorization.export');
         });
 
         Route::prefix('api/datatable')->name('api.datatable.')->controller(\App\Http\Controllers\Api\DataTableController::class)->group(function () {
@@ -75,6 +88,7 @@ Route::group(['middleware' => 'auth'], function () {
             Route::get('products', 'products')->name('products');
             Route::get('users', 'users')->name('users');
             Route::get('discount-rules', 'discountRules')->name('discount-rules');
+            Route::get('inventorizations', 'inventorizations')->name('inventorizations');
         });
 
         Route::prefix('product')->controller(\App\Http\Controllers\ProductController::class)->group(function() {

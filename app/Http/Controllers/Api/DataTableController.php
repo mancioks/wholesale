@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
 use App\Models\DiscountRule;
+use App\Models\Inventorization;
 use App\Models\Order;
 use App\Models\Product;
 use App\Models\User;
@@ -95,6 +96,21 @@ class DataTableController extends Controller
             })
             ->editColumn('model_name', function (DiscountRule $discountRule) {
                 return __(DiscountRule::MODELS[$discountRule->model_name]);
+            })->toJson();
+    }
+
+    public function inventorizations()
+    {
+        return datatables(
+            Inventorization::query()->select('id', 'date', 'warehouse_id', 'user_id', 'created_at'))
+            ->addColumn('warehouse.name', function (Inventorization $inventorization) {
+                return $inventorization->warehouse->name;
+            })
+            ->addColumn('user.name', function (Inventorization $inventorization) {
+                return $inventorization->user->name;
+            })
+            ->editColumn('created_at', function (Inventorization $inventorization) {
+                return $inventorization->created_at->format('Y-m-d H:i:s');
             })->toJson();
     }
 }
