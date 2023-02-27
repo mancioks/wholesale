@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Auth;
 
 use App\Http\Controllers\Controller;
 use App\Models\Role;
+use App\Models\UserDetails;
 use App\Models\Warehouse;
 use App\Providers\RouteServiceProvider;
 use App\Models\User;
@@ -56,6 +57,7 @@ class RegisterController extends Controller
             'name' => ['required', 'string', 'max:255'],
             'email' => ['required', 'string', 'email', 'max:255', 'unique:users'],
             'password' => ['required', 'string', 'min:8', 'confirmed'],
+            'phone' => ['required', 'string', 'min:8'],
         ]);
     }
 
@@ -78,6 +80,8 @@ class RegisterController extends Controller
             'warehouse_id' => $warehouse->id,
         ]);
 
+        UserDetails::query()->create(['user_id' => $user->id, 'get_email_notifications' => 1, 'phone_number' => $data['phone']]);
+
         $recipients = User::ofRole(Role::ADMIN, Role::SUPER_ADMIN)->get();
         MailService::send(
             $recipients,
@@ -86,5 +90,10 @@ class RegisterController extends Controller
         );
 
         return $user;
+    }
+
+    public function showRegistrationForm()
+    {
+        return view('auth.register-new');
     }
 }

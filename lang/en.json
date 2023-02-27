@@ -219,5 +219,17 @@
     "VAT": "PVM",
     "Details": "Detalės",
     "Yes": "Taip",
-    "No": "Ne"
+    "No": "Ne",
+    "User name": "Vartotojo vardas",
+    "Password": "Slaptažodis",
+    "Confirm password": "Patvirtinti slaptažodį",
+    "Register": "Registruotis",
+    "Have account?": "Turite paskyrą?",
+    "Login here": "Prisijungimas",
+    "Create new account": "Naujos paskyros kūrimas",
+    "Login": "Prisijungti",
+    "Forgot password?": "Pamiršote slaptažodį?",
+    "Don't have an account?": "Neturite paskyros?",
+    "Register here": "Registruotis",
+    "Remember Me": "Prisiminti prisijungimo duomenis"
 }
