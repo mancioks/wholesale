@@ -43,7 +43,7 @@
                                         </div>
 
                                         <div class="form-outline mb-2">
-                                            <label class="form-label" for="email">{{ __('Phone number') }}</label>
+                                            <label class="form-label" for="phone">{{ __('Phone number') }}</label>
                                             <input id="phone" type="text" class="form-control form-control-sm @error('phone') is-invalid @enderror" name="phone" value="{{ old('phone') }}" required autocomplete="phone">
                                             @error('phone')
                                             <span class="invalid-feedback" role="alert">
