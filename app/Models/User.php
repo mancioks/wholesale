@@ -128,7 +128,7 @@ class User extends Authenticatable
 
     public function getTotalAttribute()
     {
-        return price_format($this->sub_total * (1 + $this->pvm_size / 100));
+        return price_format($this->sub_total);
     }
 
     public function importQueue()

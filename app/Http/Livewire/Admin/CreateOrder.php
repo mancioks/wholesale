@@ -107,27 +107,33 @@ class CreateOrder extends Component
             }
 
             if ($this->productQty[$product->id] !== "") {
-                $this->subTotal += $product->original_price * (int)$this->productQty[$product->id];
+                $this->subTotal += $product->warehousePrice($this->selectedWarehouse, $this->addPvm) * (int)$this->productQty[$product->id];
             }
         }
 
         $this->total = $this->subTotal;
-
-        if ($this->addPvm) {
-            $this->total *= setting('pvm') / 100 + 1;
-        }
     }
 
     public function updated($propertyName)
     {
         $this->resetErrorBag($propertyName);
         $this->success = false;
+        $this->recalculateTotal();
     }
 
     public function updatedSearchQuery()
     {
         if ($this->searchQuery && $this->searchQuery !== '') {
-            $this->searchResults = Product::search($this->searchQuery)->take(8)->get();
+            // jei pasirinktas sandelis, ieskom prekiu jame, priesingu atveju tiesiog prekes
+            if ($this->selectedWarehouse) {
+                $warehouse = Warehouse::find($this->selectedWarehouse);
+                $this->searchResults = $warehouse->products()
+                    ->where('name', 'like', '%'.$this->searchQuery.'%')
+                    ->take(8)
+                    ->get();
+            } else {
+                $this->searchResults = Product::search($this->searchQuery)->take(8)->get();
+            }
         } else {
             $this->searchResults = new Collection();
         }
@@ -138,7 +144,13 @@ class CreateOrder extends Component
         $this->searchQuery = '';
         $this->searchResults = new Collection();
 
-        $product = Product::find($productId);
+        if ($this->selectedWarehouse) {
+            $warehouse = Warehouse::find($this->selectedWarehouse);
+            $product = $warehouse->products()->find($productId);
+        } else {
+            $product = Product::find($productId);
+        }
+
         if (!$this->products->find($product)) {
             $this->products->add($product);
             $this->productQty[$product->id] = 1;
@@ -241,11 +253,14 @@ class CreateOrder extends Component
             'waybill_required' => $this->waybillRequired,
         ]);
 
-        foreach ($this->products as $product) {
+        $warehouse = Warehouse::find($this->selectedWarehouse);
+
+        foreach ($this->products as $orderProduct) {
+            $product = $warehouse->products()->find($orderProduct->id);
             OrderItem::query()->create([
                 'order_id' => $order->id,
                 'name' => $product->name,
-                'price' => $product->original_price,
+                'price' => $product->warehousePrice($warehouse->id),
                 'product_id' => $product->id,
                 'qty' => $this->productQty[$product->id],
                 'units' => $product->units,

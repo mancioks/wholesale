@@ -151,27 +151,28 @@ class EditOrder extends Component
             }
 
             if ($this->productQty[$product->id] !== "") {
-                $this->subTotal += $product->original_price * (int)$this->productQty[$product->id];
+                $this->subTotal += $product->warehousePrice($this->selectedWarehouse, $this->addPvm) * (int)$this->productQty[$product->id];
             }
         }
 
         $this->total = $this->subTotal;
-
-        if ($this->addPvm) {
-            $this->total *= setting('pvm') / 100 + 1;
-        }
     }
 
     public function updated($propertyName)
     {
         $this->resetErrorBag($propertyName);
         $this->success = false;
+        $this->recalculateTotal();
     }
 
     public function updatedSearchQuery()
     {
         if ($this->searchQuery && $this->searchQuery !== '') {
-            $this->searchResults = Product::search($this->searchQuery)->take(8)->get();
+            $warehouse = Warehouse::find($this->selectedWarehouse);
+            $this->searchResults = $warehouse->products()
+                ->where('name', 'like', '%'.$this->searchQuery.'%')
+                ->take(8)
+                ->get();
         } else {
             $this->searchResults = new Collection();
         }
@@ -258,11 +259,14 @@ class EditOrder extends Component
         $order = $this->order;
         $order->items()->delete();
 
-        foreach ($this->products as $product) {
+        $warehouse = Warehouse::find($this->selectedWarehouse);
+
+        foreach ($this->products as $orderProduct) {
+            $product = $warehouse->products()->find($orderProduct->id);
             OrderItem::query()->create([
                 'order_id' => $order->id,
                 'name' => $product->name,
-                'price' => $product->original_price,
+                'price' => $product->warehousePrice($warehouse->id),
                 'product_id' => $product->id,
                 'qty' => $this->productQty[$product->id],
                 'units' => $product->units,

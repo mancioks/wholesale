@@ -27,7 +27,7 @@
                                                 </div>
                                                 <h5 class="card-title fs-6 mb-0">{{ $searchResult->name }}</h5>
                                                 <p class="card-text mb-n1 fs-6">
-                                                    {{ $searchResult->original_price }}€ / {{ $searchResult->units }}
+                                                    {{ $searchResult->warehousePrice($selectedWarehouse) }}€ / {{ $searchResult->units }}
                                                     @if($searchResult->pivot && !$searchResult->pivot->enabled)
                                                         <span class="badge bg-danger ms-1">{{ __('Not for sale') }}</span>
                                                     @endif
@@ -62,7 +62,7 @@
                             <td>
                                 {{ $product->name }}
                             </td>
-                            <td>{{ $product->original_price }}€</td>
+                            <td>{{ $product->warehousePrice($selectedWarehouse) }}€</td>
                             <td>
                                 <input type="number" class="form-control form-control-sm w-100" wire:model="productQty.{{ $product->id }}">
                                 @error('productQty.'.$product->id) <span class="text-danger">{{ $message }}</span> @enderror

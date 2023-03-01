@@ -1,9 +1,29 @@
 <?php
 
+use App\Models\Setting;
+
 if (!function_exists('price_format')) {
     function price_format($price)
     {
         return number_format((float)$price, 2, '.', '');
+    }
+}
+
+if (!function_exists('price_with_markup')) {
+    function price_with_markup($price, $markup)
+    {
+        if (!(int)$markup) {
+            $markup = 0;
+        }
+
+        return price_format($price * (1 + $markup / 100));
+    }
+}
+
+if (!function_exists('price_with_pvm')) {
+    function price_with_pvm($price)
+    {
+        return price_format($price * (1 + Setting::get('pvm') / 100));
     }
 }
 

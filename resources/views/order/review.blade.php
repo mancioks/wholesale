@@ -23,18 +23,10 @@
                                         <tr>
                                             <td>{{ $item->name }}</td>
                                             <td>{{ $item->pivot->qty }}</td>
-                                            <td>{{ $item->price }}€</td>
+                                            <td>{{ $item->finalPrice }}€</td>
                                             <td>{{ $item->amount }}€</td>
                                         </tr>
                                     @endforeach
-                                    <tr class="fw-bold">
-                                        <td colspan="3" class="text-end border-0">{{ __('Subtotal') }}</td>
-                                        <td class="bg-light">{{ auth()->user()->sub_total }}€</td>
-                                    </tr>
-                                    <tr class="fw-bold">
-                                        <td colspan="3" class="text-end border-0">{{ __('Tax') }}</td>
-                                        <td class="bg-light">{{ auth()->user()->pvm_size }}%</td>
-                                    </tr>
                                     <tr class="fw-bold">
                                         <td colspan="3" class="text-end border-0">{{ __('Total') }}</td>
                                         <td class="bg-light">{{ auth()->user()->total }}€</td>

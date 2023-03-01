@@ -22,7 +22,7 @@
                                                         </svg>
                                                     </a>
                                                     <h5 class="card-title">{{ $cart_item->name }}</h5>
-                                                    <p class="card-text mb-2">{{ $cart_item->price }}€</p>
+                                                    <p class="card-text mb-2">{{ $cart_item->finalPrice }}€</p>
                                                     <p class="card-text mb-2">{{ $cart_item->pivot->qty }} vnt - {{ $cart_item->amount }}€</p>
                                                 </div>
                                                 <div class="row">

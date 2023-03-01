@@ -27,7 +27,7 @@
                                                 </div>
                                                 <h5 class="card-title fs-6 mb-0">{{ $searchResult->name }}</h5>
                                                 <p class="card-text mb-n1 fs-6">
-                                                    {{ $searchResult->original_price }}€ / {{ $searchResult->units }}
+                                                    {{ $searchResult->warehousePrice($selectedWarehouse) }}€ / {{ $searchResult->units }}
                                                     @if($searchResult->pivot && !$searchResult->pivot->enabled)
                                                         <span class="badge bg-danger ms-1">{{ __('Not for sale') }}</span>
                                                     @endif
@@ -62,7 +62,7 @@
                             <td>
                                 {{ $product->name }}
                             </td>
-                            <td>{{ $product->original_price }}€</td>
+                            <td>{{ $product->warehousePrice($selectedWarehouse) }}€</td>
                             <td>
                                 <input type="number" class="form-control form-control-sm w-100" wire:model="productQty.{{ $product->id }}">
                                 @error('productQty.'.$product->id) <span class="text-danger">{{ $message }}</span> @enderror
@@ -164,7 +164,7 @@
                 @endif
                 <div class="mb-3">
                     <label for="customer" class="form-label">{{ __('Customer') }}</label>
-                    <select class="form-select" id="customer" wire:model="selectedCustomer">
+                    <select class="form-select" id="customer" wire:model="selectedCustomer" disabled>
                         <option hidden>{{ __('Select') }}</option>
                         @foreach($customers as $customer)
                             <option value="{{ $customer->id }}">{{ $customer->name }}</option>
@@ -176,7 +176,7 @@
                 </div>
                 <div class="mb-3">
                     <label for="warehouse" class="form-label">{{ __('Warehouse') }}</label>
-                    <select class="form-select" id="warehouse" wire:model="selectedWarehouse">
+                    <select class="form-select" id="warehouse" wire:model="selectedWarehouse" disabled>
                         <option hidden>{{ __('Select') }}</option>
                         @foreach($warehouses as $warehouse)
                             <option value="{{ $warehouse->id }}">{{ $warehouse->name }}</option>

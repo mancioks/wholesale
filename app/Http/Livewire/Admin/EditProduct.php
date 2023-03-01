@@ -26,6 +26,7 @@ class EditProduct extends Component
     public $warehouses;
 
     public $warehousePrices;
+    public $warehouseMarkups;
     public $warehouseEnabled;
     public $warehousesChanged;
 
@@ -38,6 +39,7 @@ class EditProduct extends Component
 
         foreach ($product->warehouses as $warehouse) {
             $this->warehousePrices[$warehouse->id] = $warehouse->pivot->price ?: $product->price;
+            $this->warehouseMarkups[$warehouse->id] = $warehouse->pivot->markup ?: $product->markup;
             $this->warehouseEnabled[$warehouse->id] = $warehouse->pivot->enabled ?: false;
             $this->warehousesChanged[$warehouse->id] = (bool)$warehouse->pivot->price;
         }
@@ -90,10 +92,12 @@ class EditProduct extends Component
             'product.code' => 'required|unique:products,code,' . $this->product->id,
             'product.price' => 'required|numeric|min:0',
             'product.prime_cost' => 'required|numeric|min:0',
+            'product.markup' => 'required|numeric',
             'product.units' => 'required',
             'product.type' => 'required|in:' . implode(',', array_keys($this->productTypes)),
             'product.description' => '',
             'warehousePrices.*' => 'required|numeric|min:0',
+            'warehouseMarkups.*' => 'required|numeric',
         ];
     }
 
@@ -120,11 +124,14 @@ class EditProduct extends Component
         $warehouses = $product->warehouses()->get();
         foreach ($warehouses as $warehouse) {
             $price = null;
+            $markup = null;
+
             if ($this->warehousesChanged[$warehouse->id]) {
                 $price = $this->warehousePrices[$warehouse->id];
+                $markup = $this->warehouseMarkups[$warehouse->id];
             }
 
-            $warehouse->pivot->update(['enabled' => $this->warehouseEnabled[$warehouse->id], 'price' => $price]);
+            $warehouse->pivot->update(['enabled' => $this->warehouseEnabled[$warehouse->id], 'price' => $price, 'markup' => $markup]);
         }
 
         $this->product->refresh();
@@ -137,6 +144,7 @@ class EditProduct extends Component
     {
         foreach ($this->warehouses as $warehouse) {
             $this->warehousePrices[$warehouse->id] = $this->product->price;
+            $this->warehouseMarkups[$warehouse->id] = $this->product->markup;
             $this->warehousesChanged[$warehouse->id] = false;
         }
     }
@@ -148,6 +156,13 @@ class EditProduct extends Component
         }
     }
 
+    public function updatedWarehouseMarkups($value, $key)
+    {
+        if ($value != $this->product->markup) {
+            $this->warehousesChanged[$key] = true;
+        }
+    }
+
     public function updatedProductPrice()
     {
         foreach ($this->warehouses as $warehouse) {
@@ -155,6 +170,16 @@ class EditProduct extends Component
                 continue;
             }
             $this->warehousePrices[$warehouse->id] = $this->product->price;
+        }
+    }
+
+    public function updatedProductMarkup()
+    {
+        foreach ($this->warehouses as $warehouse) {
+            if ($this->warehousesChanged[$warehouse->id]) {
+                continue;
+            }
+            $this->warehouseMarkups[$warehouse->id] = $this->product->markup;
         }
     }
 }

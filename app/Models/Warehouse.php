@@ -10,6 +10,6 @@ class Warehouse extends Model
 
     public function products()
     {
-        return $this->belongsToMany(Product::class, 'warehouse_product')->withPivot(['price', 'enabled']);
+        return $this->belongsToMany(Product::class, 'warehouse_product')->withPivot(['price', 'enabled', 'markup']);
     }
 }

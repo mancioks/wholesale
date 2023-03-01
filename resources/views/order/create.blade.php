@@ -57,7 +57,7 @@
                                             </div>
                                             <h5 class="card-title">{{ $product->name }}</h5>
                                             <p class="card-text mb-2">
-                                                {{ $product->price }}€ / {{ $product->units }}
+                                                {{ $product->finalPrice }}€ / {{ $product->units }}
                                                 @if($product->pivot && !$product->pivot->enabled)
                                                     <span class="badge bg-danger ms-1">{{ __('Not for sale') }}</span>
                                                 @endif
@@ -94,7 +94,7 @@
                                                     <img src="{{ asset($userPopularProduct->image->name) }}">
                                                 </div>
                                                 <h5 class="card-title">{{ $userPopularProduct->name }}</h5>
-                                                <p class="card-text mb-2">{{ $userPopularProduct->price }}€ / {{ $userPopularProduct->units }}</p>
+                                                <p class="card-text mb-2">{{ $userPopularProduct->finalPrice }}€ / {{ $userPopularProduct->units }}</p>
                                                 <form action="{{ route('cart.add', $userPopularProduct->id) }}" method="post">
                                                     @csrf
                                                     <div class="row">

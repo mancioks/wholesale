@@ -53,7 +53,7 @@ class OrderService
             OrderItem::query()->create([
                 'order_id' => $order->id,
                 'name' => $product->name,
-                'price' => $product->price,
+                'price' => $product->finalPrice,
                 'product_id' => $product->id,
                 'qty' => $product->pivot->qty,
                 'units' => $product->units,

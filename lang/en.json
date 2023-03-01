@@ -231,5 +231,10 @@
     "Forgot password?": "Pamiršote slaptažodį?",
     "Don't have an account?": "Neturite paskyros?",
     "Register here": "Registruotis",
-    "Remember Me": "Prisiminti prisijungimo duomenis"
+    "Remember Me": "Prisiminti prisijungimo duomenis",
+    "Markup": "Antkainis",
+    "Price with markup": "Kaina su antkainiu",
+    "Price with PVM": "Kaina su PVM",
+    "Inheritance": "Paveldėjimas",
+    "Not for sale": "Sandėlyje neparduodama"
 }

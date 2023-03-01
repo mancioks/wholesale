@@ -65,12 +65,17 @@
                 </div>
             </div>
             <div class="row mb-3">
-                <div class="col-6">
+                <div class="col-4">
+                    <label for="product-markup" class="form-label">{{ __('Markup') }} (%)</label>
+                    <input type="number" class="form-control" id="product-markup" wire:model="product.markup">
+                    @error('product.markup') <span class="text-danger">{{ $message }}</span> @enderror
+                </div>
+                <div class="col-4">
                     <label for="product-units" class="form-label">{{ __('Units') }}</label>
                     <input type="text" class="form-control" id="product-units" wire:model="product.units">
                     @error('product.units') <span class="text-danger">{{ $message }}</span> @enderror
                 </div>
-                <div class="col-6">
+                <div class="col-4">
                     <label for="product-type" class="form-label">{{ __('Type') }}</label>
                     <select class="form-select" id="product-type" wire:model="product.type">
                         @foreach($productTypes as $productType => $productTypeLabel)
@@ -85,7 +90,11 @@
                 <tr class="bg-secondary text-white">
                     <th scope="col">{{ __('Warehouse') }}</th>
                     <th scope="col">{{ __('Price') }}</th>
+                    <th scope="col">{{ __('Markup') }}</th>
+                    <th scope="col">{{ __('Price with markup') }}</th>
+                    <th scope="col">{{ __('Price with PVM') }}</th>
                     <th scope="col">{{ __('Can buy') }}</th>
+                    <th scope="col">{{ __('Inheritance') }}</th>
                 </tr>
                 </thead>
                 <tbody class="border-top-0">
@@ -93,18 +102,35 @@
                     <tr>
                         <th scope="row">{{ $warehouse->name }}</th>
                         <td>
-                            <input class="form-control form-control-sm w-50 d-inline-block" type="number" wire:model="warehousePrices.{{ $warehouse->id }}" wire:key="{{ $warehouse->id }}" min="0" step=".01"/>
-                            @if($warehousesChanged[$warehouse->id])
-                                <div class="badge bg-danger text-white d-inline-block">{{ __('Fixed') }}</div>
-                            @else
-                                <div class="badge bg-primary text-white d-inline-block">{{ __('Inherited') }}</div>
-                            @endif
+                            <div class="input-group input-group-sm">
+                                <input type="number" class="form-control" wire:model="warehousePrices.{{ $warehouse->id }}" wire:key="{{ $warehouse->id }}" min="0" step=".01">
+                                <span class="input-group-text">€</span>
+                            </div>
                             @error('warehousePrices.'.$warehouse->id) <div class="small text-danger">{{ $message }}</div> @enderror
+                        </td>
+                        <td>
+                            <div class="input-group input-group-sm">
+                                <input type="number" class="form-control" wire:model="warehouseMarkups.{{ $warehouse->id }}" wire:key="{{ $warehouse->id }}">
+                                <span class="input-group-text">%</span>
+                            </div>
+                        </td>
+                        <td>
+                            {{ price_with_markup($warehousePrices[$warehouse->id], $warehouseMarkups[$warehouse->id]) }}€
+                        </td>
+                        <td>
+                            {{ price_with_pvm(price_with_markup($warehousePrices[$warehouse->id], $warehouseMarkups[$warehouse->id])) }}€
                         </td>
                         <td>
                             <div class="form-check form-switch">
                                 <input class="form-check-input" type="checkbox" role="switch" value="1" wire:model="warehouseEnabled.{{ $warehouse->id }}" wire:key="{{ $warehouse->id }}">
                             </div>
+                        </td>
+                        <td>
+                            @if($warehousesChanged[$warehouse->id])
+                                <div class="badge bg-danger text-white d-inline-block">{{ __('Fixed') }}</div>
+                            @else
+                                <div class="badge bg-primary text-white d-inline-block">{{ __('Inherited') }}</div>
+                            @endif
                         </td>
                     </tr>
                 @endforeach
