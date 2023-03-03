@@ -54,13 +54,13 @@
                     @error('product.code') <span class="text-danger">{{ $message }}</span> @enderror
                 </div>
                 <div class="col-4">
-                    <label for="product-price" class="form-label">{{ __('Product price') }}</label>
+                    <label for="product-price" class="form-label">{{ __('Prime cost') }}</label>
                     <input type="number" class="form-control" id="product-price" wire:model="product.price">
                     @error('product.price') <span class="text-danger">{{ $message }}</span> @enderror
                 </div>
                 <div class="col-4">
-                    <label for="product-prime-cost" class="form-label">{{ __('Prime cost') }}</label>
-                    <input type="number" class="form-control" id="product-prime-cost" wire:model="product.prime_cost">
+                    <label for="product-prime-cost" class="form-label">{{ __('Prime cost (old)') }}</label>
+                    <input type="number" class="form-control" id="product-prime-cost" wire:model="product.prime_cost" disabled>
                     @error('product.prime_cost') <span class="text-danger">{{ $message }}</span> @enderror
                 </div>
             </div>
@@ -89,7 +89,7 @@
                 <thead>
                 <tr class="bg-secondary text-white">
                     <th scope="col">{{ __('Warehouse') }}</th>
-                    <th scope="col">{{ __('Price') }}</th>
+                    <th scope="col">{{ __('Prime cost') }}</th>
                     <th scope="col">{{ __('Markup') }}</th>
                     <th scope="col">{{ __('Price with markup') }}</th>
                     <th scope="col">{{ __('Price with PVM') }}</th>

@@ -24,13 +24,13 @@
                             @error('code') <div class="small text-danger">{{ $message }}</div> @enderror
                         </div>
                         <div class="mb-3">
-                            <label for="product_price" class="form-label">{{ __('Price') }} ({{ __('Without VAT') }})</label>
+                            <label for="product_price" class="form-label">{{ __('Prime cost') }} ({{ __('Without VAT') }})</label>
                             <input type="number" class="form-control" id="product_price" wire:model="price" name="price" step=".01" required>
                             @error('price') <div class="small text-danger">{{ $message }}</div> @enderror
                         </div>
                         <div class="mb-3">
-                            <label for="product_prime_cost" class="form-label">{{ __('Prime cost') }}</label>
-                            <input type="number" class="form-control" id="product_prime_cost" wire:model="primeCost" name="prime_cost" step=".01" required>
+                            <label for="product_prime_cost" class="form-label">{{ __('Prime cost (old)') }}</label>
+                            <input type="number" class="form-control" id="product_prime_cost" wire:model="primeCost" name="prime_cost" step=".01" disabled>
                             @error('primeCost') <div class="small text-danger">{{ $message }}</div> @enderror
                         </div>
                         <div class="mb-3">
@@ -97,7 +97,7 @@
                     <thead>
                     <tr class="bg-secondary text-white">
                         <th scope="col">{{ __('Warehouse') }}</th>
-                        <th scope="col">{{ __('Price') }}</th>
+                        <th scope="col">{{ __('Prime cost') }}</th>
                         <th scope="col">{{ __('Can buy') }}</th>
                     </tr>
                     </thead>
