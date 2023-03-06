@@ -16,7 +16,7 @@ if (!function_exists('price_with_markup')) {
             $markup = 0;
         }
 
-        return price_format($price * (1 + $markup / 100));
+        return price_format((float)$price * (1 + $markup / 100));
     }
 }
 

@@ -113,6 +113,7 @@
                                 <input type="number" class="form-control" wire:model="warehouseMarkups.{{ $warehouse->id }}" wire:key="{{ $warehouse->id }}">
                                 <span class="input-group-text">%</span>
                             </div>
+                            @error('warehouseMarkups.'.$warehouse->id) <div class="small text-danger">{{ $message }}</div> @enderror
                         </td>
                         <td>
                             {{ price_with_markup($warehousePrices[$warehouse->id], $warehouseMarkups[$warehouse->id]) }}€
