@@ -20,7 +20,6 @@
                     <th></th>
                     <th>{{ __('Name') }}</th>
                     <th>{{ __('Code') }}</th>
-                    <th>{{ __('Price') }}</th>
                     <th>{{ __('Prime cost') }}</th>
                     <th>{{ __('Actions') }}</th>
                 </tr>
@@ -49,7 +48,6 @@
                     { "data": "name" },
                     { "data": "code" },
                     { "data": "price" },
-                    { "data": "prime_cost" },
                     { "data": "", "orderable": false },
                 ],
                 columnDefs: [
@@ -78,12 +76,6 @@
                     },
                     {
                         targets: 5,
-                        render: function (data, type, row) {
-                            return data + '€';
-                        }
-                    },
-                    {
-                        targets: 6,
                         render: function (data, type, row) {
                             return data + '€';
                         }
