@@ -3,13 +3,18 @@
 namespace App\Http\Controllers\Admin\Tools;
 
 use App\Http\Controllers\Controller;
+use App\Http\Requests\BonusCalculatorCreateRequest;
 use App\Http\Requests\BonusCalculatorDataImportRequest;
 use App\Http\Requests\CreateBonusCalculatorRuleRequest;
 use App\Imports\BonusCalculatorDataImport;
 use App\Imports\ProductsImport;
 use App\Models\BonusCalculation;
 use App\Models\BonusCalculationsData;
+use App\Models\BonusCalculationsEstimateData;
 use App\Models\BonusCalculationsRule;
+use App\Models\CalculatorInstaller;
+use App\Models\CalculatorManager;
+use App\Models\CalculatorTemplate;
 use Illuminate\Http\Request;
 use Maatwebsite\Excel\Facades\Excel;
 
@@ -19,14 +24,43 @@ class BonusCalculator extends Controller
     {
         $calculations = BonusCalculation::query()->orderByDesc('id')->get();
 
-        return view('admin.tools.bonus_calculator', compact('calculations'));
+        $managers = CalculatorManager::all();
+        $installers = CalculatorInstaller::all();
+
+        return view('admin.tools.bonus_calculator', compact('calculations', 'managers', 'installers'));
     }
 
     public function create()
     {
-        return view('admin.tools.bonus_calculator.create');
+        $installers = CalculatorInstaller::all();
+        $managers = CalculatorManager::all();
+        $templates = CalculatorTemplate::all();
+
+        return view('admin.tools.bonus_calculator.create', compact('installers', 'managers', 'templates'));
     }
 
+    public function submit(BonusCalculatorCreateRequest $request)
+    {
+        $calculation = BonusCalculation::query()->create($request->validated() + ['user_id' => auth()->user()->id]);
+
+        if ($request->template_id) {
+            $template = CalculatorTemplate::query()->findOrFail($request->template_id);
+            foreach ($template->items as $item) {
+                BonusCalculationsEstimateData::query()->create([
+                    'calculation_id' => $calculation->id,
+                    'service_id' => $item->service_id,
+                    'qty' => $item->quantity,
+                    'actual_amount' => 0,
+                ]);
+            }
+        }
+
+        return redirect()->route('admin.tools.bonus_calculator.show', $calculation);
+    }
+
+    /**
+     * @deprecated
+     */
     public function import(BonusCalculatorDataImportRequest $request)
     {
         $report = $request->file('report');

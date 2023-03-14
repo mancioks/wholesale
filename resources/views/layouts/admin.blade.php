@@ -10,9 +10,11 @@
     <title>{{ config('app.name', 'Laravel') }}</title>
 
     <!-- Scripts -->
-    <script src="{{ asset('js/app.js') }}" defer></script>
+    <script src="{{ asset('js/app.js') }}"></script>
     <script src="https://code.jquery.com/jquery-3.6.1.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/signature_pad@4.0.0/dist/signature_pad.umd.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.9.0/js/bootstrap-datepicker.min.js" integrity="sha512-T/tUfKSV1bihCnd+MxKD0Hm1uBBroVYBOYSk1knyvQ9VyZJpc/ALb4P0r6ubwVPSGB2GvjeoMAJJImBG12TiaQ==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.9.0/locales/bootstrap-datepicker.lt.min.js" integrity="sha512-baSR4+Wsg+wOLRRW4S2ZYU4MJYFWyF5ehdeEUs1Y4jNZJPlL1O47rN0oJPAX87ojSaEvIzq1V1DZyVAKaHG+Cw==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
 
     <!-- Fonts -->
     <link rel="dns-prefetch" href="//fonts.gstatic.com">
@@ -21,6 +23,12 @@
 
     <!-- Styles -->
     <link href="{{ asset('css/admin.css') }}" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.9.0/css/bootstrap-datepicker3.min.css" integrity="sha512-rxThY3LYIfYsVCWPCW9dB0k+e3RZB39f23ylUYTEuZMDrN/vRqLdaCBo/FbvVT6uC2r0ObfPzotsfKF9Qc5W5g==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+
+    <!-- bootstrap select2 -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" />
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/select2-bootstrap-5-theme@1.3.0/dist/select2-bootstrap-5-theme.min.css" />
+    <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
 
     @yield('styles')
     @livewireStyles
@@ -151,6 +159,44 @@
             element.addEventListener('click', function () {
                 document.getElementById(element.getAttribute('data-click-button')).click();
             });
+        });
+    </script>
+
+    <script>
+        function initSelect2() {
+            $(".select2").select2({
+                theme: "bootstrap-5",
+                selectionCssClass: "select2--small",
+                dropdownCssClass: "select2--small",
+            });
+        }
+
+        // init bootstrap tooltips on page load
+        $(function () {
+            var tooltipTriggerList = [].slice.call(document.querySelectorAll('[data-bs-toggle="tooltip"]'))
+
+            tooltipTriggerList.map(function (tooltipTriggerEl) {
+                return new bootstrap.Tooltip(tooltipTriggerEl)
+            });
+        })
+
+        // init select2 on page load
+        $(function () {
+            initSelect2();
+        });
+
+        // live wire hook to init select2 after livewire component is loaded
+        document.addEventListener('livewire:load', function () {
+            Livewire.hook('message.processed', () => {
+                initSelect2();
+            });
+        });
+
+        // fix select2 dropdown closing when clicking on it
+        $(document).on('click', function (e) {
+            if (!$(e.target).closest('.select2-container').length) {
+                $('.select2').select2('close');
+            }
         });
     </script>
 

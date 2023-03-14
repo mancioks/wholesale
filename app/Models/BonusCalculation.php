@@ -10,9 +10,13 @@ class BonusCalculation extends Model
     use HasFactory;
 
     protected $fillable = [
-        'name',
-        'employee',
         'user_id',
+        'date',
+        'object',
+        'manager_id',
+        'installer_id',
+        'estimate_total',
+        'invoice_total',
     ];
 
     public function user()
@@ -20,8 +24,18 @@ class BonusCalculation extends Model
         return $this->hasOne(User::class, 'id', 'user_id');
     }
 
-    public function data()
+    public function manager()
     {
-        return $this->hasMany(BonusCalculationsData::class, 'calculation_id', 'id');
+        return $this->hasOne(CalculatorManager::class, 'id', 'manager_id');
+    }
+
+    public function installer()
+    {
+        return $this->hasOne(CalculatorInstaller::class, 'id', 'installer_id');
+    }
+
+    public function estimateData()
+    {
+        return $this->hasMany(BonusCalculationsEstimateData::class, 'calculation_id', 'id');
     }
 }

@@ -20,6 +20,13 @@ if (!function_exists('price_with_markup')) {
     }
 }
 
+if (!function_exists('back_button')) {
+    function back_button($route)
+    {
+        return view('components.admin.dashboard-action-back', compact('route'));
+    }
+}
+
 if (!function_exists('price_with_pvm')) {
     function price_with_pvm($price)
     {

@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
+use App\Models\BonusCalculation;
 use App\Models\DiscountRule;
 use App\Models\Inventorization;
 use App\Models\Order;
@@ -111,6 +112,21 @@ class DataTableController extends Controller
             })
             ->editColumn('created_at', function (Inventorization $inventorization) {
                 return $inventorization->created_at->format('Y-m-d H:i:s');
+            })->toJson();
+    }
+
+    public function calculations()
+    {
+        return datatables(
+            BonusCalculation::query()->select('id', 'user_id', 'date', 'object', 'manager_id', 'installer_id')->get())
+            ->addColumn('calculated_by.name', function (BonusCalculation $bonusCalculation) {
+                return $bonusCalculation->user->name;
+            })
+            ->addColumn('manager.name', function (BonusCalculation $bonusCalculation) {
+                return $bonusCalculation->manager->name;
+            })
+            ->addColumn('installer.name', function (BonusCalculation $bonusCalculation) {
+                return $bonusCalculation->installer->name;
             })->toJson();
     }
 }

@@ -37,6 +37,10 @@
         @include('components.admin.dashboard-sub-link', ['route' => 'warehouse.create', 'icon' => 'bi bi-plus-circle', 'title' => 'Add warehouse'])
     </li>
     <li class="nav-item">
+        @include('components.admin.dashboard-link', ['route' => 'admin.tools', 'icon' => 'bi bi-nut', 'title' => 'Tools'])
+        @include('components.admin.dashboard-sub-link', ['route' => 'admin.tools.bonus_calculator', 'icon' => 'bi bi-percent', 'title' => 'Bonus calculator'])
+    </li>
+    <li class="nav-item">
         @include('components.admin.dashboard-link', ['route' => 'admin.settings', 'icon' => 'bi bi-gear', 'title' => 'Settings'])
     </li>
     @endrole
@@ -78,10 +82,10 @@
         @include('components.admin.dashboard-link', ['route' => 'admin.warehouse.index', 'icon' => 'bi bi-building', 'title' => 'Warehouses'])
         @include('components.admin.dashboard-sub-link', ['route' => 'warehouse.create', 'icon' => 'bi bi-plus-circle', 'title' => 'Add warehouse'])
     </li>
-{{--    <li class="nav-item">--}}
-{{--        @include('components.admin.dashboard-link', ['route' => 'admin.tools', 'icon' => 'bi bi-nut', 'title' => 'Tools'])--}}
-{{--        @include('components.admin.dashboard-sub-link', ['route' => 'admin.tools.bonus_calculator', 'icon' => 'bi bi-percent', 'title' => 'Bonus calculator'])--}}
-{{--    </li>--}}
+    <li class="nav-item">
+        @include('components.admin.dashboard-link', ['route' => 'admin.tools', 'icon' => 'bi bi-nut', 'title' => 'Tools'])
+        @include('components.admin.dashboard-sub-link', ['route' => 'admin.tools.bonus_calculator', 'icon' => 'bi bi-percent', 'title' => 'Bonus calculator'])
+    </li>
     <li class="nav-item">
         @include('components.admin.dashboard-link', ['route' => 'admin.settings', 'icon' => 'bi bi-gear', 'title' => 'Settings'])
     </li>

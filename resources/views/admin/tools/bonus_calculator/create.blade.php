@@ -4,24 +4,71 @@
     {{ __('BONUS calculator') }}
 @endsection
 
+@section('actions')
+    {{ back_button(route('admin.tools.bonus_calculator')) }}
+@endsection
+
 @section('content')
     <div class="card shadow-sm mt-3">
         <div class="card-body">
-            <form method="post" action="{{ route('admin.tools.bonus_calculator.import') }}" enctype="multipart/form-data">
+            <form method="post" action="{{ route('admin.tools.bonus_calculator.submit') }}">
                 @csrf
                 <div class="row mb-3">
                     <div class="col-lg-5">
-                        <label for="employee" class="form-label">{{ __('Employee') }}</label>
-                        <input type="text" name="employee" id="employee" class="form-control" required>
+                        <label for="date" class="form-label">{{ __('Date') }}</label>
+                        <input type="date" name="date" id="date" class="form-control" required>
                     </div>
                 </div>
                 <div class="row mb-3">
                     <div class="col-lg-5">
-                        <label for="product_file" class="form-label">{{ __('Report') }}</label>
-                        <input type="file" name="report" id="product_file" class="form-control" accept=".csv,.xlsx" required>
+                        <label for="object" class="form-label">{{ __('Object') }}</label>
+                        <input type="text" name="object" id="object" class="form-control" required>
                     </div>
                 </div>
-                <button type="submit" class="btn btn-primary">{{ __('Upload') }}</button>
+                <div class="row mb-3">
+                    <div class="col-lg-5">
+                        <label for="manager" class="form-label">{{ __('Manager') }}</label>
+                        <select name="manager_id" id="manager" class="form-select">
+                            @foreach($managers as $manager)
+                                <option value="{{ $manager->id }}">{{ $manager->name }}</option>
+                            @endforeach
+                        </select>
+                    </div>
+                </div>
+                <div class="row mb-3">
+                    <div class="col-lg-5">
+                        <label for="installer" class="form-label">{{ __('Installer') }}</label>
+                        <select name="installer_id" id="installer" class="form-select">
+                            @foreach($installers as $installer)
+                                <option value="{{ $installer->id }}">{{ $installer->name }}</option>
+                            @endforeach
+                        </select>
+                    </div>
+                </div>
+                <div class="row mb-3">
+                    <div class="col-lg-5">
+                        <label for="estimate-total" class="form-label">{{ __('Estimate total') }}</label>
+                        <input type="number" name="estimate_total" id="estimate-total" class="form-control" step=".01" required>
+                    </div>
+                </div>
+                <div class="row mb-3">
+                    <div class="col-lg-5">
+                        <label for="invoice-total" class="form-label">{{ __('Invoice total') }}</label>
+                        <input type="number" name="invoice_total" id="invoice-total" class="form-control" step=".01" required>
+                    </div>
+                </div>
+                <div class="row mb-3">
+                    <div class="col-lg-5">
+                        <label for="template" class="form-label">{{ __('Template') }}</label>
+                        <select name="template_id" id="template" class="form-select">
+                            <option></option>
+                            @foreach($templates as $template)
+                                <option value="{{ $template->id }}">{{ $template->name }}</option>
+                            @endforeach
+                        </select>
+                    </div>
+                </div>
+                <button type="submit" class="btn btn-primary">{{ __('Create') }}</button>
             </form>
         </div>
     </div>

@@ -5,10 +5,11 @@
 @endsection
 
 @section('subtitle')
-    <b>{{ $calculation->employee }}</b>
-    {{ $calculation->name }}
-    {{ __('Created at') }}: {{ $calculation->created_at }}
-    {{ __('Updated') }}: {{ $calculation->updated_at }}
+    {{ __('Manager') }}: <b>{{ $calculation->manager->name }}</b><br>
+    {{ __('Installer') }}: <b>{{ $calculation->installer->name }}</b><br>
+    {{ __('Object') }}: <b>{{ $calculation->object }}</b><br>
+    {{ __('Date') }}: <b>{{ $calculation->date }}</b><br>
+    {{ __('Created at') }}: <b>{{ $calculation->created_at }}</b>
 @endsection
 
 @section('content')
