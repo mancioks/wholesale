@@ -24,6 +24,10 @@ class EditTemplate extends Component
         $template->refresh();
 
         $this->services = CalculatorService::all();
+        if ($template->calculator_price_period_id) {
+            $this->services = CalculatorService::query()->where('calculator_price_period_id', $template->calculator_price_period_id)->get();
+        }
+
         $this->template = $template;
         $this->selected = [];
 

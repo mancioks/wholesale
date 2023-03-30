@@ -9,7 +9,10 @@
     {{ __('Installer') }}: <b>{{ $calculation->installer->name }}</b><br>
     {{ __('Object') }}: <b>{{ $calculation->object }}</b><br>
     {{ __('Date') }}: <b>{{ $calculation->date }}</b><br>
-    {{ __('Created at') }}: <b>{{ $calculation->created_at }}</b>
+    {{ __('Created at') }}: <b>{{ $calculation->created_at }}</b><br>
+    @if ($calculation->pricePeriod)
+        {{ __('Pricer') }}: <b>{{ $calculation->pricePeriod->name }} ({{ $calculation->pricePeriod->from }} - {{ $calculation->pricePeriod->to }})</b>
+    @endif
 @endsection
 
 @section('content')

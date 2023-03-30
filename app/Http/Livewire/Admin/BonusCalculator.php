@@ -30,7 +30,11 @@ class BonusCalculator extends Component
         $calculation->refresh();
 
         $this->calculation = $calculation;
+
         $this->services = CalculatorService::all();
+        if ($calculation->calculator_price_period_id) {
+            $this->services = CalculatorService::query()->where('calculator_price_period_id', $calculation->calculator_price_period_id)->get();
+        }
 
         $this->selected = [];
         $this->selected['service'] = '';

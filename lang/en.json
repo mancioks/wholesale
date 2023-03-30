@@ -264,5 +264,13 @@
     "Back": "Grįžti",
     "Templates": "Šablonai",
     "Tools": "Įrankiai",
-    "Bonus calculator": "BONUS skaičiuoklė"
+    "Bonus calculator": "BONUS skaičiuoklė",
+    "You must create at least one price period before creating services.": "Prieš kurdami paslaugas, turite sukurti bent vieną kainininką.",
+    "Pricer": "Kainininkas",
+    "Select pricer": "Pasirinkite kainininką",
+    "Step": "Žingsnis",
+    "Copy services and prices from:": "Kopijuoti paslaugas ir kainas iš:",
+    "If template selected, pricer will be used from it": "Jei pasirinktas šablonas, kainininkas bus naudojamas iš jo",
+    "Template": "Šablonas",
+    "Select template": "Pasirinkite šabloną"
 }

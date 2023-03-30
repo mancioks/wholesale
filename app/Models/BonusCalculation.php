@@ -17,6 +17,7 @@ class BonusCalculation extends Model
         'installer_id',
         'estimate_total',
         'invoice_total',
+        'calculator_price_period_id',
     ];
 
     public function user()
@@ -37,5 +38,10 @@ class BonusCalculation extends Model
     public function estimateData()
     {
         return $this->hasMany(BonusCalculationsEstimateData::class, 'calculation_id', 'id');
+    }
+
+    public function pricePeriod()
+    {
+        return $this->hasOne(CalculatorPricePeriod::class, 'id', 'calculator_price_period_id');
     }
 }

@@ -59,13 +59,27 @@
                 </div>
                 <div class="row mb-3">
                     <div class="col-lg-5">
+                        <label for="pricer" class="form-label">{{ __('Pricer') }}</label>
+                        <select name="pricer_id" id="pricer" class="form-select">
+                            <option value="" selected disabled>{{ __('Select pricer') }}</option>
+                            @foreach($pricePeriods as $pricePeriod)
+                                <option value="{{ $pricePeriod->id }}">{{ $pricePeriod->name }} ({{ $pricePeriod->from }} - {{ $pricePeriod->to }})</option>
+                            @endforeach
+                        </select>
+                    </div>
+                </div>
+                <div class="row mb-3">
+                    <div class="col-lg-5">
                         <label for="template" class="form-label">{{ __('Template') }}</label>
                         <select name="template_id" id="template" class="form-select">
-                            <option></option>
+                            <option value="" selected disabled>{{ __('Select template') }}</option>
                             @foreach($templates as $template)
                                 <option value="{{ $template->id }}">{{ $template->name }}</option>
                             @endforeach
                         </select>
+                        <div class="alert alert-warning mt-3 mb-0">
+                            {{ __('If template selected, pricer will be used from it')  }}
+                        </div>
                     </div>
                 </div>
                 <button type="submit" class="btn btn-primary">{{ __('Create') }}</button>

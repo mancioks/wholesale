@@ -14,6 +14,7 @@ use App\Models\BonusCalculationsEstimateData;
 use App\Models\BonusCalculationsRule;
 use App\Models\CalculatorInstaller;
 use App\Models\CalculatorManager;
+use App\Models\CalculatorPricePeriod;
 use App\Models\CalculatorTemplate;
 use Illuminate\Http\Request;
 use Maatwebsite\Excel\Facades\Excel;
@@ -35,16 +36,22 @@ class BonusCalculator extends Controller
         $installers = CalculatorInstaller::all();
         $managers = CalculatorManager::all();
         $templates = CalculatorTemplate::all();
+        $pricePeriods = CalculatorPricePeriod::all();
 
-        return view('admin.tools.bonus_calculator.create', compact('installers', 'managers', 'templates'));
+        return view('admin.tools.bonus_calculator.create', compact('installers', 'managers', 'templates', 'pricePeriods'));
     }
 
     public function submit(BonusCalculatorCreateRequest $request)
     {
         $calculation = BonusCalculation::query()->create($request->validated() + ['user_id' => auth()->user()->id]);
 
-        if ($request->template_id) {
+        if ($request->pricer_id && $request->pricer_id !== '') {
+            $calculation->update(['calculator_price_period_id' => $request->pricer_id]);
+        }
+
+        if ($request->template_id && $request->template_id !== '') {
             $template = CalculatorTemplate::query()->findOrFail($request->template_id);
+            $calculation->update(['calculator_price_period_id' => $template->calculator_price_period_id]);
             foreach ($template->items as $item) {
                 BonusCalculationsEstimateData::query()->create([
                     'calculation_id' => $calculation->id,
