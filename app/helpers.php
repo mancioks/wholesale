@@ -28,9 +28,13 @@ if (!function_exists('back_button')) {
 }
 
 if (!function_exists('price_with_pvm')) {
-    function price_with_pvm($price)
+    function price_with_pvm($price, $pvm = null)
     {
-        return price_format($price * (1 + Setting::get('pvm') / 100));
+        if ($pvm === null) {
+            $pvm = Setting::get('pvm');
+        }
+
+        return price_format($price * (1 + $pvm / 100));
     }
 }
 

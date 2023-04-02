@@ -4,6 +4,8 @@
         <th>{{ __('Title') }}</th>
         <th>{{ __('Code') }}</th>
         <th>{{ __('Price') }}</th>
+        <th>{{ __('Price with PVM') }}</th>
+        <th>{{ __('Prime cost') }}</th>
         <th>{{ __('Quantity') }}</th>
         <th>{{ __('Amount') }}</th>
         <th>{{ __('Discount') }}</th>
@@ -16,6 +18,8 @@
             <td>{{ $item['item']->name }}</td>
             <td>{{ $item['item']->code }}</td>
             <td>{{ $item['item']->price }} €</td>
+            <td>{{ $item['item']->priceWithPvm }} €</td>
+            <td>{{ $item['item']->prime_cost }} €</td>
             <td>{{ $item['quantity'] }} {{ $item['item']->units }}</td>
             <td>{{ $item['amount'] }} €</td>
             <td>

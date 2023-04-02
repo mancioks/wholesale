@@ -151,11 +151,12 @@ class EditOrder extends Component
             }
 
             if ($this->productQty[$product->id] !== "") {
-                $this->subTotal += $product->warehousePrice($this->selectedWarehouse, $this->addPvm) * (int)$this->productQty[$product->id];
+                $this->subTotal += $product->warehousePrice($this->selectedWarehouse, false) * (int)$this->productQty[$product->id];
+                $this->total += $product->warehousePrice($this->selectedWarehouse, $this->addPvm) * (int)$this->productQty[$product->id];
             }
         }
 
-        $this->total = $this->subTotal;
+        //$this->total = $this->subTotal;
     }
 
     public function updated($propertyName)
@@ -270,7 +271,7 @@ class EditOrder extends Component
                 'product_id' => $product->id,
                 'qty' => $this->productQty[$product->id],
                 'units' => $product->units,
-                'prime_cost' => $product->prime_cost,
+                'prime_cost' => $product->price,
                 'code' => $product->code,
             ]);
         }

@@ -73,13 +73,18 @@ class UserItemsDiscount extends Component
         $mappedItems = [];
 
         foreach ($items as $item) {
-            $mappedItems[$item->product_id]['item'] = $item;
+            // old key, group only by product
+            // $key = $item->product_id;
 
-            if (!isset($mappedItems[$item->product_id]['quantity'])) {
-                $mappedItems[$item->product_id]['quantity'] = 0;
+            // new key, group by product and price
+            $key = sprintf('%s_%s_%s', $item->product_id, $item->price, $item->order->pvm);
+            $mappedItems[$key]['item'] = $item;
+
+            if (!isset($mappedItems[$key]['quantity'])) {
+                $mappedItems[$key]['quantity'] = 0;
             }
 
-            $mappedItems[$item->product_id]['quantity'] += $item->qty;
+            $mappedItems[$key]['quantity'] += $item->qty;
         }
 
         $mappedItems = $this->applyDiscounts($mappedItems);
@@ -123,7 +128,7 @@ class UserItemsDiscount extends Component
     private function calculateTotals(array $mappedItems): array
     {
         foreach ($mappedItems as $mappedItemKey => $mappedItem) {
-            $mappedItem['amount'] = price_format($mappedItem['item']->price * $mappedItem['quantity']);
+            $mappedItem['amount'] = price_format($mappedItem['item']->priceWithPvm * $mappedItem['quantity']);
             $mappedItem['total'] = price_format($mappedItem['amount']);
 
             if (isset($mappedItem['discount'])) {

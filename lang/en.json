@@ -272,5 +272,6 @@
     "Copy services and prices from:": "Kopijuoti paslaugas ir kainas iš:",
     "If template selected, pricer will be used from it": "Jei pasirinktas šablonas, kainininkas bus naudojamas iš jo",
     "Template": "Šablonas",
-    "Select template": "Pasirinkite šabloną"
+    "Select template": "Pasirinkite šabloną",
+    "Create pricer": "Sukurti kainininką"
 }

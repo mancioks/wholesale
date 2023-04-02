@@ -160,7 +160,7 @@ class OrderController extends Controller
             'product_id' => $product->id,
             'qty' => 1,
             'units' => $product->units,
-            'prime_cost' => $product->prime_cost,
+            'prime_cost' => $product->price,
             'code' => $product->code,
         ]);
 

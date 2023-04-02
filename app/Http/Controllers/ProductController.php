@@ -124,7 +124,7 @@ class ProductController extends Controller
                 'name' => $item->name,
                 'price' => $item->price,
                 'units' => $item->units,
-                'prime_cost' => $item->prime_cost,
+                'prime_cost' => $item->price,
             ];
 
             if ($product->exists()) {

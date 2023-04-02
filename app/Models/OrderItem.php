@@ -20,12 +20,17 @@ class OrderItem extends Model
 
     public function getAmountAttribute()
     {
-        return number_format((float)($this->price * $this->qty), 2, '.', '');
+        return number_format((float)($this->priceWithPvm * $this->qty), 2, '.', '');
     }
 
     public function getImageAttribute()
     {
         return $this->product()->exists() ? $this->product->image : Image::placeholder();
+    }
+
+    public function getPriceWithPvmAttribute()
+    {
+        return price_with_pvm($this->price, $this->order->pvm);
     }
 
     public function getShortageAttribute()

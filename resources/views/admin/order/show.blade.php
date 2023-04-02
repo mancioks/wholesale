@@ -83,7 +83,7 @@
                                             <div class="row">
                                                 <div class="col-5">
                                                     <p class="card-text mb-0">
-                                                        {{ $product->price }}€
+                                                        {{ $product->priceWithPvm }}€
                                                         @role('super_admin')
                                                         <i class="bi bi-coin text-primary" data-bs-toggle="tooltip" data-bs-placement="top" title="{{ __('Prime cost') }}: {{ $product->prime_cost ?: 0 }}€"></i>
                                                         @endrole

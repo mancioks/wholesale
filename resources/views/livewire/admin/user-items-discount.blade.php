@@ -1,7 +1,7 @@
 <div>
     <div class="row">
         <div class="col-6">
-            <h4>{{ __('Ordered items statistics with discount') }}</h4>
+            <h4>{{ __('Ordered items') }}</h4>
         </div>
         <div class="col-6 text-end">
             @if($selectedUser && count($items) > 0)
@@ -70,6 +70,8 @@
                 <th scope="col">{{ __('Title') }}</th>
                 <th scope="col">{{ __('Code') }}</th>
                 <th scope="col">{{ __('Price') }}</th>
+                <th scope="col">{{ __('Price with PVM') }}</th>
+                <th scope="col">{{ __('Prime cost') }}</th>
                 <th scope="col">{{ __('Quantity') }}</th>
                 <th scope="col">{{ __('Amount') }}</th>
                 <th scope="col">{{ __('Discount') }}</th>
@@ -83,6 +85,8 @@
                     <td>{{ $item['item']->name }}</td>
                     <td>{{ $item['item']->code }}</td>
                     <td>{{ $item['item']->price }} €</td>
+                    <td>{{ $item['item']->priceWithPvm }} €</td>
+                    <td>{{ $item['item']->prime_cost }} €</td>
                     <td>{{ $item['quantity'] }} {{ $item['item']->units }}</td>
                     <td>{{ $item['amount'] }} €</td>
                     <td>
@@ -97,7 +101,7 @@
                 </tr>
             @empty
                 <tr>
-                    <td colspan="6">{{ __('No items') }}</td>
+                    <td colspan="10">{{ __('No items') }}</td>
                 </tr>
             @endforelse
             </tbody>

@@ -15,6 +15,10 @@
     @endif
 @endsection
 
+@section('actions')
+    {{ back_button(route('admin.tools.bonus_calculator')) }}
+@endsection
+
 @section('content')
     <div class="card shadow-sm mt-3">
         <div class="card-body">

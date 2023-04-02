@@ -15,6 +15,8 @@ class Services extends Component
     public $selectedPricePeriod = "";
     public $selectedPricePeriodToCopy = "";
 
+    public $edit;
+
     protected $rules = [
         'fields.name' => 'required',
         'fields.units' => 'required',
@@ -31,6 +33,8 @@ class Services extends Component
         $this->pricePeriods = CalculatorPricePeriod::all();
         $this->fields = [];
         $this->selected = [];
+
+        $this->edit = null;
     }
 
     public function create()
@@ -107,6 +111,7 @@ class Services extends Component
         }
 
         $this->mount();
+        $this->updatedSelectedPricePeriod($this->selectedPricePeriod);
     }
 
     public function copyServices()
@@ -130,6 +135,59 @@ class Services extends Component
             $this->mount();
             $this->updatedSelectedPricePeriod($this->selectedPricePeriod);
         }
+    }
+
+    public function edit($id)
+    {
+        $this->edit = $id;
+        $item = CalculatorService::query()->find($id);
+
+        // clear errors
+        $this->resetErrorBag();
+
+        $this->selected['edit_name'] = $item->name;
+        $this->selected['edit_units'] = $item->units;
+        $this->selected['edit_step'] = $item->step;
+        $this->selected['edit_price'] = $item->price;
+        $this->selected['edit_min_price'] = $item->min_price;
+        $this->selected['edit_mid_price'] = $item->mid_price;
+        $this->selected['edit_max_price'] = $item->max_price;
+    }
+
+    public function cancelEdit()
+    {
+        $this->mount();
+        $this->updatedSelectedPricePeriod($this->selectedPricePeriod);
+    }
+
+    public function update($id)
+    {
+        $this->validate([
+            'selected.edit_name' => 'required',
+            'selected.edit_units' => 'required',
+            'selected.edit_step' => 'required|numeric|gt:0',
+            'selected.edit_price' => 'required|numeric|min:0',
+            'selected.edit_min_price' => 'required|numeric|min:0',
+            'selected.edit_mid_price' => 'required|numeric|min:0',
+            'selected.edit_max_price' => 'required|numeric|min:0',
+        ]);
+
+        $data = CalculatorService::query()->find($id);
+
+        if ($data) {
+            $data->update([
+                'name' => $this->selected["edit_name"],
+                'units' => $this->selected["edit_units"],
+                'step' => $this->selected["edit_step"],
+                'price' => $this->selected["edit_price"],
+                'min_price' => $this->selected["edit_min_price"],
+                'mid_price' => $this->selected["edit_mid_price"],
+                'max_price' => $this->selected["edit_max_price"],
+            ]);
+        }
+
+        $this->mount();
+        $this->updatedSelectedPricePeriod($this->selectedPricePeriod);
     }
 
     public function render()

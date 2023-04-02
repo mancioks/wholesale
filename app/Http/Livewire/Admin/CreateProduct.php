@@ -178,7 +178,7 @@ class CreateProduct extends Component
             'name' => $this->name,
             'code' => $this->code,
             'price' => $this->price,
-            'prime_cost' => $this->primeCost,
+            'prime_cost' => $this->price,
             'units' => $this->units,
             'type' => $this->productType,
         ]);
