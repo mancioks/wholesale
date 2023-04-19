@@ -38,4 +38,11 @@ class InvoiceController extends Controller
 
         return abort(403);
     }
+
+    public function summary(Order $order)
+    {
+        $this->authorize('view', $order);
+
+        return $order->summary->stream();
+    }
 }

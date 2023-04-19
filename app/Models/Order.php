@@ -117,6 +117,11 @@ class Order extends Model
         return PDF::loadView('pdf.waybill', ['order' => $this]);
     }
 
+    public function getSummaryAttribute()
+    {
+        return PDF::loadView('pdf.summary', ['order' => $this]);
+    }
+
     public function getVatInvoiceAttribute()
     {
 //        if ($this->vat_number > 0) {

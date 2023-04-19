@@ -48,6 +48,9 @@
             <i class="bi bi-truck"></i> {{ __('Waybill') }}
         </a>
     @endif
+    <a href="{{ route('summary', $order) }}" class="btn btn-sm btn-outline-dark" target="_blank">
+        <i class="bi bi-archive"></i> {{ __('Summary') }}
+    </a>
 @endsection
 @section('content')
     @if($order->status->id === constant('\App\Models\Status::PREPARED') && !$order->signature)
