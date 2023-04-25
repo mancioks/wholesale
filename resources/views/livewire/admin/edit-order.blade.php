@@ -49,6 +49,7 @@
                     <thead>
                     <tr class="bg-secondary text-white">
                         <th>#</th>
+                        <th>{{ __('Code') }}</th>
                         <th>{{ __('Name') }}</th>
                         <th>{{ __('Price') }}</th>
                         <th>{{ __('Quantity') }}</th>
@@ -59,6 +60,7 @@
                     @forelse($products as $product)
                         <tr>
                             <td>{{ $product->id }}</td>
+                            <td>{{ $product->code }}</td>
                             <td>
                                 {{ $product->name }}
                             </td>
@@ -73,7 +75,7 @@
                         </tr>
                     @empty
                         <tr>
-                            <td colspan="5">
+                            <td colspan="6">
                                 {{ __('No products') }}
                                 @error('products')
                                 <div class="small text-danger">{{ $message }}</div>
@@ -82,11 +84,11 @@
                         </tr>
                     @endforelse
                     <tr class="border-0">
-                        <td colspan="4" class="text-end border-0">{{ __('Subtotal') }}</td>
+                        <td colspan="5" class="text-end border-0">{{ __('Subtotal') }}</td>
                         <td class="border">{{ price_format($subTotal) }}€</td>
                     </tr>
                     <tr class="border-0">
-                        <td colspan="4" class="text-end border-0">
+                        <td colspan="5" class="text-end border-0">
                             <div class="form-check form-switch d-inline-block">
                                 <input wire:model="addPvm" value="1" class="form-check-input" type="checkbox" role="switch" id="add_pvm">
                                 <label class="form-check-label" for="add_pvm">{{ __('Add PVM') }}</label>
@@ -95,7 +97,7 @@
                         <td class="border">{{ $addPvm ? setting('pvm') : '0' }}%</td>
                     </tr>
                     <tr class="border-0">
-                        <td colspan="4" class="text-end border-0">{{ __('Total') }}</td>
+                        <td colspan="5" class="text-end border-0">{{ __('Total') }}</td>
                         <td class="border">{{ price_format($total) }}€</td>
                     </tr>
                     </tbody>
