@@ -31,8 +31,8 @@
                 <td>{{ $product->code }}</td>
                 <td>{{ $product->units }}</td>
                 <td>{{ $product->qty }}</td>
-                <td>{{ $product->priceWithPvm }}€</td>
-                <td>{{ $product->amount }}€</td>
+                <td>{{ price_format($product->priceWithPvm + $product->additional_fees) }}€</td>
+                <td>{{ price_format(($product->priceWithPvm + $product->additional_fees) * $product->qty) }}€</td>
             </tr>
         @endforeach
     </table>

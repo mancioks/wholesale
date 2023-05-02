@@ -15,7 +15,7 @@ class Product extends Model
     public const PRODUCT_TYPE_REGULAR = 'regular';
     public const PRODUCT_TYPE_PERSONALIZED = 'personalized';
 
-    protected $fillable = ['name', 'price', 'units', 'prime_cost', 'type', 'code', 'description', 'markup'];
+    protected $fillable = ['name', 'price', 'units', 'prime_cost', 'type', 'code', 'description', 'markup', 'additional_fees'];
 
     protected $originalPrice;
 
@@ -125,10 +125,12 @@ class Product extends Model
             $price = price_with_pvm($price);
         }
 
-        return $price;
+        $price += $this->additional_fees;
+
+        return price_format($price);
     }
 
-    public function warehousePrice($warehouseId = null, $pvm = false)
+    public function warehousePrice($warehouseId = null, $pvm = false, $additionalFees = true)
     {
         $markup = $this->markup ?: 0;
         $price = $this->price;
@@ -151,7 +153,11 @@ class Product extends Model
             $price = price_with_pvm($price);
         }
 
-        return $price;
+        if ($additionalFees) {
+            $price+= $this->additional_fees;
+        }
+
+        return price_format($price);
     }
 
     public function getOriginalPriceAttribute()

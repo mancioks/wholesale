@@ -56,22 +56,17 @@
                 <td>{{ $product->code }}</td>
                 <td>{{ $product->units }}</td>
                 <td>{{ $product->qty }}</td>
-                <td>{{ $product->price }}€</td>
-                <td>{{ $product->amount }}€</td>
+                <td>{{ price_format($product->priceWithPvm + $product->additional_fees) }}€</td>
+                <td>{{ price_format(($product->priceWithPvm + $product->additional_fees) * $product->qty) }}€</td>
             </tr>
         @endforeach
         <tr>
-            <td colspan="5" rowspan="3" class="table-space"></td>
+            <td colspan="5" rowspan="2" class="table-space"></td>
             <td class="invoice-element">Iš viso</td>
-            <td class="invoice-element">{{ $order->amount }}€</td>
-        </tr>
-        <tr>
-            <td class="invoice-element">PVM ({{ $order->pvm }}%)</td>
-            <td class="invoice-element">{{ $order->pvm_total }}€</td>
-        </tr>
-        <tr>
-            <td class="invoice-element">Bendra suma</td>
             <td class="invoice-element">{{ $order->total }}€</td>
+        </tr>
+        <tr>
+            <td class="invoice-element" colspan="2" style="border: 0;text-align:right;">PVM: {{ $order->pvm }}%</td>
         </tr>
     </table>
 </div>

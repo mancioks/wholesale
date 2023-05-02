@@ -59,16 +59,16 @@
                     @error('product.price') <span class="text-danger">{{ $message }}</span> @enderror
                 </div>
                 <div class="col-4">
-                    <label for="product-prime-cost" class="form-label">{{ __('Prime cost (old)') }}</label>
-                    <input type="number" class="form-control" id="product-prime-cost" wire:model="product.prime_cost" disabled>
-                    @error('product.prime_cost') <span class="text-danger">{{ $message }}</span> @enderror
+                    <label for="product-markup" class="form-label">{{ __('Markup') }} (%)</label>
+                    <input type="number" class="form-control" id="product-markup" wire:model="product.markup">
+                    @error('product.markup') <span class="text-danger">{{ $message }}</span> @enderror
                 </div>
             </div>
             <div class="row mb-3">
                 <div class="col-4">
-                    <label for="product-markup" class="form-label">{{ __('Markup') }} (%)</label>
-                    <input type="number" class="form-control" id="product-markup" wire:model="product.markup">
-                    @error('product.markup') <span class="text-danger">{{ $message }}</span> @enderror
+                    <label for="product-additional-fees" class="form-label">{{ __('Additional fees') }}</label>
+                    <input type="number" class="form-control" id="product-additional-fees" wire:model="product.additional_fees">
+                    @error('product.additional_fees') <span class="text-danger">{{ $message }}</span> @enderror
                 </div>
                 <div class="col-4">
                     <label for="product-units" class="form-label">{{ __('Units') }}</label>
@@ -93,6 +93,7 @@
                     <th scope="col">{{ __('Markup') }}</th>
                     <th scope="col">{{ __('Price with markup') }}</th>
                     <th scope="col">{{ __('Price with PVM') }}</th>
+                    <th scope="col">{{ __('Final price') }}</th>
                     <th scope="col">{{ __('Can buy') }}</th>
                     <th scope="col">{{ __('Inheritance') }}</th>
                 </tr>
@@ -120,6 +121,9 @@
                         </td>
                         <td>
                             {{ price_with_pvm(price_with_markup($warehousePrices[$warehouse->id], $warehouseMarkups[$warehouse->id])) }}€
+                        </td>
+                        <td>
+                            {{ price_format(price_with_pvm(price_with_markup($warehousePrices[$warehouse->id], $warehouseMarkups[$warehouse->id])) + (float)$product->additional_fees) }}€
                         </td>
                         <td>
                             <div class="form-check form-switch">

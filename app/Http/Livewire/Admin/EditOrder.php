@@ -81,7 +81,7 @@ class EditOrder extends Component
         $this->selectedPaymentMethod = $order->payment_method_id;
         $this->selectedWarehouse = $order->warehouse_id;
         $this->preInvoiceRequired = $order->pre_invoice_required;
-        $this->addPvm = $order->pvm;
+        $this->addPvm = (bool)$order->pvm;
         $this->subTotal = $order->sub_total;
         $this->total = $order->total;
         $this->waybillRequired = $order->waybill_required;
@@ -151,8 +151,8 @@ class EditOrder extends Component
             }
 
             if ($this->productQty[$product->id] !== "") {
-                $this->subTotal += $product->warehousePrice($this->selectedWarehouse, false) * (int)$this->productQty[$product->id];
-                $this->total += $product->warehousePrice($this->selectedWarehouse, $this->addPvm) * (int)$this->productQty[$product->id];
+                $this->subTotal += $product->warehousePrice($this->selectedWarehouse, false) * $this->productQty[$product->id];
+                $this->total += $product->warehousePrice($this->selectedWarehouse, $this->addPvm) * $this->productQty[$product->id];
             }
         }
 
@@ -267,12 +267,13 @@ class EditOrder extends Component
             OrderItem::query()->create([
                 'order_id' => $order->id,
                 'name' => $product->name,
-                'price' => $product->warehousePrice($warehouse->id),
+                'price' => $product->warehousePrice($warehouse->id, false, false),
                 'product_id' => $product->id,
                 'qty' => $this->productQty[$product->id],
                 'units' => $product->units,
                 'prime_cost' => $product->price,
                 'code' => $product->code,
+                'additional_fees' => $product->additional_fees,
             ]);
         }
     }

@@ -92,6 +92,7 @@ class EditProduct extends Component
             'product.code' => 'required|unique:products,code,' . $this->product->id,
             'product.price' => 'required|numeric|min:0',
             'product.prime_cost' => 'required|numeric|min:0',
+            'product.additional_fees' => 'required|numeric|min:0',
             'product.markup' => 'required|numeric',
             'product.units' => 'required',
             'product.type' => 'required|in:' . implode(',', array_keys($this->productTypes)),

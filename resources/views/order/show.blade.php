@@ -21,14 +21,14 @@
                                             <div class="row">
                                                 <div class="col-5">
                                                     <p class="card-text mb-0">
-                                                        {{ $product->price }}€
+                                                        {{ price_format(price_with_pvm($product->price, $order->pvm) + $product->additional_fees) }}€
                                                     </p>
                                                 </div>
                                                 <div class="col-7 text-end">
                                                     @if($product->shortage)
                                                         <i class="bi bi-exclamation-triangle text-danger" data-bs-toggle="tooltip" data-bs-placement="top" title="{{ sprintf(__('%s %s missing from the warehouse (%s left)'), $product->shortage, $product->units, $product->stock) }}"></i>
                                                     @endif
-                                                    {{ $product->qty }} {{ $product->units }} - {{ $product->amount }}€
+                                                    {{ $product->qty }} {{ $product->units }} - {{ price_format((price_with_pvm($product->price, $order->pvm) + $product->additional_fees) * $product->qty) }}€
                                                 </div>
                                             </div>
                                         </div>

@@ -107,11 +107,10 @@ class CreateOrder extends Component
             }
 
             if ($this->productQty[$product->id] !== "") {
-                $this->subTotal += $product->warehousePrice($this->selectedWarehouse, $this->addPvm) * (int)$this->productQty[$product->id];
+                $this->total += $product->warehousePrice($this->selectedWarehouse, $this->addPvm) * (int)$this->productQty[$product->id];
+                $this->subTotal += $product->warehousePrice($this->selectedWarehouse) * (int)$this->productQty[$product->id];
             }
         }
-
-        $this->total = $this->subTotal;
     }
 
     public function updated($propertyName)
@@ -260,12 +259,13 @@ class CreateOrder extends Component
             OrderItem::query()->create([
                 'order_id' => $order->id,
                 'name' => $product->name,
-                'price' => $product->warehousePrice($warehouse->id),
+                'price' => $product->warehousePrice($warehouse->id, false, false),
                 'product_id' => $product->id,
                 'qty' => $this->productQty[$product->id],
                 'units' => $product->units,
                 'prime_cost' => $product->price,
                 'code' => $product->code,
+                'additional_fees' => $product->additional_fees,
             ]);
         }
     }
