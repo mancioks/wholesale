@@ -5,6 +5,7 @@ namespace App\Services;
 use App\Models\Order;
 use App\Models\OrderItem;
 use App\Models\PaymentStatus;
+use App\Models\Product;
 use App\Models\Role;
 use App\Models\Status;
 use App\Models\User;
@@ -49,16 +50,18 @@ class OrderService
 
     public function attachProducts($order)
     {
+        /** @var Product $product */
         foreach (auth()->user()->cart as $product) {
             OrderItem::query()->create([
                 'order_id' => $order->id,
                 'name' => $product->name,
-                'price' => $product->finalPrice,
+                'price' => $product->warehousePrice(auth()->user()->warehouse->id, false, false),
                 'product_id' => $product->id,
                 'qty' => $product->pivot->qty,
                 'units' => $product->units,
                 'prime_cost' => $product->price,
                 'code' => $product->code,
+                'additional_fees' => $product->additional_fees,
             ]);
         }
 

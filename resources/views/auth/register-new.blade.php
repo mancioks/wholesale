@@ -1,11 +1,11 @@
 @extends('layouts.guest')
 
 @section('content')
-    <section class="vh-100" style="background-color: #77959c;">
+    <section class="vh-100" style="background-color: #fff;">
         <div class="container py-5 h-100">
             <div class="row d-flex justify-content-center align-items-center h-100">
                 <div class="col col-xl-10">
-                    <div class="card" style="border-radius: 1rem;">
+                    <div class="card" style="border-radius: 1rem;box-shadow: 0 0 45px 0 rgba(0,0,0,0.1);">
                         <div class="row g-0">
                             <div class="col-md-6 col-lg-5 d-none d-md-block">
                                 <img src="https://bnvi.lt/wp-content/uploads/2023/02/siurblines-dbnvi.webp"
